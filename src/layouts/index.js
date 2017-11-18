@@ -16,10 +16,11 @@ class Template extends React.Component {
     const { location, children } = this.props
     const header =
       <header style={{ marginBottom: `1.5rem` }}>
-        <ListLink to="/">Siddharth</ListLink>
+        <ListLink to="/">Blog</ListLink>
         <ul style={{ listStyle: `none`, float: `right` }}>
           <ListLink to="/about/">About</ListLink>
-          <ListLink to="/contact/">Contact</ListLink> </ul>
+          <ListLink to="/notes/">Notes</ListLink>
+        </ul>
       </header>
 
     return (

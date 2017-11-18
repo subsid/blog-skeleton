@@ -1,0 +1,2169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2016-11-02 Wed 12:52 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Learning from data course notes</title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="siddharth subramaniyam" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://rawgit.com/subsid/notes/master/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://rawgit.com/subsid/notes/master/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/subsid/notes/master/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/subsid/notes/master/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Learning from data course notes</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline8">1. 1 - The Learning Problem</a>
+<ul>
+<li><a href="#orgheadline1">1.1. The essence of machine learning</a></li>
+<li><a href="#orgheadline2">1.2. Simple Example</a></li>
+<li><a href="#orgheadline4">1.3. Components of learning (Lets take Supervised learning)</a>
+<ul>
+<li><a href="#orgheadline3">1.3.1. What do we get to select in this learning process</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline6">1.4. Simple Learning Model example, Peceptron</a>
+<ul>
+<li><a href="#orgheadline5">1.4.1. Algorithm (Perceptron Learning Algorith, PLA)</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline7">1.5. Basic Premise of learning</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline19">2. 2 - Is Learning Feasible</a>
+<ul>
+<li><a href="#orgheadline11">2.1. Related Experiment</a>
+<ul>
+<li><a href="#orgheadline10">2.1.1. How close is &nu; to &mu;?</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline18">2.2. How does this relate to learning?</a>
+<ul>
+<li><a href="#orgheadline12">2.2.1. So what does this mean?</a></li>
+<li><a href="#orgheadline14">2.2.2. Aside: Update the learning diagram to account for probability</a></li>
+<li><a href="#orgheadline15">2.2.3. Notation change for Learning</a></li>
+<li><a href="#orgheadline16">2.2.4. Account for multiple hypothesis</a></li>
+<li><a href="#orgheadline17">2.2.5. Simple solution and summary</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline35">3. 3 - Linear Model 1</a>
+<ul>
+<li><a href="#orgheadline20">3.1. Questions</a></li>
+<li><a href="#orgheadline22">3.2. Real data set</a>
+<ul>
+<li><a href="#orgheadline21">3.2.1. Input Representation</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline24">3.3. Linear Classification - Perceptron Learning Algorithm</a>
+<ul>
+<li><a href="#orgheadline23">3.3.1. The 'pocket' Algorithm</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline32">3.4. Linear Regression</a>
+<ul>
+<li><a href="#orgheadline25">3.4.1. What is linear regression trying to find</a></li>
+<li><a href="#orgheadline26">3.4.2. How to measure error</a></li>
+<li><a href="#orgheadline27">3.4.3. Expression for E<sub>in</sub></a></li>
+<li><a href="#orgheadline29">3.4.4. Minimizing E<sub>in</sub></a></li>
+<li><a href="#orgheadline30">3.4.5. The linear regression algorithm</a></li>
+<li><a href="#orgheadline31">3.4.6. Linear regression for classification</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline34">3.5. Nonlinear transformation</a>
+<ul>
+<li><a href="#orgheadline33">3.5.1. Linear in what?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline47">4. 4 - Error and Noise</a>
+<ul>
+<li><a href="#orgheadline38">4.1. Non-Linear transormation continued</a>
+<ul>
+<li><a href="#orgheadline36">4.1.1. Why does it work?</a></li>
+<li><a href="#orgheadline37">4.1.2. What transforms to what</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline39">4.2. Error Measures</a></li>
+<li><a href="#orgheadline40">4.3. How to choose an error measure</a></li>
+<li><a href="#orgheadline41">4.4. Noisy targets</a></li>
+<li><a href="#orgheadline42">4.5. Components of Learning (including noisy targets)</a></li>
+<li><a href="#orgheadline43">4.6. Distinction between P(y|x) and P(x)</a></li>
+<li><a href="#orgheadline46">4.7. Preamble to the theory</a>
+<ul>
+<li><a href="#orgheadline44">4.7.1. What do we know so far?</a></li>
+<li><a href="#orgheadline45">4.7.2. Full story of learning has 2 questions</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline56">5. 5 - Training vs Testing</a>
+<ul>
+<li><a href="#orgheadline48">5.1. What is the difference between training and testing?</a></li>
+<li><a href="#orgheadline49">5.2. Where did M come from?</a></li>
+<li><a href="#orgheadline55">5.3. Can we improve M?</a>
+<ul>
+<li><a href="#orgheadline50">5.3.1. Why do we care about this?</a></li>
+<li><a href="#orgheadline51">5.3.2. Dichotomies (mini-hypothesis)</a></li>
+<li><a href="#orgheadline52">5.3.3. Growth Funciton</a></li>
+<li><a href="#orgheadline53">5.3.4. key terms: Shattering and Breakpoint</a></li>
+<li><a href="#orgheadline54">5.3.5. What can we do with this stuff?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline64">6. 6 - Theory of generalization</a>
+<ul>
+<li><a href="#orgheadline57">6.1. 2 things to prove</a></li>
+<li><a href="#orgheadline63">6.2. Bounding \(m_H(N)\)</a>
+<ul>
+<li><a href="#orgheadline58">6.2.1. Key quantity</a></li>
+<li><a href="#orgheadline59">6.2.2. Recursive bound</a></li>
+<li><a href="#orgheadline60">6.2.3. B(N, k) is a polynomial!</a></li>
+<li><a href="#orgheadline61">6.2.4. How can m<sub>H</sub>(N) replace M</a></li>
+<li><a href="#orgheadline62">6.2.5. The Vapnik-Chervonenkis Inequality</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline72">7. 7 - The VC-Dimension</a>
+<ul>
+<li><a href="#orgheadline65">7.1. What is this?</a></li>
+<li><a href="#orgheadline66">7.2. VC-dimension and learning</a></li>
+<li><a href="#orgheadline67">7.3. VC-dimension of the perceptron</a></li>
+<li><a href="#orgheadline70">7.4. Interpretting the vc dimension (using the perceptron example)</a>
+<ul>
+<li><a href="#orgheadline68">7.4.1. Degrees of freedom</a></li>
+<li><a href="#orgheadline69">7.4.2. Number of data points needed</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline71">7.5. Rearranging things</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline79">8. 8 - Bias-Variance Tradeoff</a>
+<ul>
+<li><a href="#orgheadline73">8.1. Approximation-generalization tradeoff</a></li>
+<li><a href="#orgheadline74">8.2. Quantifying this trade-off</a></li>
+<li><a href="#orgheadline75">8.3. Start with E<sub>out</sub></a></li>
+<li><a href="#orgheadline76">8.4. Bias and Variance</a></li>
+<li><a href="#orgheadline77">8.5. Lesson learned</a></li>
+<li><a href="#orgheadline78">8.6. Learning curves (expected E<sub>out</sub> and E<sub>in</sub>)</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline80">9. 9 - Linear Model 2</a></li>
+<li><a href="#orgheadline82">10. 10 - Neural Networks</a>
+<ul>
+<li><a href="#orgheadline81">10.1. Questions</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline8" class="outline-2">
+<h2 id="orgheadline8"><span class="section-number-2">1</span> 1 - The Learning Problem</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> The essence of machine learning</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>A pattern exists.</li>
+<li>We cannot pin it down mathematically. (If we could, then why learn from data? :D)</li>
+<li>We have enough data.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.2</span> Simple Example</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+We have a bunch of movies and many customers. We have some ratings
+given by these users for a subset of the movies.
+</p>
+
+<p>
+Can we recommend movies for a user? How?
+</p>
+
+<p>
+We can represent each user by a set of genres (<i>features</i>. Say comedy,
+action, romance etc). Ask the user how much he likes each of the
+genres. Similarly, represent movies by a bunch of genres and match
+each movie to each user.
+</p>
+
+<p>
+This works, but is not really learning. We have to go and ask each
+user how much he likes each genre. But if we have data (ratings given
+by a user for a movie), we can try learning these features using the
+data. This is 'learning from data'.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4"><span class="section-number-3">1.3</span> Components of learning (Lets take Supervised learning)</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Ex) A bank wants to know if it should approve credit for a customer.
+</p>
+
+<ul class="org-ul">
+<li>Input x (Customer application)</li>
+<li>Output y (good customer/ bad customer)</li>
+<li>Target function f: X -&gt; Y (ideal credit approval formula)</li>
+</ul>
+
+<p>
+In all learning problems, we do not know this target function
+(Remember, if we knew this, there is no need to learn from data)
+</p>
+
+<ul class="org-ul">
+<li>Data: (x<sub>1</sub>, y<sub>1</sub>), (x<sub>2</sub>, y<sub>2</sub>) &#x2026; (x<sub>N</sub>, y<sub>N</sub>) (Data from past customers)</li>
+<li>Hypothesis: g: X -&gt; Y (an approximation of f, that we learn)</li>
+</ul>
+
+<p>
+(Check out the slides for the learning diagram)
+</p>
+
+
+<ol class="org-ol">
+<li>Target Function, f: &Chi; &rarr; &Upsilon;</li>
+<li>Training Examples, (x<sub>1</sub>, y<sub>1</sub>), &#x2026; , (x<sub>N</sub>, y<sub>N</sub>)</li>
+<li>Learning Algorithm, &Alpha;</li>
+<li>Error Measure E(h, f)</li>
+<li>Hypothesis Set, &Eta;</li>
+<li>Learned hypothesis, g &asymp; f</li>
+</ol>
+
+<p>
+The hypothesis set can be infinite (Learn from the set of all possible
+functions) or finite (like linear functions, quadratic functions etc).
+</p>
+</div>
+<div id="outline-container-orgheadline3" class="outline-4">
+<h4 id="orgheadline3"><span class="section-number-4">1.3.1</span> What do we get to select in this learning process</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+Well, we can change the learning algorithm and hypothesis set.
+Together, they define a <i>learning model</i>.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6"><span class="section-number-3">1.4</span> Simple Learning Model example, Peceptron</h3>
+<div class="outline-text-3" id="text-1-4">
+<ul class="org-ul">
+<li>Can be used when data is linearly seperable and the output y is binary.</li>
+<li>Given a data set (x<sub>1</sub>, y<sub>1</sub>), &#x2026; (x<sub>N</sub>, y<sub>N</sub>).</li>
+</ul>
+
+<p>
+Predict Sign(&Sigma;<sup>N</sup><sub>i=0</sub>(w<sub>i</sub>.x<sub>i</sub>)) where x<sub>0</sub> = 1.
+</p>
+
+<p>
+How to find the weights w<sub>1</sub>&#x2026;w<sub>d</sub>?
+</p>
+</div>
+<div id="outline-container-orgheadline5" class="outline-4">
+<h4 id="orgheadline5"><span class="section-number-4">1.4.1</span> Algorithm (Perceptron Learning Algorith, PLA)</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<ol class="org-ol">
+<li>Initialize all weights to random numbers.</li>
+<li>Pick one of the points from (x<sub>i</sub>, y<sub>i</sub>) that has been misclassified. i.e Sign(w<sup>T</sup>.x<sub>n</sub>) &ne; y<sub>n</sub></li>
+<li>Update w<sub>(t+1)</sub> = w<sub>t</sub> + y<sub>i</sub>.x<sub>i</sub></li>
+</ol>
+<p>
+Intuitively this makes sense, we 'nudge' the weights in a direction
+such that y<sub>i</sub> is classified correctly.
+</p>
+<ol class="org-ol">
+<li>Do this till all points are classified correctly.</li>
+</ol>
+
+<p>
+Other are other variations to this basic algorithm that will work with
+real-values outputs and non-linear data.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline7" class="outline-3">
+<h3 id="orgheadline7"><span class="section-number-3">1.5</span> Basic Premise of learning</h3>
+<div class="outline-text-3" id="text-1-5">
+<p>
+<i>Use a bunch of observations to uncover an underlying process</i>
+</p>
+
+<p>
+Broad Permise &rArr; Many variations
+</p>
+
+<ul class="org-ul">
+<li>Supervised learning</li>
+</ul>
+<p>
+Given a bunch of (input, correct output)&#x2026; Find a hypothesis that
+works with new data.
+</p>
+<ul class="org-ul">
+<li>Unsupervised learning</li>
+</ul>
+<p>
+Given a bunch of (input, ?), can we uncover some pattern? Create some
+kind of clusters of similar data.
+</p>
+<ul class="org-ul">
+<li>Reinforcement learning</li>
+</ul>
+<p>
+Given (input, ?, grade for an output), can we improve our algorithm
+step by step.  Ex) Game playing, grade every move the algorithm makes,
+give penalty for bad moves and +ve score for good moves. Overtime, the
+algorithm gets better.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline19" class="outline-2">
+<h2 id="orgheadline19"><span class="section-number-2">2</span> 2 - Is Learning Feasible</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+That's interesting&#x2026;  Well, the unknown target function can be any
+possible function. If we get 1000 data points, there can be multiple
+functions that satisfy these 1000 points and yet differ on the 1001Th
+point.
+</p>
+</div>
+<div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11"><span class="section-number-3">2.1</span> Related Experiment</h3>
+<div class="outline-text-3" id="text-2-1">
+<ul class="org-ul">
+<li>Consider a bin filled with red and green marbles. The fraction of
+green marbles in the bin is &mu;.</li>
+<li>Lets take a sample of 'N' marbles from this bin. The fraction of
+green marbles in our sample is &nu;.</li>
+</ul>
+</div>
+
+<div id="outline-container-orgheadline10" class="outline-4">
+<h4 id="orgheadline10"><span class="section-number-4">2.1.1</span> How close is &nu; to &mu;?</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+Well, we can charaterize this using some inequality from probability.
+</p>
+
+<p>
+We'll use the inequality known as Hoeffding's inequality.
+</p>
+
+<p>
+P(|&mu; - &nu;| &gt; &epsilon;) &le; 2.e<sup>-2.&epsilon;<sup>2</sup>.N</sup>
+</p>
+
+<p>
+The statement "&nu; = &mu;" is P.A.C (Probably Approximately Correct)
+</p>
+</div>
+<ol class="org-ol"><li><a id="orgheadline9"></a>What does this mean?<br  /><div class="outline-text-5" id="text-2-1-1-1">
+<ul class="org-ul">
+<li>Good thing, its a negative exponential with N. As N &uarr; the probability &darr;.</li>
+<li>Bad thing, there is an &epsilon;<sup>2</sup> in the exponent. If we need a tight bound,
+we are going to pay the price.</li>
+<li>Trade of: N, &epsilon;, and the bound.</li>
+</ul>
+</div></li></ol>
+</div>
+</div>
+<div id="outline-container-orgheadline18" class="outline-3">
+<h3 id="orgheadline18"><span class="section-number-3">2.2</span> How does this relate to learning?</h3>
+<div class="outline-text-3" id="text-2-2">
+<ul class="org-ul">
+<li>In our bin, the unknown was a number &mu;, in learning the unknown is a function <i>f</i>.</li>
+</ul>
+<p>
+In both cases, we need to figure out an approximation to the unknown.
+</p>
+<ul class="org-ul">
+<li>Think of each marble as a point x &isin; &Chi;.</li>
+<li>The color of marble is determined by our hypothesis function <i>h</i>.</li>
+</ul>
+
+<p>
+h(x) = f(x) &rArr; Marble is colored green.
+h(x) != f(x) &rArr; Marble is colored red.
+</p>
+
+<p>
+Thus, each bin is characterized by a hypothesis function <i>h</i>.
+</p>
+</div>
+<div id="outline-container-orgheadline12" class="outline-4">
+<h4 id="orgheadline12"><span class="section-number-4">2.2.1</span> So what does this mean?</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+h is fixed. For a <i>given h</i>, &nu; generalizes to &mu;. (with the hoeffding's bound)
+</p>
+
+<p>
+Well, this is just verification, not learning.
+Given a particular h, we can take a sample of N points and see what our &nu; is.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline14" class="outline-4">
+<h4 id="orgheadline14"><span class="section-number-4">2.2.2</span> Aside: Update the learning diagram to account for probability</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+The reason we are doing this bin analogy and related theory is so that
+we can figure out if learning is possible or not.
+</p>
+
+<p>
+In order to do that, we'll have to account for this <i>Probability</i> in
+our learning diagram. (points in this case)
+</p>
+</div>
+<ol class="org-ol"><li><a id="orgheadline13"></a>Updated learning diagram<br  /><div class="outline-text-5" id="text-2-2-2-1">
+<ol class="org-ol">
+<li>Target Function, f: &Chi; &rarr; &Upsilon;</li>
+<li>Training Examples, (x<sub>1</sub>, y<sub>1</sub>), &#x2026; , (x<sub>N</sub>, y<sub>N</sub>)</li>
+</ol>
+<p>
+2.5) <i>The training examples are drawn based on some probability distribution &Rho; on &Chi;.</i>
+</p>
+<ol class="org-ol">
+<li>Learning Algorithm, &Alpha;</li>
+<li>Hypothesis Set, &Eta;</li>
+<li>Learned hypothesis, g &asymp; f</li>
+</ol>
+</div></li></ol>
+</div>
+<div id="outline-container-orgheadline15" class="outline-4">
+<h4 id="orgheadline15"><span class="section-number-4">2.2.3</span> Notation change for Learning</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<ul class="org-ul">
+<li>&mu; is 'out of sample' E<sub>out</sub>(h).</li>
+<li>&nu; is 'in sample' E<sub>in</sub>(h).</li>
+</ul>
+
+<p>
+Thus, the hoeffding inequality becomes,
+</p>
+
+<p>
+P(|E<sub>in</sub>(h) - E<sub>out</sub>(h)| &gt; &epsilon;) &le; 2e<sup>-2.&epsilon;<sup>2</sup>.N</sup>
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline16" class="outline-4">
+<h4 id="orgheadline16"><span class="section-number-4">2.2.4</span> Account for multiple hypothesis</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<p>
+We have multiple hypothesis functions, thus, we can have multiple
+bins, one for each <i>h</i>.
+</p>
+
+<p>
+The problem is hoeffding doesn't apply to multiple bins.  (Intuition,
+toss a coin 10 times, p(10 heads) = 0.1%, toss 1000 coins, 10 times
+each, p(atleast 1 coin getting 10 heads) &asymp; 63%).
+</p>
+
+<p>
+Thus, the chance that in atleast one of the bins, the E<sub>in</sub> may not be a
+good approximation for E<sub>out</sub> and we end up picking that. (like picking
+10 green marbles).
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline17" class="outline-4">
+<h4 id="orgheadline17"><span class="section-number-4">2.2.5</span> Simple solution and summary</h4>
+<div class="outline-text-4" id="text-2-2-5">
+<p>
+Once we pick our final hypothesis <i>g</i> (from <i>h</i>), we want to know
+</p>
+
+<p>
+P[|E<sub>in</sub>(g) - E<sub>out</sub>(g)| &gt; &epsilon;]. We want to show that this is pretty small.
+</p>
+
+<p>
+We can use the union bound for this. (Its a pretty loose bound). If we have 'M' hypothesis,
+</p>
+
+<p>
+P[|E<sub>in</sub>(g) - E<sub>out</sub>(g)| &gt; &epsilon;] &le; P[|E<sub>in</sub>(h<sub>1</sub>) - E<sub>out</sub>(h<sub>1</sub>)| &gt; &epsilon;] or
+                          P[|E<sub>in</sub>(g) - E<sub>out</sub>(g)| &gt; &epsilon;] or &#x2026; or
+                          P[|E<sub>in</sub>(h<sub>M</sub>) - E<sub>out</sub>(h<sub>M</sub>)| &gt; &epsilon;] &le; &Sigma;<sup>M</sup><sub>m=1</sub>2.e<sup>-2.&epsilon;<sup>2</sup>.N</sup>
+</p>
+
+<p>
+Thus, <b>P[|E<sub>in</sub>(g) - E<sub>out</sub>(g)| &gt; &epsilon;] &le; 2.M.e<sup>-2.&epsilon;<sup>2</sup>.N</sup></b>.
+</p>
+
+<p>
+Hmm&#x2026; So using a lot of hypothesis can lead to bad things happening.
+</p>
+
+<p>
+But as we can see, when M is finite, we can learn. i.e E<sub>in</sub> will track E<sub>out</sub>.
+</p>
+
+<p>
+Thus, in  a probabilistic sense learning is feasible.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline35" class="outline-2">
+<h2 id="orgheadline35"><span class="section-number-2">3</span> 3 - Linear Model 1</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20"><span class="section-number-3">3.1</span> Questions</h3>
+<div class="outline-text-3" id="text-3-1">
+<ul class="org-ul">
+<li>Improving regression model, is it possible to accommodate more data
+in a supervised learning problem.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline22" class="outline-3">
+<h3 id="orgheadline22"><span class="section-number-3">3.2</span> Real data set</h3>
+<div class="outline-text-3" id="text-3-2">
+<ul class="org-ul">
+<li>Consider the supervised learning problem of identifying digits (for say postal code).</li>
+</ul>
+</div>
+<div id="outline-container-orgheadline21" class="outline-4">
+<h4 id="orgheadline21"><span class="section-number-4">3.2.1</span> Input Representation</h4>
+<div class="outline-text-4" id="text-3-2-1">
+<ul class="org-ul">
+<li>A digit is a x<sub>256</sub> vector of pixel values (x<sub>0</sub>, x<sub>1</sub> &#x2026; x<sub>256</sub>). This is wayy too complex and</li>
+</ul>
+<p>
+hard to optimize. Our perceptron algorithm would struggle.
+</p>
+<ul class="org-ul">
+<li>Instead we can 'extract some features' that are a good representation of the data.</li>
+</ul>
+<p>
+Ex) Symmetry, Intesity.
+Now we only have to find weights (w<sub>0</sub>, w<sub>1</sub>, w<sub>2</sub>) which is easier than trying to find (w<sub>0</sub>, &#x2026; w<sub>256</sub>).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline24" class="outline-3">
+<h3 id="orgheadline24"><span class="section-number-3">3.3</span> Linear Classification - Perceptron Learning Algorithm</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+What does PLA do?
+</p>
+<ul class="org-ul">
+<li>It reduces E<sub>in</sub>. (And we hope that E<sub>out</sub> tracks E<sub>in</sub>, we got this bound last week)</li>
+<li>In case of linearly seperable data, the PLA algorithm converges. But
+for non-seperable data, it cannot converge. Hence we stop after a
+fixed number of iterations.</li>
+</ul>
+</div>
+<div id="outline-container-orgheadline23" class="outline-4">
+<h4 id="orgheadline23"><span class="section-number-4">3.3.1</span> The 'pocket' Algorithm</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<p>
+This is a modification of the perceptron learning algorithm, where we
+'remember' the weights for which E<sub>in</sub> is the least, and use that as our
+final hypothesis <i>g</i>.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline32" class="outline-3">
+<h3 id="orgheadline32"><span class="section-number-3">3.4</span> Linear Regression</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Regression - 'real valued output'. Thats all it means. The term comes
+from earlier work in statistics, there was so much work on it that
+people could not get rid of the term. All it means is the output is
+real valued.
+</p>
+
+<p>
+Ex) Credit line (dollar amount) In the classification example, we
+approved or denied credit based on past customers, using linear
+regression we can try and predict the actual credit line. How much
+credit should we give a person?
+</p>
+
+<p>
+Input x = list of features like {age, salary, years in residence, years in job, current debt &#x2026;}
+</p>
+
+<p>
+Linear regression output: 
+</p>
+
+<p>
+h(x) = &Sigma;<sup>d</sup><sub>i=0</sub> w<sub>i</sub>.x<sub>i</sub> = w<sup>T</sup>.x = "real value"
+</p>
+
+<p>
+w = weight vector [w<sub>0</sub>, w<sub>1</sub> &#x2026; w<sub>d</sub>]
+x = 1 training example [x<sub>0</sub>, x<sub>1</sub> &#x2026; x<sub>d</sub>]
+</p>
+
+<p>
+This is called 'linear regression' because the form in terms of the input 'x' is linear.
+</p>
+</div>
+<div id="outline-container-orgheadline25" class="outline-4">
+<h4 id="orgheadline25"><span class="section-number-4">3.4.1</span> What is linear regression trying to find</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<p>
+In our credit line example,
+</p>
+
+<p>
+We have our input training examples as (x<sub>1</sub>, y<sub>1</sub>), (x<sub>2</sub>, y<sub>2</sub>), &#x2026; (x<sub>N</sub>, y<sub>N</sub>)
+</p>
+
+<p>
+Each y<sub>n</sub> is a 'real value', the approved credit amount for the input x<sub>n</sub>.
+</p>
+
+<p>
+Linear regression tries to replicate this behavior.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline26" class="outline-4">
+<h4 id="orgheadline26"><span class="section-number-4">3.4.2</span> How to measure error</h4>
+<div class="outline-text-4" id="text-3-4-2">
+<p>
+How well does h(x) approximate f(x) (the target function)? 
+For every example x<sub>i</sub>, the given output value is y<sub>i</sub> and the predicted value is h(x<sub>i</sub>).
+</p>
+
+<p>
+We can define many error measures (we'll get to this in unit 4).
+</p>
+
+<p>
+For now, we'll pick a convenient (we'll see why) error measure, <i>the squared error</i>.
+</p>
+
+<p>
+(h(x) - y)<sup>2</sup>
+</p>
+
+<p>
+The average squared error for all our input points is:
+</p>
+
+<p>
+in-sample error, E<sub>in</sub>(h) = 1/N * &Sigma;<sup>N</sup><sub>n=1</sub>.(h(x<sub>n</sub>) - f(x<sub>n</sub>))<sup>2</sup>
+</p>
+
+<p>
+Our algorithm tries to minimize this error.  The approximation our
+'linear' model comes up with is a hyperplane (one-dimenstion short of
+the space we are working with).
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline27" class="outline-4">
+<h4 id="orgheadline27"><span class="section-number-4">3.4.3</span> Expression for E<sub>in</sub></h4>
+<div class="outline-text-4" id="text-3-4-3">
+<p>
+Let's try to write this in vector form.
+</p>
+
+<p>
+TODO :: seems like small caps doesn't work with mathjax, need to fix the x to be smallcap(x).
+</p>
+
+\begin{equation}
+\begin{split}
+E_{in}(w)       &= \frac{1}{N} \Sigma^N_{n=1}(w^{T}.x_n - y_n)^2 \\
+ &= \frac{1}{N} || X.w - y ||^2
+\end{split}
+\end{equation}
+
+<p>
+where X:
+</p>
+\begin{bmatrix} 
+\ldots & x_1^T & \ldots  \\
+\ldots & x_2^T & \ldots  \\
+\ldots & \vdots & \ldots  \\
+\ldots & x_N^T & \ldots  \\
+\end{bmatrix}
+
+<p>
+w:
+</p>
+\begin{bmatrix}
+w_1 \\
+w_2 \\
+\vdots \\
+w_d
+\end{bmatrix}
+
+<p>
+y:
+</p>
+
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_N
+\end{bmatrix}
+</div>
+</div>
+<div id="outline-container-orgheadline29" class="outline-4">
+<h4 id="orgheadline29"><span class="section-number-4">3.4.4</span> Minimizing E<sub>in</sub></h4>
+<div class="outline-text-4" id="text-3-4-4">
+<p>
+We can use some matrix calculus and find the min of our E<sub>in</sub> expression.
+</p>
+\begin{equation}
+\begin{split}
+E_{in}(w) & = \frac{1}{N}||Xw - y||^2 \\
+\nabla.E_{in}(w) & = \frac{2}{N} X^T||Xw - y|| = 0
+\end{split}
+\end{equation}
+
+<p>
+Solving for w, we get
+</p>
+
+<p>
+\[ X^{T}Xw = X^{T}.y \]
+\[ w = X^{\dagger}.y \]
+</p>
+
+<p>
+where \(X^{\dagger} = (X^{T}.X)^{-1}.X^{T}\)
+This is called the 'pseudo-inverse' of X.
+X being non-invertible does not have an inverse, but the pseudo-inverse is pretty interesting. 
+</p>
+
+<p>
+\(X.X^{\dagger} = I\). So it is an inverse
+in some sense. ( \(X.X^{\dagger}\) is not identity. Hence the
+pseudo).
+</p>
+</div>
+<ol class="org-ol"><li><a id="orgheadline28"></a>From a computational standpoint, its a nice quantity<br  /><div class="outline-text-5" id="text-3-4-4-1">
+<p>
+\[X^{\dagger} = (X^{T}.X)^{-1}.X^{T}\]
+</p>
+
+<p>
+X is (N * d+1)
+X<sup>T</sup> is (d+1 * N)
+</p>
+
+<p>
+Thus X<sup>T</sup>.X is (d+1 * d+1)
+</p>
+
+<p>
+Usually, our d is small and N is large. Luckily our inverse is a fairly 'small' matrix :)
+There are many packages that compute this quantity.
+</p>
+
+<p>
+The final matrix X^&dagger; has dimensions  (d+1 *  N)
+</p>
+
+<p>
+X<sup>&dagger;</sup>.y has dimensions (d+1 * 1) as expected. (for the weights)
+</p>
+</div></li></ol>
+</div>
+<div id="outline-container-orgheadline30" class="outline-4">
+<h4 id="orgheadline30"><span class="section-number-4">3.4.5</span> The linear regression algorithm</h4>
+<div class="outline-text-4" id="text-3-4-5">
+<ol class="org-ol">
+<li>Construct X and y using the training examples.</li>
+<li>Compute pseudo-inverse $X<sup>&dagger;</sup> = (X<sup>T</sup>.X)<sup>-1</sup>.X<sup>T</sup>.</li>
+<li>return \(w = X^{\dagger}.y\).</li>
+</ol>
+<p>
+Done! boom! (one-step learning ;))
+</p>
+
+<p>
+Since its so straight forward, it can be used as a component in many other learning algorithms.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline31" class="outline-4">
+<h4 id="orgheadline31"><span class="section-number-4">3.4.6</span> Linear regression for classification</h4>
+<div class="outline-text-4" id="text-3-4-6">
+<p>
+Classification is just a special case of regression right? The output is 1 or -1, which is a real-value.
+Can we use linear regression for that?
+</p>
+
+<p>
+We can define our final output as sign(w<sup>T</sup>.x). The assumption here is
+that w<sup>T</sup>.x will be negative for examples with -1, and positive for
+examples with output +1.
+</p>
+
+<p>
+However, our regression algorithms doesn't quite work for
+classification as our error measure is 'squared error'.
+</p>
+
+<p>
+Our algorithm simultaneously tries to make all points close to + or -
+1, but the extreme points affect our error more, hence the linear boundary is not very good.
+</p>
+
+<p>
+Instead, what we can do is use linear regression for setting our
+initial set of weights for the 'pocket' algorithm! (instead of
+starting with 0s).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline34" class="outline-3">
+<h3 id="orgheadline34"><span class="section-number-3">3.5</span> Nonlinear transformation</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+In real life, data is not always linearly seperable.
+</p>
+
+<p>
+For example, consider a circular decision boundary, where inside circle, all points are +1 and outside -1.
+</p>
+
+<p>
+Can we come up with this kind of a 'circular' hypothesis function that seperates the data?
+Yes, but the problem is thats not linear.
+</p>
+
+<p>
+Can we do that with linear models?
+The answer is yes.
+</p>
+</div>
+<div id="outline-container-orgheadline33" class="outline-4">
+<h4 id="orgheadline33"><span class="section-number-4">3.5.1</span> Linear in what?</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<p>
+Regression implements
+</p>
+
+<p>
+\[ y = \Sigma^{d}_{i=0}x_{i}.w_{i} \]
+</p>
+
+<p>
+For classification
+</p>
+
+<p>
+\[ y = sign(\Sigma^{d}_{i=0}x_{i}.w_{i})\]
+</p>
+
+<p>
+The algorithm works because of linearity in the 'weights' not x's. 
+w<sup>T</sup>.x is linear in <i>w</i>.
+</p>
+
+<p>
+Thus, we can add 'features' that are non-linearly functions of x (like
+3.x<sub>d1</sub>.x<sup>2</sup><sub>d2</sub> etc) and apply our linear model algorithm.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline47" class="outline-2">
+<h2 id="orgheadline47"><span class="section-number-2">4</span> 4 - Error and Noise</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-orgheadline38" class="outline-3">
+<h3 id="orgheadline38"><span class="section-number-3">4.1</span> Non-Linear transormation continued</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Intuitive idea, Take a point in input space x and transform it using
+some non-linear function of x, find weights in this new space and use
+that to predict y.
+</p>
+
+<p>
+This trick can be used to create arbitrarilty complex dimensions and learn.
+</p>
+</div>
+<div id="outline-container-orgheadline36" class="outline-4">
+<h4 id="orgheadline36"><span class="section-number-4">4.1.1</span> Why does it work?</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+Any non-linear dependency in one subspace can be treated as a linear
+dependency in a more complex space.
+</p>
+
+<p>
+Ex) A circular boundary (x<sub>1</sub><sup>2</sup> + x<sub>2</sub><sup>2</sup>) varies linearly in a space that
+has x<sub>1</sub><sup>2</sup> and x<sub>2</sub><sup>2</sup> as dimensions.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline37" class="outline-4">
+<h4 id="orgheadline37"><span class="section-number-4">4.1.2</span> What transforms to what</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<p>
+We apply a transformation &phi; that maps X -&gt; Z
+</p>
+
+<p>
+Input point (x<sub>1</sub>, x<sub>2</sub> &#x2026; x<sub>d</sub>) -&gt; (z<sub>1</sub> &#x2026; z<sub>~{d}</sub>) 
+All the input data in transformed (x<sub>1</sub> &#x2026; x<sub>N</sub>) -&gt; (z<sub>1</sub> &#x2026; z<sub>N</sub>)
+Find weights ~{w} in Z space (dims = ~{d+1}) (w<sub>0</sub>, w<sub>1</sub> &#x2026; w<sub>~{d}</sub>
+Output remains same (y<sub>1</sub>, &#x2026; y<sub>N</sub>) -&gt; (y<sub>1</sub> &#x2026; y<sub>N</sub>)
+</p>
+
+<p>
+Final hypothesis g(x) = sign(~{w}<sup>T</sup>.z) = sign(~{w}<sup>T</sup>.&phi;(x))
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline39" class="outline-3">
+<h3 id="orgheadline39"><span class="section-number-3">4.2</span> Error Measures</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+What does "h &asymp; f" mean?
+</p>
+
+<p>
+This is what is quantified by an Error Measure.
+</p>
+
+<p>
+\[E(h, f)\]
+</p>
+
+<p>
+This is actually a functional that takes 2 functions and returns a
+function E. However, in most cases we can think of E being a pointwise
+error measure.
+</p>
+
+<p>
+Pointwise error e(h(x), f(x)). 
+examples:
+</p>
+<ul class="org-ul">
+<li>squared error (h(x) - f(x))<sup>2</sup></li>
+<li>binary error { 0 if h(x) = f(x) else 1}</li>
+</ul>
+
+<p>
+Overall error E(h, f) = average of pointwise errors = e(h(x), f(x))
+</p>
+
+<p>
+In-sample error, 
+</p>
+
+<p>
+\[ E_{in}(h) = \frac{1}{N} \Sigma^N_{(n=1)}e(h(x_n), f(x_n)) \]
+</p>
+
+<p>
+Simple average. Makes sense.
+</p>
+
+<p>
+Out-of sample error, is the expected value over all points in our input space.
+</p>
+
+<p>
+\[ E_{out}(h) = E_{x}[e(h(x), f(x))] \]
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline40" class="outline-3">
+<h3 id="orgheadline40"><span class="section-number-3">4.3</span> How to choose an error measure</h3>
+<div class="outline-text-3" id="text-4-3">
+<ul class="org-ul">
+<li>Ideally, the error measure chosen should always be domain specific
+and specified by the user.</li>
+</ul>
+<p>
+(See slides for the supermarket and CIA example, where the cost of a
+false accept/ false reject is very different).
+</p>
+<ul class="org-ul">
+<li>In the absense of this knowledge, we pick error measures that are</li>
+<li>Plausible.</li>
+<li>Fiendly (easy to work with), gives a closed form solution.</li>
+</ul>
+<p>
+ex) Squared error. (gave a closed form solution for the linear regression model)
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline41" class="outline-3">
+<h3 id="orgheadline41"><span class="section-number-3">4.4</span> Noisy targets</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+In reality, we rarely get a clean target function. We'll mostly have
+to work with noisy targets.
+</p>
+
+<p>
+Ex) In the credit approval example, is it possible that 2 people, who
+have the same values for all the d dimensions, have different
+decisions?
+</p>
+
+<p>
+yup! Our features may not capture everything there possibly is for
+credit approval. Thus, 2 identical customers =&gt; 2 different behaviours.
+</p>
+
+<p>
+Hence, our target function <i>f</i> is not a function. (A function can't map
+a point in domain to different points in the codomain)
+</p>
+
+<p>
+Instead of \(y = f(x)\), We have a target distribution, \(P(y|x)\)
+</p>
+
+<p>
+Thus, \((x, y)\) is now generated by a joint distribution:
+</p>
+
+<p>
+\[ P(x).P(y|x) \]
+</p>
+
+<p>
+Noisy Target = deterministic target f(x) = E[y|x] plus noise y - f(x).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline42" class="outline-3">
+<h3 id="orgheadline42"><span class="section-number-3">4.5</span> Components of Learning (including noisy targets)</h3>
+<div class="outline-text-3" id="text-4-5">
+<ol class="org-ol">
+<li>Unknown Target Distribution P(y|x).</li>
+</ol>
+
+<p>
+target function f(x) X -&gt; Y plus noise y - f(x)
+E[y|x] plus y - f(x)
+</p>
+
+<ol class="org-ol">
+<li>Training Examples, (x<sub>1</sub>, y<sub>1</sub>), &#x2026; , (x<sub>N</sub>, y<sub>N</sub>)</li>
+<li><i>The training examples are drawn based on some probability distribution &Rho; on &Chi; and the taget distribution P(y|x) on y</i></li>
+<li>Learning Algorithm, &Alpha;</li>
+<li>Error Measure E(h, f)</li>
+<li>Hypothesis Set, &Eta;</li>
+<li>Learned hypothesis, g &asymp; f</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgheadline43" class="outline-3">
+<h3 id="orgheadline43"><span class="section-number-3">4.6</span> Distinction between P(y|x) and P(x)</h3>
+<div class="outline-text-3" id="text-4-6">
+<ul class="org-ul">
+<li>P(x) was introduced to accommodate the hoeffding's inequality.</li>
+<li>P(y|x) gives the probability of a particular y given x.</li>
+<li>Each training point is generated based on this. ('multiply' the two
+to get the probability of a point (x, y))</li>
+</ul>
+
+<p>
+Differences between the two:
+</p>
+<ul class="org-ul">
+<li>P(y|x) is what our algorithm tries to learn.</li>
+<li>The input distribution P(x) quanties the relative importance of a
+point x. (but we don't learn this)</li>
+<li>Merging P(x) and P(y|x) as P(x, y) mixes two concepts.</li>
+</ul>
+<p>
+Our target distribution is only P(y|x).
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline46" class="outline-3">
+<h3 id="orgheadline46"><span class="section-number-3">4.7</span> Preamble to the theory</h3>
+<div class="outline-text-3" id="text-4-7">
+</div><div id="outline-container-orgheadline44" class="outline-4">
+<h4 id="orgheadline44"><span class="section-number-4">4.7.1</span> What do we know so far?</h4>
+<div class="outline-text-4" id="text-4-7-1">
+<p>
+We proved that E<sub>out</sub>(h) &asymp; E<sub>in</sub>(h) based on some bound.
+All this means is that E<sub>in</sub> is a good proxy for E<sub>out</sub>.
+</p>
+
+<p>
+For us to learn, we have to find g &asymp; f, which means E<sub>out</sub>(g) &asymp; 0.
+</p>
+
+<p>
+\(E_out \approx E_in\) means good generalization.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline45" class="outline-4">
+<h4 id="orgheadline45"><span class="section-number-4">4.7.2</span> Full story of learning has 2 questions</h4>
+<div class="outline-text-4" id="text-4-7-2">
+<p>
+E<sub>out</sub>(g) &asymp; 0 is achieved through:
+</p>
+
+<p>
+E<sub>out</sub>(g) &asymp; E<sub>in</sub>(g) AND E<sub>in</sub>(g) &asymp; 0.
+</p>
+
+<ol class="org-ol">
+<li>Can we make sure that E<sub>out</sub>(g) is close to E<sub>in</sub>(g)?</li>
+<li>Can we make E<sub>in</sub>(g) small enough to have learned?</li>
+</ol>
+
+<p>
+Good stuff!
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline56" class="outline-2">
+<h2 id="orgheadline56"><span class="section-number-2">5</span> 5 - Training vs Testing</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-orgheadline48" class="outline-3">
+<h3 id="orgheadline48"><span class="section-number-3">5.1</span> What is the difference between training and testing?</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+From our previous discussions, hoeffding inequality for \(E_{in}, E_{out}\)
+</p>
+
+<p>
+Testing:
+</p>
+
+<p>
+\[ P[ |E_{in} - E_{out}| \gt \epsilon ] \le 2.e^{-2.\epsilon^{2}.N} \]
+</p>
+
+<p>
+Training: 
+</p>
+
+<p>
+\[ P[ |E_{in} - E_{out}| \gt \epsilon ] \le 2.M.e^{-2.\epsilon^{2}.N} \]
+</p>
+
+<p>
+In case of testing, we have already fixed a hypothesis, and we see
+what are the chances that it will generalize to E<sub>out</sub>.
+</p>
+
+<p>
+In training, we go through a bunch of hyposthesis, to figure out which
+is the best one, that minimizes E<sub>in</sub>. This 'contaminates' our ability
+to generalize.
+</p>
+
+<p>
+The goal in the next 2 lectures, will be to replace this <i>M</i> with a
+tighter bound. 
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline49" class="outline-3">
+<h3 id="orgheadline49"><span class="section-number-3">5.2</span> Where did M come from?</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Bad events B<sub>1</sub>, B<sub>2</sub> &#x2026; B<sub>m</sub> are given by
+</p>
+
+<p>
+\[ |E_{in}(m) - E_{out}(m)| > \epsilon \]
+</p>
+
+<p>
+i.e, for a given hypothesis, if \(|E_{in}(m) - E_{out}(m)| \gt \epsilon\),
+then its a bad event. We wanted to know what's the probability that
+our final hypothesis is bad&#x2026; Well, we know the final hypothesis will
+be bad, if any of our hypothesis is bad.
+</p>
+
+<p>
+Thus, we tried to find a bound on:
+</p>
+
+<p>
+\[ P[B_{1} or B_{2} or ... B_{M}] \]
+</p>
+
+<p>
+This is where we used the union bound and said that its less than the
+sum of probabilities of each of the hypothesis being bad.
+</p>
+
+<p>
+Now this bound predicts:
+</p>
+
+<p>
+\[ P[B_{1} or B_{2} or ... B_{M}] \le P[B_{1}] + P[B_{2}] + ... P[B_{M}] \]
+</p>
+
+<p>
+This is a very loose bound, and does not take into consideration the
+overlap of the bad events Bs'.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline55" class="outline-3">
+<h3 id="orgheadline55"><span class="section-number-3">5.3</span> Can we improve M?</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Note: The full proof is available in the book. These notes just give
+an intuitive feel for the idea.
+</p>
+
+<p>
+Yup, as bad events are very overlapping.
+</p>
+
+<p>
+To see this, consider a hypothesis h<sub>1</sub>. Let points {x<sub>1</sub>, x<sub>2</sub>, &#x2026; x<sub>n</sub>}
+be our training points.
+</p>
+
+<p>
+Now, h<sub>1</sub> classifies each of these points as +1 or -1.
+Consider another hypothesis h<sub>2</sub>, which also classifies these points as +1 and -1.
+</p>
+
+<p>
+Let's say h<sub>1</sub>, h<sub>2</sub> show the same classification for all of our
+training points, but vary slightly outside of E<sub>in</sub>.
+</p>
+
+<p>
+This means, |E<sub>in</sub>(h<sub>1</sub>) - E<sub>out</sub>(h<sub>1</sub>)| (say 1)
+&asymp; |E<sub>in</sub>(h<sub>2</sub>) - E<sub>out</sub>(h<sub>2</sub>)| (say 2).
+</p>
+</div>
+
+<div id="outline-container-orgheadline50" class="outline-4">
+<h4 id="orgheadline50"><span class="section-number-4">5.3.1</span> Why do we care about this?</h4>
+<div class="outline-text-4" id="text-5-3-1">
+<p>
+That's because if P[1 &gt; &epsilon;], P[2 &gt; &epsilon;] is also pretty
+high.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline51" class="outline-4">
+<h4 id="orgheadline51"><span class="section-number-4">5.3.2</span> Dichotomies (mini-hypothesis)</h4>
+<div class="outline-text-4" id="text-5-3-2">
+<p>
+A hypothesis \(h: X -> {+1, -1}\).
+A dichotomy \(h: x_{1}, x_{2} ... x_{N} -> {+1, -1}\)
+</p>
+
+<p>
+Thus, a dichotomy is defined only on points in the input space.
+</p>
+
+<p>
+Number of hypothesis |H| can be infinite, but number of dichotomies can be atmost 2<sup>N</sup>.
+</p>
+
+<p>
+Dichotomy is a candidate for replacing <i>M</i>.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline52" class="outline-4">
+<h4 id="orgheadline52"><span class="section-number-4">5.3.3</span> Growth Funciton</h4>
+<div class="outline-text-4" id="text-5-3-3">
+<p>
+Growth function \(m_H(N)\) is defined as the most number of dichotomies on any 'N' points.
+</p>
+
+<p>
+What does that mean? Pick any set of 'N' points from the input space,
+such that maximum number of dichotomies can be realized.
+</p>
+
+<p>
+\[ m_H(N) = max_{x_{1}, x_{2} ... x_{N}}|H(x_{1} ... x_{N}|. \]
+</p>
+
+<p>
+Also \(m_H(N) \le 2^N\)
+</p>
+
+<p>
+For example, lets take the perceptron model in 2-D space.
+</p>
+
+<ul class="org-ul">
+<li>Given N = 3, we can arrange 3 points in a way such that all possible
+2<sup>3</sup> = 8 dichotomies can be realized.</li>
+</ul>
+
+<p>
+Thus, \(m_H(3) = 2^3\) (Maximum possible dichotomies)
+</p>
+
+<ul class="org-ul">
+<li>Given N = 4, no matter how we arrange 4 points, we cannot get all
+possible dichotomies of 2<sup>4</sup> = 16. We'll get something less than
+2<sup>4</sup>. (Actual value is 14)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline53" class="outline-4">
+<h4 id="orgheadline53"><span class="section-number-4">5.3.4</span> key terms: Shattering and Breakpoint</h4>
+<div class="outline-text-4" id="text-5-3-4">
+<p>
+We call 'N' points as being <i>shattered</i> by a hypothesis set, if we can
+realize all possible 2<sup>N</sup> possibilities.
+</p>
+
+<p>
+Definition: If no dataset of size 'k' can be <i>shattered</i> by a
+hypothesis set <i>H</i>, then k is a <i>breakpoint</i> for <i>H</i>.
+</p>
+
+<p>
+Ex) The breakpoint for 2-D perceptron is 4. \(m_H(k) \lt 2^{m}\)
+</p>
+
+<p>
+No break point =&gt; \(m_H(N) = 2^{N}\)
+</p>
+
+<p>
+Any break point =&gt; \(m_H(N) \lt 2^{N}\)
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline54" class="outline-4">
+<h4 id="orgheadline54"><span class="section-number-4">5.3.5</span> What can we do with this stuff?</h4>
+<div class="outline-text-4" id="text-5-3-5">
+<p>
+We had,
+</p>
+
+<p>
+\[ P[ |E_{in} - E_{out}| \gt \epsilon ]  \le 2.M.e^{-2.\epsilon^{2}.N} \]
+</p>
+
+<p>
+Here is what we can try to do, if we can replace <i>M</i> with m<sub>H</sub>(N) and
+prove that m<sub>H</sub>(N) is polynomial, then we can get a finite bound on
+P[B<sub>1</sub> or B<sub>2</sub> &#x2026; B<sub>N</sub>], that is finite even for an infinite hypothesis
+sets.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline64" class="outline-2">
+<h2 id="orgheadline64"><span class="section-number-2">6</span> 6 - Theory of generalization</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-orgheadline57" class="outline-3">
+<h3 id="orgheadline57"><span class="section-number-3">6.1</span> 2 things to prove</h3>
+<div class="outline-text-3" id="text-6-1">
+<ul class="org-ul">
+<li>Prove that \(m_H(N)\) is polynomial.</li>
+<li>Proof that \(m_H(N)\) can replace M.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline63" class="outline-3">
+<h3 id="orgheadline63"><span class="section-number-3">6.2</span> Bounding \(m_H(N)\)</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+The goal is to show \(m_H(N)\) &le; a polynomial.
+</p>
+
+<p>
+Checkout lectures/book for the entire proof, but here is the basic idea.
+</p>
+</div>
+<div id="outline-container-orgheadline58" class="outline-4">
+<h4 id="orgheadline58"><span class="section-number-4">6.2.1</span> Key quantity</h4>
+<div class="outline-text-4" id="text-6-2-1">
+<p>
+\(B(N, k)\): Maximum number of dichotomies on N points, with a break
+point k. 
+<b>Note</b>: This does not depend on the hypothesis set or input
+space, it is purely combinatorial.
+</p>
+
+<p>
+Given, N points and a break point k, can we come up with a polynomial
+bound for \(m_H(N, k)\).
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline59" class="outline-4">
+<h4 id="orgheadline59"><span class="section-number-4">6.2.2</span> Recursive bound</h4>
+<div class="outline-text-4" id="text-6-2-2">
+<p>
+The proof is based on a recursive argument. (see lectures for details)
+</p>
+
+<p>
+Divide all possible dichotomies, into 2 types, &alpha; and 2.&beta;.
+</p>
+
+<p>
+&alpha;:
+</p>
+
+<p>
+Dichotomies that differ in N-1 points, (excluding the last point)
+</p>
+
+<p>
+2.&beta;
+Dichotomies that differ in the N<sup>th</sup> point.
+i.e all {x<sub>1</sub>, x<sub>2</sub> &#x2026; x<sub>N-1</sub>} come twice, once with Nth point as +1 and once with Nth point as -1.
+</p>
+
+<p>
+\[B(N, k) \le \alpha + 2.\beta\]
+</p>
+
+<p>
+Consider &alpha; + &beta;. Every element in this set is different.  If we can find all possible
+patterns on any k columns here, that means we can find all possible
+patterns on \(B(N, k)\) (which is not possible)
+</p>
+
+<p>
+\[ \alpha + \beta \le B(N-1, k) \] 
+</p>
+
+<p>
+Consider &beta;,
+</p>
+
+<p>
+\[ \beta \le B(N-1, k-1) \] 
+</p>
+
+<p>
+If we had all possible patterns for any k-1 guys in the N-1 points,
+that means we have all possible patterns for k guys on N points. (by
+construction) This is not true because of our definition of B(N, k).
+</p>
+
+<p>
+\[B(N, k) \le B(N-1, k) + B(N-1, k-1)\]
+</p>
+
+<p>
+Solving for this, we get
+</p>
+
+<p>
+\[B(N, k) \le \Sigma^{k-1}_{0} {N \choose i}\]
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline60" class="outline-4">
+<h4 id="orgheadline60"><span class="section-number-4">6.2.3</span> B(N, k) is a polynomial!</h4>
+<div class="outline-text-4" id="text-6-2-3">
+<p>
+For a given H, the break point k is fixed.
+</p>
+
+<p>
+m<sub>H</sub>(N) &le; B(N, k)
+</p>
+
+<p>
+B(N, k) is polynomial in N. The maximum power in B(N, k) is N<sup>k-1</sup>, hence its a polynomial.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline61" class="outline-4">
+<h4 id="orgheadline61"><span class="section-number-4">6.2.4</span> How can m<sub>H</sub>(N) replace M</h4>
+<div class="outline-text-4" id="text-6-2-4">
+<p>
+This is a slightly involved proof, given in the text book.
+</p>
+
+<p>
+See slides for a pictorial proof. Here is the basic idea&#x2026;
+3 points
+</p>
+<ol class="org-ol">
+<li>How does m<sub>H</sub>(N) relate to overlaps?</li>
+<li>What to do about E<sub>out</sub></li>
+<li>Putting it together</li>
+
+<li>The basic idea is that, a dichotomy captures overlaps. Since a
+dichotomy changes only when any one of the points in our sample is
+classified differently, it captures the overlap between all
+hypothesis that classify all points in the input space the same
+way!</li>
+<li>This is what Vapnik-Chervonenki did,</li>
+</ol>
+<p>
+For a given hypothesis h, we compute E<sub>in</sub>(h) and E<sub>out</sub>(h).
+How do we get rid of E<sub>out</sub>?
+Pick another sample E<sub>in'</sub>(h)
+</p>
+
+<p>
+Does E<sub>in</sub>(h) track E<sub>in'</sub>(h)? Well yes, a little more loosely, but
+yes. The advantage is that, doing so allows us to stay within the
+realm of dichotomies.
+</p>
+
+<ol class="org-ol">
+<li>Putting this stuff together, we get the v.c inequality.</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-orgheadline62" class="outline-4">
+<h4 id="orgheadline62"><span class="section-number-4">6.2.5</span> The Vapnik-Chervonenkis Inequality</h4>
+<div class="outline-text-4" id="text-6-2-5">
+<p>
+\[ P[|E_{in}(g) - E_{out}(g) | \gt \epsilon] \le 4.m_{H}(2N).e^{-\frac{1}{8}.\epsilon^{2}.N} \]
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline72" class="outline-2">
+<h2 id="orgheadline72"><span class="section-number-2">7</span> 7 - The VC-Dimension</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Most useful quantity from all of the theory we discussed. Something to
+remember throughout your career ;)
+</p>
+</div>
+<div id="outline-container-orgheadline65" class="outline-3">
+<h3 id="orgheadline65"><span class="section-number-3">7.1</span> What is this?</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+The VC-dimension is defined for a hypothesis set <i>H</i>, denoted by d<sub>VC</sub>(H)
+</p>
+
+<p>
+<i>It's the maximum number of points that can be shattered by a given hypothesis
+set.</i> Formally, its the largest value of N for which \(m_H(N) = 2^{N}\).
+</p>
+
+<p>
+\(N \le d_VC(H) \Rightarrow H can shatter N points\) 
+\(k \ge d_VC(H) => k is a break point for H\)
+</p>
+
+<p>
+In terms of a breakpoint k, the growth function
+\[ m_{H}(N) \le \Sigma^{k - 1}_{i = 0}{N \choose i} \]
+</p>
+
+<p>
+In terms of vc-dimension,
+\[ m_{H}(N) \le \Sigma^{d_{VC}(H)}_{i = 0}{N \choose i} \]
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline66" class="outline-3">
+<h3 id="orgheadline66"><span class="section-number-3">7.2</span> VC-dimension and learning</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+\(d_{VC} is finite\) =&gt; g &isin; H will generalize$
+</p>
+
+<p>
+(refer to the learning diagram)
+</p>
+<ul class="org-ul">
+<li>independent of the learning algorithm</li>
+<li>independent of the input distribution</li>
+<li>independent of the target function</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline67" class="outline-3">
+<h3 id="orgheadline67"><span class="section-number-3">7.3</span> VC-dimension of the perceptron</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+\(d_{VC} = d+1 for a 'd' dimensional space\) (refer to slides for proof)
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline70" class="outline-3">
+<h3 id="orgheadline70"><span class="section-number-3">7.4</span> Interpretting the vc dimension (using the perceptron example)</h3>
+<div class="outline-text-3" id="text-7-4">
+</div><div id="outline-container-orgheadline68" class="outline-4">
+<h4 id="orgheadline68"><span class="section-number-4">7.4.1</span> Degrees of freedom</h4>
+<div class="outline-text-4" id="text-7-4-1">
+<p>
+Parameters of a model give us degrees of freedom in order to create multiple hypothesis. i.e we can vary
+these parameters, to get new outputs from the model.
+</p>
+
+<p>
+Number of parameters \(\Rightarrow\) analog degrees of freedom
+</p>
+
+<p>
+d<sub>VC</sub>{H} equivalent 'binary' degrees of freedom.
+</p>
+
+<p>
+d<sub>VC</sub> tells us how 'expressive' a model is. Inside a model (like
+perceptron or neural networks), there can be multiple parameters
+(analog df) that vary and but the output does not change. We care only
+about the variation seen in the output. Thus, if I have a model that
+has a d<sub>VC</sub> of 20, and someone else has a model of d<sub>VC</sub> of 30, it means
+they have more degrees of freedom.
+</p>
+
+<p>
+For the perceptron hypothesis set, we noticed that the vc-dimension is 'd+1'.
+What does this mean?
+</p>
+
+<p>
+Well, the number of parameters in the perceptron model is d+1 (namely
+w<sub>0</sub>, w<sub>1</sub>, &#x2026; w<sub>d</sub>). In this case, we have v<sub>DC</sub> = number of parameters.
+</p>
+
+<p>
+If we have a model that has redundant parameters, the v<sub>DC</sub> will be
+smaller than the number of parameters. (See slides for example)
+vc-dimension is a quantity that gives us the <i>effective</i> degrees of
+freedom.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline69" class="outline-4">
+<h4 id="orgheadline69"><span class="section-number-4">7.4.2</span> Number of data points needed</h4>
+<div class="outline-text-4" id="text-7-4-2">
+<p>
+How does value of v<sub>DC</sub> affect the number of examples needed?
+</p>
+
+<p>
+The VC Inequality,
+</p>
+
+<p>
+\[ P[|E_{in} - E_{out}| > \epsilon] \le \underbrace{4.m_{H}(2N).e^{-\frac{1}{8}.\epsilon^{2}.N}}_{\delta} \]
+</p>
+
+<p>
+If we want certain &epsilon; and &delta;, how does N depend on d<sub>VC</sub>?
+</p>
+
+<p>
+Lets look at N<sup>d</sup>.e<sup>-N</sup>. (See slides for details) This curve starts
+with the powerful polynomial but is eventually killed by the negative
+exponential.
+</p>
+
+<p>
+Looking the curves,
+</p>
+
+<p>
+\[ N \propto v_{DC} \]
+</p>
+
+<p>
+<i>A practical observation here is that the actual quantity that we are
+trying to bound, follows the same monotonicity as the bound.</i>
+i.e, bigger d<sub>VC</sub>, the more the examples we need.
+</p>
+
+<p>
+This initially didn't make too much sense to me, but the professor
+explains it very nicely with an example.
+</p>
+
+<p>
+Consider 2 people A, B who have 2 models, with 2 vc dimensions, and
+each measure their performance.  A's performance is bounded by a<sub>1</sub>,
+and B's performance is bounded by b<sub>2</sub> where \(a_1 > b_2\). These are the
+bounds. The actual performance, of A, B need not follow the same
+monotonicity as the bounds. i.e the performance p<sub>A</sub> can be &lt; p<sub>B</sub>.  The
+practical observation says this is not the case. The performance also
+follows the same monotonicity.
+</p>
+
+<p>
+Rule of thumb for getting 'reasonable' generalization:
+</p>
+
+<p>
+\[ N \ge 10.v_{DC} \]
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline71" class="outline-3">
+<h3 id="orgheadline71"><span class="section-number-3">7.5</span> Rearranging things</h3>
+<div class="outline-text-3" id="text-7-5">
+<p>
+The VC Inequality,
+</p>
+
+<p>
+\[ P[|E_{in} - E_{out}| > \epsilon] \le \underbrace{4.m_{H}(2N).e^{-\frac{1}{8}.\epsilon^{2}.N}}_{\delta} \]
+</p>
+
+<p>
+Getting &epsilon; in terms of &delta;:
+Given a reliability of &delta;, what tolerance &epsilon; can we guarentee?
+</p>
+
+<p>
+\[ \delta = 4m_H(2N).e^{-\frac{1}{8}\epsilon^2} \]
+\[ \epsilon = \underbrace{
+\sqrt{\frac{8}{N}\ln\frac{4m_{H}(2N)}{\delta}}
+}_{\Omega} \]
+</p>
+
+<p>
+Bigger the vc dimension, worse the guarantee on generalization. More
+the number of examples, better the &Omega;.
+</p>
+
+<p>
+Thus, with probability &gt; 1 - &delta;, $|E<sub>in</sub> - E<sub>out</sub>| &le; &Omega;(N, H, &delta;)
+</p>
+
+<p>
+Generalization bound,
+With probability &ge; 1 - &delta;,
+</p>
+
+<p>
+E<sub>out</sub> - E<sub>in</sub> &le; &Omega; (Invariably, E<sub>in</sub> is smaller than E<sub>out</sub>)
+</p>
+
+<p>
+This quantity is known as the <i>generalization error</i>.
+</p>
+
+<p>
+Rearranging, we have
+With probability &ge; 1 - &delta;,
+</p>
+
+<p>
+\[ E_{out} \le \Omega + \E_{in} \]
+</p>
+
+<p>
+Interesting, we can see that E<sub>out</sub> is bounded by 2 quantities we
+know. E<sub>in</sub> and &Omega;. 
+</p>
+
+<p>
+Furthermore, E<sub>in</sub> can be minimized with a 'bigger' hypothesis set,
+but &Omega; goes up! So its a tradeoff!! We'll derive regularization
+based on this quantity.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline79" class="outline-2">
+<h2 id="orgheadline79"><span class="section-number-2">8</span> 8 - Bias-Variance Tradeoff</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Stand-alone theory. Different angle on generalization.
+</p>
+</div>
+<div id="outline-container-orgheadline73" class="outline-3">
+<h3 id="orgheadline73"><span class="section-number-3">8.1</span> Approximation-generalization tradeoff</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+Small E<sub>out</sub>: good approximation of f.
+</p>
+
+<p>
+More complex H &rArr; better chance of approximating f.
+</p>
+
+<p>
+Less complex H &rArr; better chance of generalizing out of sample.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline74" class="outline-3">
+<h3 id="orgheadline74"><span class="section-number-3">8.2</span> Quantifying this trade-off</h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+One approach was the vc-analysis,
+</p>
+
+<p>
+\[ E_{out} \le E_{in} + \Omega \]
+</p>
+
+<p>
+Bias-variance analyis is another way of decomposing E<sub>out</sub> into
+</p>
+
+<ol class="org-ol">
+<li>How well H can approximate f. (This is overall! Not in-sample approximation as done in vc analysis)</li>
+<li>How well can we zoom in on a good h &isin; H</li>
+</ol>
+
+<p>
+Our analysis applies to real-valued targets and uses squared error.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline75" class="outline-3">
+<h3 id="orgheadline75"><span class="section-number-3">8.3</span> Start with E<sub>out</sub></h3>
+<div class="outline-text-3" id="text-8-3">
+<p>
+See slides for the full derivation, but here is the basic idea.
+</p>
+
+<p>
+\[ E_{out}(g^{(D)}) = E_{x}[ (g^{(D)}(x) - f(x))^2 ] \]
+</p>
+
+<p>
+We'd like to get rid of the dependency on the dataset D,
+</p>
+
+<p>
+\[ E_D[E_{out}(g^{(D)}] = E_{D}[E_{x}[ (g^{(D)}(x) - f(x))^2 ]] \]
+</p>
+
+<p>
+switch the order of E's
+</p>
+
+<p>
+\(E_{x}[\underbrace{E_{D}[(g^{(D)}(x) - f(x))^2]}_{inner-expectation}]\)
+</p>
+
+<p>
+Now, let's focus on the inner-expectation.
+</p>
+
+<p>
+The averate hypothesis,
+</p>
+
+<p>
+To evaluate the inner-expectation, 
+</p>
+
+<p>
+we define an 'average' hypothesis
+</p>
+
+<p>
+\[ \bar{g}(x) = E_{D}[g^{D}(x)] \]
+</p>
+
+<p>
+Imagine you have many data sets D<sub>1</sub>, D<sub>2</sub> &#x2026; D<sub>k</sub>, \(\bar{g}(x)\) is
+just the average hypothesis we get considering all of these datasets.
+</p>
+
+<p>
+add and subract \(\bar{g}(x)\) to inner-expectation, group and simplify, (see slides for details)
+</p>
+
+<p>
+E<sub>D</sub>[((g<sup>(D)</sup>(x) - \bar{g}(x)) + (\bar{g}(x) - f(x)))<sup>2</sup>]
+</p>
+
+<p>
+we get, 
+</p>
+
+<p>
+\[ E_{D}[(g^{D}(x) - \bar{g}(x))^{2}] + (\bar{g}(x) - f(x))^2 \]
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline76" class="outline-3">
+<h3 id="orgheadline76"><span class="section-number-3">8.4</span> Bias and Variance</h3>
+<div class="outline-text-3" id="text-8-4">
+<p>
+\[ \underbrace{E_{D}[(g^{D}(x) - \bar{g}(x))^{2}]}_{var(x)} + \underbrace{(\bar{g}(x) - f(x))^2}_{bias(x)} \]
+</p>
+
+<p>
+Intuitive idea, 
+</p>
+
+<p>
+Bias: How far is the 'average' hypothesis of the set (which is the
+best hypothesis), from the target function.
+</p>
+
+<p>
+Variance: How far is the actual hypothesis we found, from this average hypothesis.
+</p>
+
+<p>
+Therefore,
+</p>
+
+<p>
+E<sub>D</sub>[E<sub>out</sub>(g<sup>D</sup>)] = E<sub>x</sub>[bias(x) + var(x)]
+                  = bias + var
+</p>
+
+<p>
+What's the tradeoff?
+</p>
+
+<p>
+Well, if we have a very complicated hypothesis set, the variance is high. (hard to find the correct hypothesis)
+If we have a small hypothesis set, bias is high. (it may not have the actual target function)
+</p>
+
+<p>
+There is a very nice example in the slides for understanding bias and variance. (the sinusoid example!)
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline77" class="outline-3">
+<h3 id="orgheadline77"><span class="section-number-3">8.5</span> Lesson learned</h3>
+<div class="outline-text-3" id="text-8-5">
+<p>
+Match 'model complexity' to the data resources you have, not to the <b>target complexity</b>.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline78" class="outline-3">
+<h3 id="orgheadline78"><span class="section-number-3">8.6</span> Learning curves (expected E<sub>out</sub> and E<sub>in</sub>)</h3>
+<div class="outline-text-3" id="text-8-6">
+<p>
+Data set D of size N
+Expected out-of-sample error E<sub>D</sub>[E<sub>out</sub>(g<sup>(D)</sup>)]
+Expected in-sample error E<sub>D</sub>[E<sub>in</sub>(g<sup>(D)</sup>)]
+</p>
+
+<p>
+How do they vary with N?
+See slides for details.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline80" class="outline-2">
+<h2 id="orgheadline80"><span class="section-number-2">9</span> 9 - Linear Model 2</h2>
+</div>
+<div id="outline-container-orgheadline82" class="outline-2">
+<h2 id="orgheadline82"><span class="section-number-2">10</span> 10 - Neural Networks</h2>
+<div class="outline-text-2" id="text-10">
+</div><div id="outline-container-orgheadline81" class="outline-3">
+<h3 id="orgheadline81"><span class="section-number-3">10.1</span> Questions</h3>
+<div class="outline-text-3" id="text-10-1">
+<ul class="org-ul">
+<li>1st layer is real valued (perceptron) rest are always binary?</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: siddharth subramaniyam</p>
+<p class="date">Created: 2016-11-02 Wed 12:52</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

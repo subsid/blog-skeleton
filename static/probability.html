@@ -1,0 +1,5851 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2017-02-19 Sun 18:06 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Probability Basics</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="siddharth subramaniyam" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://rawgit.com/subsid/notes/master/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://rawgit.com/subsid/notes/master/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/subsid/notes/master/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/subsid/notes/master/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Probability Basics</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#org10d5c3e">1. Probability models and axioms</a>
+<ul>
+<li><a href="#orge08039f">1.1. Sample Space</a>
+<ul>
+<li><a href="#org591ade1">1.1.1. Types</a></li>
+<li><a href="#org0c7f6ca">1.1.2. Tree</a></li>
+</ul>
+</li>
+<li><a href="#orgec4e03b">1.2. Probability Axioms</a>
+<ul>
+<li><a href="#org9b642b9">1.2.1. Event</a></li>
+<li><a href="#org47b0a2c">1.2.2. Rules/Axioms of probability</a></li>
+<li><a href="#orgc5940c5">1.2.3. Discrete Uniform Law</a></li>
+<li><a href="#org89f84ef">1.2.4. Probability of a single point in a continuous sample space</a></li>
+<li><a href="#org33e01be">1.2.5. Probability Calculation Steps</a></li>
+<li><a href="#orgb995a48">1.2.6. Countable Additivity (strengthens the finite additivity axiom)</a></li>
+<li><a href="#orgca70f43">1.2.7. Uniform probability law for a countably infinite sequence</a></li>
+</ul>
+</li>
+<li><a href="#org84c8e60">1.3. Interpretting probabiilty theory</a>
+<ul>
+<li><a href="#org761fb14">1.3.1. But what is probability?</a></li>
+</ul>
+</li>
+<li><a href="#org305d3fe">1.4. Union Bound and Bonferroni inequality</a>
+<ul>
+<li><a href="#org2a6e11e">1.4.1. Union Bound</a></li>
+<li><a href="#org9152e0f">1.4.2. Bonferroni inequality</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org571431c">2. Conditioning and Independence</a>
+<ul>
+<li><a href="#org3f1d954">2.1. Conditioning and Bayes' rule</a>
+<ul>
+<li><a href="#org8ca900f">2.1.1. Conditional Probabilities satisfy the axioms of probability.</a></li>
+<li><a href="#org11619a7">2.1.2. Multiplication Rule</a></li>
+<li><a href="#org556d964">2.1.3. Total probability theorem</a></li>
+<li><a href="#orgc648937">2.1.4. Baye's Rule</a></li>
+</ul>
+</li>
+<li><a href="#org1a6d936">2.2. Independence</a>
+<ul>
+<li><a href="#orgb396a4d">2.2.1. Independence of event complements</a></li>
+<li><a href="#orgb8bfc77">2.2.2. Conditional independence</a></li>
+<li><a href="#org0f9bcac">2.2.3. Independence of a collection of events</a></li>
+<li><a href="#orgfcd8cea">2.2.4. Self indepence</a></li>
+<li><a href="#org1f82be0">2.2.5. Independence vs Pairwise Independence</a></li>
+</ul>
+</li>
+<li><a href="#orgca51a9f">2.3. A coin tossing puzzle</a></li>
+<li><a href="#orga400323">2.4. Monty Hall Problem</a></li>
+</ul>
+</li>
+<li><a href="#orge13b81f">3. Counting</a>
+<ul>
+<li><a href="#org6103a8b">3.1. Basic Counting Principle</a></li>
+<li><a href="#org75d1444">3.2. Permutation</a></li>
+<li><a href="#org4f1f62b">3.3. Number of subsets</a></li>
+<li><a href="#org427983e">3.4. Combination</a>
+<ul>
+<li><a href="#orgc7e965a">3.4.1. How?</a></li>
+</ul>
+</li>
+<li><a href="#org72e79ce">3.5. Binomial Coefficients</a>
+<ul>
+<li><a href="#org52549ab">3.5.1. n &gt;= 1 indepenedent coin tosses; P(H) = p P(k heads) = ??</a></li>
+</ul>
+</li>
+<li><a href="#org36a41df">3.6. Partitions</a>
+<ul>
+<li><a href="#org535163a">3.6.1. Hint: Think about how many ways we can order the n items.</a></li>
+</ul>
+</li>
+<li><a href="#orgd1ddb1b">3.7. Each Person gets one ace problem</a>
+<ul>
+<li><a href="#orgc6fadbd">3.7.1. first way, using a probability model.</a></li>
+<li><a href="#orge54cc8f">3.7.2. second way</a></li>
+</ul>
+</li>
+<li><a href="#orge62a73f">3.8. Birthday paradox</a></li>
+<li><a href="#org3c9afab">3.9. Rooks on a chessboard</a></li>
+<li><a href="#org1b693a5">3.10. Multinomial probabilities</a></li>
+</ul>
+</li>
+<li><a href="#org0b15a04">4. Discrete random variables</a>
+<ul>
+<li><a href="#org7338712">4.1. Probability Mass functions and Expectations</a>
+<ul>
+<li><a href="#org6a98668">4.1.1. Random Variable</a></li>
+<li><a href="#orgcaffb41">4.1.2. Probability Mass function (PMF) of a discrete r.v X</a></li>
+<li><a href="#org0730d52">4.1.3. Random variable vs number</a></li>
+<li><a href="#org43cb809">4.1.4. Bernoulli and indicator random variables</a></li>
+<li><a href="#orgca5ed73">4.1.5. Discrete uniform R.V</a></li>
+<li><a href="#org9132c9a">4.1.6. Binomial R.V</a></li>
+<li><a href="#orgdec58f3">4.1.7. Geometric R.V</a></li>
+</ul>
+</li>
+<li><a href="#orgf048fce">4.2. Expectation/Mean of a R.V</a>
+<ul>
+<li><a href="#orgde92f9b">4.2.1. Expected value of Bernoulli R.V</a></li>
+<li><a href="#org48f694f">4.2.2. Expected value of Uniform R.V</a></li>
+<li><a href="#orgda2b567">4.2.3. Expectation as population avg.</a></li>
+<li><a href="#org61f7e01">4.2.4. The Expected Value Rule (for calculating E[g(X)]</a></li>
+<li><a href="#org28098e2">4.2.5. Linearity of expectation</a></li>
+</ul>
+</li>
+<li><a href="#orgb6b2151">4.3. Variance and conditioning on an event; multiple r.vs</a>
+<ul>
+<li><a href="#org5a1d15d">4.3.1. Variance</a></li>
+<li><a href="#orgd7ed228">4.3.2. Variance of Bernoulli R.V</a></li>
+<li><a href="#org8c387ae">4.3.3. Variance of Uniform R.V</a></li>
+<li><a href="#orgc66da3d">4.3.4. Conditional pmfs and expectations given an event</a></li>
+<li><a href="#org1bf0e2c">4.3.5. Total expectation theorem</a></li>
+<li><a href="#orgc47ac5d">4.3.6. Geometric R.V is Memoryless</a></li>
+<li><a href="#org04a6067">4.3.7. Mean of Geometric R.V</a></li>
+<li><a href="#org4cccc9c">4.3.8. Joint pmfs and expected value rule</a></li>
+<li><a href="#org81a0ef3">4.3.9. Functions of multiple r.vs</a></li>
+<li><a href="#orgf36b031">4.3.10. Linearity of Expectations for multiple r.vs</a></li>
+<li><a href="#orga4191bd">4.3.11. The mean of the binomial</a></li>
+</ul>
+</li>
+<li><a href="#org719bda5">4.4. Conditioning on a Random Variable, Indenpendent r.v's</a>
+<ul>
+<li><a href="#org8cbcb4b">4.4.1. Conditioning on a R.V</a></li>
+<li><a href="#orge5e0382">4.4.2. Mulitplication rule for pmfs</a></li>
+<li><a href="#org4725d32">4.4.3. Conditional expectation on r.vs</a></li>
+<li><a href="#org5a9a921">4.4.4. Independence of Random Variables</a></li>
+<li><a href="#orge2d77f2">4.4.5. Independence and expectations</a></li>
+<li><a href="#org5df92b7">4.4.6. Variance and independence</a></li>
+<li><a href="#org3403845">4.4.7. Hat Problem</a></li>
+<li><a href="#orgf86fb30">4.4.8. Inclusion Exclusion formula</a></li>
+<li><a href="#org91f3b30">4.4.9. Independence of events versus random variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org7c4d59f">5. Continuous random variables</a>
+<ul>
+<li><a href="#orgee3632e">5.1. What is continuous R.V</a></li>
+<li><a href="#orgcf6915d">5.2. Uniform continues R.V</a></li>
+<li><a href="#orgc6f3acb">5.3. Expected Value and Variance of continuous R.V</a>
+<ul>
+<li><a href="#org7c5e461">5.3.1. Expected Value rule</a></li>
+<li><a href="#orgd397eae">5.3.2. Variance</a></li>
+</ul>
+</li>
+<li><a href="#org0992c70">5.4. Exponential R.V</a></li>
+<li><a href="#orgff8a783">5.5. Cumulative Distribution Function (CDF)</a></li>
+<li><a href="#org46b26c9">5.6. Normal R.Vs / Gaussian R.Vs</a>
+<ul>
+<li><a href="#org9d30e58">5.6.1. Linear functions of normal r.vs</a></li>
+<li><a href="#orgde51836">5.6.2. Probabilities of Normal R.V</a></li>
+</ul>
+</li>
+<li><a href="#org76014ce">5.7. Conditional PDF</a></li>
+<li><a href="#org17a36ac">5.8. Memorylessness of exponential r.v</a></li>
+<li><a href="#org99568a5">5.9. Total Probability Theorem</a></li>
+<li><a href="#org4958206">5.10. Mixed distributions</a></li>
+<li><a href="#org87594df">5.11. Joint PDFs</a></li>
+<li><a href="#org0e4a6fd">5.12. Joint to marginal PDFs</a></li>
+<li><a href="#orga044850">5.13. Joint CDF</a></li>
+<li><a href="#orgf1f4a59">5.14. Conditional PDFs given another r.v</a></li>
+<li><a href="#orge04896b">5.15. Total probability and total expectation theorem</a></li>
+<li><a href="#org86d7fbd">5.16. Independence</a></li>
+<li><a href="#org812b35a">5.17. Stick breaking example</a></li>
+<li><a href="#org9b1d33e">5.18. Independent normals</a>
+<ul>
+<li><a href="#orgde024ba">5.18.1. Independent standard normals</a></li>
+<li><a href="#org20f818d">5.18.2. Independent general normals</a></li>
+</ul>
+</li>
+<li><a href="#orga8349a4">5.19. Baye's rule variations</a>
+<ul>
+<li><a href="#org7824611">5.19.1. Mixed baye's rule</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org939c419">6. Further topics on random variables</a>
+<ul>
+<li><a href="#org6fe98d9">6.1. Derived Distributions</a>
+<ul>
+<li><a href="#orgee8aaae">6.1.1. PMF of a general function of a discrete R.V</a></li>
+<li><a href="#org4eb5834">6.1.2. Linear function of continous r.v</a></li>
+<li><a href="#orgb130f26">6.1.3. Linear function of normal r.v</a></li>
+<li><a href="#orgeb61f8e">6.1.4. PDF of a general function of a continous r.v</a></li>
+</ul>
+</li>
+<li><a href="#org9d6d5c8">6.2. Distribution of sums of independent r.vs</a>
+<ul>
+<li><a href="#orgdaa702c">6.2.1. Sum of independent discrete r.vs</a></li>
+<li><a href="#org028be71">6.2.2. Sum of independent continuous r.vs</a></li>
+<li><a href="#org90260ee">6.2.3. Sum of independent normal r.vs</a></li>
+</ul>
+</li>
+<li><a href="#org9a1e81c">6.3. Covariance</a>
+<ul>
+<li><a href="#orgc691531">6.3.1. Properties</a></li>
+</ul>
+</li>
+<li><a href="#org7d9d153">6.4. Variance of sum of r.vs</a></li>
+<li><a href="#org11fb012">6.5. Correlation</a>
+<ul>
+<li><a href="#org5ef4fbe">6.5.1. Properties</a></li>
+<li><a href="#org7d68e3d">6.5.2. Interpretation of the correlation</a></li>
+<li><a href="#org36a6f95">6.5.3. Correlations matter, a nice problem</a></li>
+</ul>
+</li>
+<li><a href="#orgf0c1efd">6.6. Conditional expectation and variance as r.vs</a>
+<ul>
+<li><a href="#org3e68c78">6.6.1. Conditional expectation as an r.v</a></li>
+<li><a href="#org8d8b944">6.6.2. Conditional variance as an r.v</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgc4ca031">7. Bayesian Inference</a>
+<ul>
+<li><a href="#org599f9ed">7.1. Types of Inference problems</a>
+<ul>
+<li><a href="#org33c4a21">7.1.1. Model building versus inferring unobserved variables</a></li>
+<li><a href="#org0b65810">7.1.2. Hypothesis testing versus estimation</a></li>
+</ul>
+</li>
+<li><a href="#orgbab28d4">7.2. Introduction to Bayesian inference framework</a>
+<ul>
+<li><a href="#org05fed62">7.2.1. Point estimates in Bayesian Inference</a></li>
+<li><a href="#orge72b2d3">7.2.2. Discreate parameter &Theta;, discrete X</a></li>
+<li><a href="#org5106331">7.2.3. Discrete parameter &Theta;, continuous observation</a></li>
+</ul>
+</li>
+<li><a href="#org4459b96">7.3. Linear models with normal noise</a>
+<ul>
+<li><a href="#orga8193c0">7.3.1. Recognizing normal pdfs</a></li>
+<li><a href="#org7dff23d">7.3.2. Estimating a normal r.v in the presence of additive normal noise</a></li>
+<li><a href="#org44d0842">7.3.3. Case of multiple observations</a></li>
+<li><a href="#org885c937">7.3.4. Mean squared error</a></li>
+<li><a href="#org5a33719">7.3.5. Multiple parameter, trajectory estimation</a></li>
+<li><a href="#org4af858e">7.3.6. Linear normal models</a></li>
+</ul>
+</li>
+<li><a href="#org6c8361a">7.4. Least mean square estimation</a>
+<ul>
+<li><a href="#org8452516">7.4.1. How about using some criterion and then minimizing that?</a></li>
+<li><a href="#org50dbe57">7.4.2. LMS without any observations</a></li>
+<li><a href="#org16059b8">7.4.3. LMS single unknown and observation</a></li>
+<li><a href="#org4cdf5bd">7.4.4. LMS performance evaluation</a></li>
+<li><a href="#orgce16d19">7.4.5. LMS estimation of &Theta; based on X</a></li>
+<li><a href="#org930244d">7.4.6. Multidimensional case</a></li>
+<li><a href="#org3c700e6">7.4.7. Challenges of LMS estimation</a></li>
+<li><a href="#orge5e79f8">7.4.8. Properties of LMS estimation</a></li>
+</ul>
+</li>
+<li><a href="#org4e52338">7.5. Linear least mean square estimation</a>
+<ul>
+<li><a href="#orgeb3688f">7.5.1. LLMS formulation</a></li>
+<li><a href="#orgfc1edef">7.5.2. Solution to the LLMS formulation</a></li>
+<li><a href="#org6bca6bb">7.5.3. Properties</a></li>
+<li><a href="#org3c4591e">7.5.4. MSE for LLMS</a></li>
+<li><a href="#org8406344">7.5.5. Coin bias example</a></li>
+<li><a href="#orge159a04">7.5.6. LLMS with multiple observations</a></li>
+<li><a href="#orgb031348">7.5.7. Representation of data matters</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org5497aa7">8. Limit theorems and classical statistics</a>
+<ul>
+<li><a href="#orge4fd15f">8.1. Inequalities</a>
+<ul>
+<li><a href="#orgcfa362d">8.1.1. Markov Inequality</a></li>
+<li><a href="#orgebbe87f">8.1.2. Chebyshev Inequality</a></li>
+</ul>
+</li>
+<li><a href="#orgfab8b24">8.2. The Weak Law of Large numbers (WLLN)</a>
+<ul>
+<li><a href="#org10fbff2">8.2.1. Interpreting WWLN</a></li>
+</ul>
+</li>
+<li><a href="#org9c16a84">8.3. Convergence in probability</a>
+<ul>
+<li><a href="#org6562639">8.3.1. Some properties</a></li>
+</ul>
+</li>
+<li><a href="#orgc6f6c95">8.4. Related topics</a></li>
+<li><a href="#orgdeb767b">8.5. Central Limit theorem</a>
+<ul>
+<li><a href="#org7997414">8.5.1. Different views of sum of i.i.d r.vs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#org04595c6">9. Bernoulli and Poisson Process</a></li>
+<li><a href="#orge1f53b7">10. Markov Chains</a>
+<ul>
+<li><a href="#org6e03ba9">10.1. Markov Process</a>
+<ul>
+<li><a href="#org062524d">10.1.1. Whats so cool about them?</a></li>
+<li><a href="#org8a2af4e">10.1.2. Discrete time finite state markov chain</a></li>
+<li><a href="#org18abafe">10.1.3. n-step transition probabilities</a></li>
+<li><a href="#orge5adcdc">10.1.4. Random Initial State</a></li>
+</ul>
+</li>
+<li><a href="#org19db2c0">10.2. General Convergence</a></li>
+<li><a href="#org39e56ce">10.3. Transient and Recurrent States</a></li>
+<li><a href="#org5d25c20">10.4. Steady state behaviour</a></li>
+<li><a href="#orgc7e13d4">10.5. Periodic states in a recurrent class</a></li>
+<li><a href="#orgfad0703">10.6. Steady State probabilities</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-org10d5c3e" class="outline-2">
+<h2 id="org10d5c3e"><span class="section-number-2">1</span> Probability models and axioms</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+2 Steps in any probabilistic model:
+</p>
+<ul class="org-ul">
+<li>Set of all possible outcomes</li>
+<li>Assign likelihood to each outcome</li>
+</ul>
+</div>
+<div id="outline-container-orge08039f" class="outline-3">
+<h3 id="orge08039f"><span class="section-number-3">1.1</span> Sample Space</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Set of all possible outcomes of an event.</li>
+<li>mutually exclusive, collectively exhaustive.</li>
+<li>The possible outcomes are of the right granularity.</li>
+</ul>
+<p>
+The 'right' granularity depends on the experiment.
+Ex) In an experiment that only cares if a coin is heads or tails, {head, tail} is of the right granularity compared
+to {head and rains, head and not rain, tail  and rains, tail and not rain}
+</p>
+</div>
+<div id="outline-container-org591ade1" class="outline-4">
+<h4 id="org591ade1"><span class="section-number-4">1.1.1</span> Types</h4>
+<div class="outline-text-4" id="text-1-1-1">
+<p>
+Sample spaces can be continuous, discrete, finite, infinite.
+</p>
+</div>
+</div>
+<div id="outline-container-org0c7f6ca" class="outline-4">
+<h4 id="org0c7f6ca"><span class="section-number-4">1.1.2</span> Tree</h4>
+<div class="outline-text-4" id="text-1-1-2">
+<p>
+A tree can be used to describe a sequential description of a sample space.
+The leaves of the tree are each possible outcome in that sample space.
+</p>
+<pre class="example">
+     /(H, T)
+    /
+   H---(H, H)
+  /
+ /
+.
+ \
+  \
+   T---(T, T)
+    \
+     \
+     (T, H)
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgec4e03b" class="outline-3">
+<h3 id="orgec4e03b"><span class="section-number-3">1.2</span> Probability Axioms</h3>
+<div class="outline-text-3" id="text-1-2">
+</div><div id="outline-container-org9b642b9" class="outline-4">
+<h4 id="org9b642b9"><span class="section-number-4">1.2.1</span> Event</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+A subset of the sample-space.
+Probability is assigned to events in a sample-space.
+Defining event as a subset of the sample-space allows us to generalize the idea for continuous and discrete sample spaces.
+In case of continuous sample spaces, P(x) = 0 where x is a point. (Infinitesimal point calculus and limit fundaes!)
+Whereas P(x) where a &lt; x &lt; b can be a number.
+</p>
+</div>
+</div>
+<div id="outline-container-org47b0a2c" class="outline-4">
+<h4 id="org47b0a2c"><span class="section-number-4">1.2.2</span> Rules/Axioms of probability</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+Probabilities by convention, are in the range between 0 and 1.
+Intuitively, 0 means it practically cannot happen, 1 means that we
+are practically certain that it would happen.
+</p>
+
+<p>
+Axioms:
+</p>
+<ul class="org-ul">
+<li>Nonnegativity, \(P(A) >= 0\)</li>
+<li>\(P(\Omega) = 1\) (i.e probability of the sample-space is 1)</li>
+<li>\(P(A \cup B) = P(A) + P(B) - P(A \cap B)\)</li>
+</ul>
+
+<p>
+If A and B are disjoint, \(P(A \cup B) = P(A) + P(B)\)
+</p>
+
+<p>
+Only requirements for a probabilistic model to be valid!!
+Interestingly, we don't need a requirement like P(A) &lt;= 1 as this will always be the
+case if the above axioms are satisfied.
+</p>
+</div>
+</div>
+<div id="outline-container-orgc5940c5" class="outline-4">
+<h4 id="orgc5940c5"><span class="section-number-4">1.2.3</span> Discrete Uniform Law</h4>
+<div class="outline-text-4" id="text-1-2-3">
+<p>
+If a sample space consists of n equally likely events,
+and A is a set that has k outcomes then
+</p>
+
+<p>
+\[ P(A) = k.1/n \]
+</p>
+
+<p>
+This is a very useful law, as it reduces a problem of computing probabilities to a
+problem of counting.
+</p>
+</div>
+</div>
+<div id="outline-container-org89f84ef" class="outline-4">
+<h4 id="org89f84ef"><span class="section-number-4">1.2.4</span> Probability of a single point in a continuous sample space</h4>
+<div class="outline-text-4" id="text-1-2-4">
+<p>
+Interestingly, P({x, y}) = 0.
+i.e probability of a single point in the sample space of a continuous distribution is 0.
+Another way to think of this is if probability corresponds to area,
+the area of a single point is 0.
+</p>
+</div>
+</div>
+<div id="outline-container-org33e01be" class="outline-4">
+<h4 id="org33e01be"><span class="section-number-4">1.2.5</span> Probability Calculation Steps</h4>
+<div class="outline-text-4" id="text-1-2-5">
+<ul class="org-ul">
+<li>Specify the sample space.</li>
+<li>Specify a probability law</li>
+<li>Identify events of interest (try to use pictures)</li>
+<li>Calculate</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgb995a48" class="outline-4">
+<h4 id="orgb995a48"><span class="section-number-4">1.2.6</span> Countable Additivity (strengthens the finite additivity axiom)</h4>
+<div class="outline-text-4" id="text-1-2-6">
+<p>
+We know that for a set of finite disjoint sets
+\[ P(A \cup B \cup C ...) = P(A) + P(B) + P(C) + ... \]
+</p>
+
+<p>
+New Axiom:
+If A1, A2, A3 &#x2026; is an infinite <b>sequence</b> of disjoint events,
+then \[ P(A1 \cup A2 \cup A3 ...) = P(A1) + P(A2) + P(A3) + ... \]
+</p>
+</div>
+<ol class="org-ol"><li><a id="orga128f5c"></a>Important to note<br  /><div class="outline-text-5" id="text-1-2-6-1">
+<p>
+Infinite sets can be countable and uncountable.
+</p>
+
+<p>
+For the uncountable set of points in a line, the above axiom does not hold.
+ex)
+Let us split a line to sum over all its points.
+\(P(\Omega) = P(\cup{x}) = \Sigma P({x}) = \Sigma 0 = 0\) as each point has a probability of 0.
+but P(&Omega;) = 1,
+</p>
+
+<p>
+thus 1 = 0 ??
+</p>
+
+<p>
+The key here is that \[ P(\cup{x}) != \Sigma P({x}) \] as the elements of a line is <b>not countable</b>.
+i.e its elements cannot be arranged in a <b>sequence</b>
+</p>
+
+<p>
+"Area" is a legitimate probability law on the unit square, as long as we do not
+try to  assign probabilities/areas to "very strange" sets. This involves deep mathematics
+in an field known as "measure theory".
+</p>
+</div></li></ol>
+</div>
+<div id="outline-container-orgca70f43" class="outline-4">
+<h4 id="orgca70f43"><span class="section-number-4">1.2.7</span> Uniform probability law for a countably infinite sequence</h4>
+<div class="outline-text-4" id="text-1-2-7">
+<ol class="org-ol">
+<li>Let the sample space be the set of positive integers.
+Is it possible to have a “uniform" probability law,
+that is, a probability law that assigns the same probability c to each positive integer?</li>
+</ol>
+
+<p>
+Ans) Nope.
+Let c = 0.
+1 = P(&Omega;) = P(A1 &cup; A2 &cup; A3 &cup; &#x2026;) = &Sigma; P(A<sub>i</sub>) = 0 + 0 + 0 = 0. Contradiction!
+</p>
+
+<p>
+Let c &gt; 0,
+In this case, there is always a k such that k.c &gt; 1.
+</p>
+
+<p>
+Thus, we can never have a uniform probability law.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org84c8e60" class="outline-3">
+<h3 id="org84c8e60"><span class="section-number-3">1.3</span> Interpretting probabiilty theory</h3>
+<div class="outline-text-3" id="text-1-3">
+<ul class="org-ul">
+<li>Probability theory is just another branch of mathematics.</li>
+</ul>
+<p>
+It has some axioms, we build models that satisfy these axioms, and we establish some
+consequences that are the theorems of this theory.
+</p>
+</div>
+
+<div id="outline-container-org761fb14" class="outline-4">
+<h4 id="org761fb14"><span class="section-number-4">1.3.1</span> But what is probability?</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+2 ways to think about it&#x2026;
+</p>
+<ul class="org-ul">
+<li>Probability is roughly the frequency of an event</li>
+</ul>
+<p>
+<i>Frequency of an event "A" is P(A).</i>
+This way of thinking about probability works in some cases,
+ex) Flipping a fair coin, P(Heads) = 1/2. i.e If we flip a coin infinitely many times,
+whats the frequency of heads&#x2026;
+</p>
+<ul class="org-ul">
+<li>Probability is a way of describing our beliefs</li>
+</ul>
+<p>
+But beliefs are subjective!!
+</p>
+
+<p>
+Well, probability gives us a systematic way of thinking about uncertain situations.
+</p>
+
+<p>
+If our probability model is good, then it will help us make informed
+decisions/predictions in the real world.
+</p>
+
+<p>
+But how do we know that?
+Statistics! It gives us data to verify our model and make it better.
+</p>
+
+<pre class="example">
++-------------+         +-----------------------------+
+| Real World  |&lt;--------|Probability Theory (Analysis)|
++-------------+         +-----------------------------+
+      \                      ^
+       \                    /
+        \                  /
+         \ Data           / Models
+          \              /
+           \            /
+            v          /
+        +--------------------+
+        |Inference/Statistics|
+        +--------------------+
+</pre>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org305d3fe" class="outline-3">
+<h3 id="org305d3fe"><span class="section-number-3">1.4</span> Union Bound and Bonferroni inequality</h3>
+<div class="outline-text-3" id="text-1-4">
+</div><div id="outline-container-org2a6e11e" class="outline-4">
+<h4 id="org2a6e11e"><span class="section-number-4">1.4.1</span> Union Bound</h4>
+<div class="outline-text-4" id="text-1-4-1">
+<p>
+Idea:
+</p>
+<ul class="org-ul">
+<li>few students are smart, A</li>
+<li>few students are beatiful, B</li>
+</ul>
+<p>
+Then few students are smart or beautiful.
+</p>
+
+<p>
+\[ P(A \cup B) <= P(A) + P(B) \]
+</p>
+</div>
+</div>
+
+<div id="outline-container-org9152e0f" class="outline-4">
+<h4 id="org9152e0f"><span class="section-number-4">1.4.2</span> Bonferroni inequality</h4>
+<div class="outline-text-4" id="text-1-4-2">
+<p>
+Idea:
+</p>
+<ul class="org-ul">
+<li>Most students are smart</li>
+<li>Most students are beautiful</li>
+</ul>
+<p>
+Then most students are smart and beautiful
+</p>
+
+<p>
+\[ P(A \cap B) >= P(A) + P(B) - 1 \]
+\((A \cap B)\) is close to 1, hence big.
+</p>
+
+<p>
+Proof:
+Need to show P(A &cap; B) is pretty big.
+Another way to show this is to say P((A &cap; B)<sup>c</sup>) is small.
+\[ P((A \cap B)^c) = P(A^c \cup B^c) <= P(A^c) + P(B^c) \] (by de morgans law and union bound)
+\[ 1 - P(A \cap B) <= 1 - P(A) + 1 - P(B) \]
+\[ - P(A \cap B) <= - P(A) - P(B) + 1 \]
+</p>
+
+<p>
+\[ P(A \cap B) >= P(A) + P(B) -1 \]
+</p>
+
+<p>
+General case:
+\[ P(A \cap B \cap C ...) <= P(A) + P(B) + P(C) + ... (n-1) \] where n is the number of events.
+i.e if all the events are big, then the intersection of them is close to 1.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org571431c" class="outline-2">
+<h2 id="org571431c"><span class="section-number-2">2</span> Conditioning and Independence</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-org3f1d954" class="outline-3">
+<h3 id="org3f1d954"><span class="section-number-3">2.1</span> Conditioning and Bayes' rule</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Idea of Conditioning: Use information to revise our model.
+</p>
+
+<p>
+\[ P(A/B) = P(A \cap B) / P(B)  \]
+</p>
+
+<p>
+This is a fairly intuitive definition. If event B already occured, the
+chance of event A also having occured, is basically the proportion of
+outcomes in A &cap; B to the proportion of events in B.
+i.e what percent of events in B also occurs in A.
+</p>
+
+<p>
+Conditioning doesn't change the relative frequencies of outcomes. If
+all outcomes are equally likely in the original universe, they
+continue to be equally likely in the conditional world.
+</p>
+
+<p>
+(This simplifies calculations, for discrete outcomes). In the case
+that all probabilities in our conditional universe are equally likely,
+P(A/B) reduces to a case of counting events. (A &cap; B) / B. (By the
+discrete uniform law)
+</p>
+</div>
+<div id="outline-container-org8ca900f" class="outline-4">
+<h4 id="org8ca900f"><span class="section-number-4">2.1.1</span> Conditional Probabilities satisfy the axioms of probability.</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<ul class="org-ul">
+<li>Namely, P(A/B) &gt;= 0 assuming P(B) &gt; 0.</li>
+<li>P(&Omega;/B) = 1</li>
+<li>If A &cap; C = &empty; then  P(A &cup; C/B) = P(A/B) + P(C/B)</li>
+</ul>
+
+<p>
+This has important implications. Any properties that we derive for
+probabilities, also applies to conditional probabilities.
+</p>
+</div>
+</div>
+<div id="outline-container-org11619a7" class="outline-4">
+<h4 id="org11619a7"><span class="section-number-4">2.1.2</span> Multiplication Rule</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+P(A &cap; B) = P(A/B) * P(B)
+         = P(B/A) * P(A)
+</p>
+
+<p>
+This just comes from the conditional probability defined above.
+</p>
+
+<p>
+Extending this to three events, as shown in the tree diagram:
+</p>
+
+<pre class="example">
+               (A \cap B \cap C)
+              /
+             / P(C / A \cap B)
+            /
+           /
+          B----------------------------- (A \cap B \cap C^c)
+         /          P(C^c / (A \cap B)
+        /
+       / P(B/A)      ---------------------------- (A \cap B^c \cap C)
+      /            /        P(C / (A \cap B^c)
+     A--------- B^c
+    /     P(B^c/ B) \
+   / P(A)            ---------------------------- (A \cap B^c \cap C^c)
+  /                           P(C / A \cap B^c)
+ /
+.
+ \
+  \
+   \ P(A^c)                     P(C/ A^c \cap B^c)
+    \                      --------------------- (A^c \cap B^c \cap C)
+     \                    /
+      A^c -----------------B^c
+       \    P(B^c/A^c)    \
+        \                  --------------------- (A^c \cap B^c \cap C^c)
+         \                      P(C^c / A^c \cap B^c)
+          \ P(B/A^c)
+           \
+            B------------------ (A^c \cap B \cap C^c)
+             \  P(C^c/A^c \cap B)
+              \
+               \
+                \
+                 \ P(C/ A^c \cap B)
+                  \
+                   \
+                    (A^c \cap B \cap C)
+</pre>
+
+<p>
+P(A &cap; B &cap; C) = P(A) * P(B/A) * P(C / A &cap; B)
+</p>
+
+<p>
+Extending this,
+</p>
+
+<p>
+General multiplication rule
+</p>
+
+<p>
+<b>P(A<sub>1</sub> &cap; A<sub>2</sub> &cap; A<sub>3</sub> &#x2026; A<sub>n</sub>) = P(A<sub>1</sub>) * &prod;<sub>(i=2 to n)</sub> P(A<sub>i</sub> / A<sub>1</sub> &cap; A<sub>2</sub> &#x2026; A<sub>(i-1)</sub>)</b>
+</p>
+</div>
+</div>
+<div id="outline-container-org556d964" class="outline-4">
+<h4 id="org556d964"><span class="section-number-4">2.1.3</span> Total probability theorem</h4>
+<div class="outline-text-4" id="text-2-1-3">
+<p>
+This is an interesting approach for finding the probability of an event. Divide and conquer approach.
+</p>
+
+<p>
+To find the probability of an event 'B', we partition our sample space into multiple
+simple partions A1, A2, A3 (say 3) and find P(A<sub>i</sub> &cap; B) for i=1,2,3 and sum them up.
+</p>
+
+<p>
+This can be generalized to
+</p>
+
+<p>
+\[ P(B) = \sum_{i=1}^{\infty} P(B/A_i)P(A_i) \]
+i.e, probability of event B is the weighted average of P(B/A<sub>i</sub>) with P(A<sub>i</sub>) as the weights.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc648937" class="outline-4">
+<h4 id="orgc648937"><span class="section-number-4">2.1.4</span> Baye's Rule</h4>
+<div class="outline-text-4" id="text-2-1-4">
+<p>
+Systematic approach for incorporating new evidence.
+i.e, how do we re-evaluate our beliefs based on some event.
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="orge04af56"></a>Bayesian Inference<br  /><div class="outline-text-5" id="text-2-1-4-1">
+<ul class="org-ul">
+<li>Initial beliefs P(A<sub>i</sub>) on possible causes of an observed event B.</li>
+<li>model of world under each A<sub>i</sub>: P(B/A<sub>i</sub>)</li>
+</ul>
+
+<pre class="example">
++-----+    model         +----+
+| A_i | --------------&gt;  | B  |
++-----+    P(B/A_i)      +----+
+</pre>
+
+
+<ul class="org-ul">
+<li>draw conclusions about the causes</li>
+</ul>
+
+<pre class="example">
++-----+    model         +-----+
+| B   | --------------&gt;  | A_i |
++-----+    P(A_i/B)      +-----+
+</pre>
+
+
+<p>
+P(A<sub>i</sub>/B) = P(B &cap; A<sub>i</sub>)/P(B) = P(A<sub>i</sub>).P(B/A<sub>i</sub>)/P(B)
+</p>
+
+<p>
+We can get P(B) using the total probability theorem above.
+</p>
+</div></li></ol>
+</div>
+</div>
+<div id="outline-container-org1a6d936" class="outline-3">
+<h3 id="org1a6d936"><span class="section-number-3">2.2</span> Independence</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+If P(B/A) = P(B), this means that knowledge of A does not change
+our belief about B.
+</p>
+
+<p>
+P(A &cap; B) = P(A) * P(B/A) = P(A) * P(B).
+</p>
+
+<p>
+If A &amp; B are indepent, then P(A &cap; B) = P(A).P(B)
+</p>
+
+<p>
+Independence is very different from disjoined. Disjoint events are always dependent, as
+knowing one, means the other cannot occur.
+Independence is a relation about information.
+</p>
+
+<p>
+Independence is a powerful idea that helps us breakdown an event into a set of independent
+events.
+</p>
+</div>
+<div id="outline-container-orgb396a4d" class="outline-4">
+<h4 id="orgb396a4d"><span class="section-number-4">2.2.1</span> Independence of event complements</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+If A and B are independent, then A and B<sup>c</sup> are independent.
+Intuitive, since if occurence of A doesn't tell us anything about B,
+it doesn't tell us anything about B<sup>c</sup> as well.
+</p>
+
+<p>
+Proof:
+</p>
+\begin{align*}
+P(A \cap B) &= P(A).P(B) \\
+P(A) &= P(A).P(B) + P(A \cap B^c) \\
+P(A \cap B^c) &= P(A) - P(A).P(B) \\
+&= P(A)(1- P(B)) \\
+&= P(A).P(B^c) 
+\end{align*}
+
+<p>
+Similarly, (and by symmetry)
+</p>
+
+<p>
+A and B are independent =&gt; A and B<sup>c</sup>  =&gt; A<sup>c</sup> and B =&gt; A<sup>c</sup> and B<sup>c</sup> are independent.
+</p>
+</div>
+</div>
+<div id="outline-container-orgb8bfc77" class="outline-4">
+<h4 id="orgb8bfc77"><span class="section-number-4">2.2.2</span> Conditional independence</h4>
+<div class="outline-text-4" id="text-2-2-2">
+<p>
+P(A &cap; B/C) = P(A/C).P(B/C)
+</p>
+
+<p>
+Does independence imply conditional independence??
+</p>
+
+<p>
+No! Independence does not imply conditional independence, this can be
+shown using a venn diagram.
+</p>
+
+<p>
+However, given something is conditionally independent, the properties of independence
+still hold. (like the event complements explained above)
+</p>
+</div>
+</div>
+<div id="outline-container-org0f9bcac" class="outline-4">
+<h4 id="org0f9bcac"><span class="section-number-4">2.2.3</span> Independence of a collection of events</h4>
+<div class="outline-text-4" id="text-2-2-3">
+<p>
+Intuitive definition: Information on some set of events, does not affect of beliefs on
+other set of events in the colleciton.
+</p>
+
+<p>
+i.e Events A1, A2, &#x2026; An are called independent if:
+</p>
+
+<p>
+P(A<sub>i</sub> &cap; A<sub>j</sub> &#x2026; &cap; A<sub>m</sub>) = P(A<sub>i</sub>).P(A<sub>j</sub>)&#x2026;P(A<sub>m</sub>) for any distinct i, j &#x2026; m.
+</p>
+
+<p>
+There is a tedious proof that formally shows that the above definition implies independence.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgfcd8cea" class="outline-4">
+<h4 id="orgfcd8cea"><span class="section-number-4">2.2.4</span> Self indepence</h4>
+<div class="outline-text-4" id="text-2-2-4">
+<p>
+Is P(A) independent of P(A/A)?
+</p>
+
+<p>
+Yes, only if P(A) = 0 or 1.
+</p>
+
+<p>
+Is P(A &cap; B/B<sup>c</sup>) given A &cap; B are independent?
+nope, as B is present in both the numerator and denominator, knowledge of B implies
+B<sup>c</sup> didnt occur.
+</p>
+</div>
+</div>
+<div id="outline-container-org1f82be0" class="outline-4">
+<h4 id="org1f82be0"><span class="section-number-4">2.2.5</span> Independence vs Pairwise Independence</h4>
+<div class="outline-text-4" id="text-2-2-5">
+<p>
+Consider the following example,
+we have 2 independent coin tosses,
+</p>
+
+<p>
+H1 = first toss  is heads
+H2 = second toss is heads
+</p>
+
+<p>
+C = Both tosses are the same.
+</p>
+
+<p>
+P(H<sub>1</sub>) = 1/2 = P(H<sub>2</sub>)
+</p>
+
+<p>
+P(C) = P(HH) + P(TT) = 1/2
+</p>
+</div>
+<ol class="org-ol"><li><a id="orga354666"></a>Is C independent of H1?<br  /><div class="outline-text-5" id="text-2-2-5-1">
+<p>
+P(C &cap; H1) = P(H1 &cap; H2) = 1/4
+P(C &cap; H1) = P(C).P(H1) = 1/2 * 1/2 = 1/4.
+Yes, they are independent.
+</p>
+</div></li>
+<li><a id="org31aaeb1"></a>Is C independent of H2?<br  /><div class="outline-text-5" id="text-2-2-5-2">
+<p>
+Yup, by the same argument above.
+</p>
+</div></li>
+<li><a id="org1f5deb3"></a>Are C, H1, H2 independent?<br  /><div class="outline-text-5" id="text-2-2-5-3">
+<p>
+hmmm,
+C-H1, C-H2, H1-H2 are independent.
+i.e they are pairwise independent.
+</p>
+
+<p>
+But is P(C/H1 &cap; H2) = P(C)? nope, P(C/H1 &cap; H2) = 1.
+P(C &cap; H1 &cap; H2) = P(HH) = 1/4
+P(C).P(H1).P(H2) = 1/8.
+Thus, they are not independent!!
+</p>
+</div></li></ol>
+</div>
+</div>
+<div id="outline-container-orgca51a9f" class="outline-3">
+<h3 id="orgca51a9f"><span class="section-number-3">2.3</span> A coin tossing puzzle</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Alice tosses a coin, and claims that the event of getting 2 heads is
+atlease as likely if we know that the first toss is heads than if we
+know that atlease one of the tosses is heads.
+</p>
+
+<p>
+Let's define the following events:
+</p>
+
+<p>
+A: First toss is heads
+B: Second toss is heads
+C: Atlease 1 toss is heads
+</p>
+
+<p>
+Alice's claim:
+</p>
+
+<p>
+\[ P(A \cap B | A) \ge P(A \cap B | A \cup B) \]
+</p>
+
+<p>
+\[ P(A \cap B | A) = P(A \cap B)/P(A) \]
+</p>
+
+\begin{align*}
+P(A \cap B | A \cup B) &= P(A \cap B \cap (A \cup B))/P(A \cup B) \\
+&= P(A \cap B)/P(A \cup B)
+\end{align*}
+
+<p>
+Since P(A) &le; P(A &cup; B), the inequality stated by alice holds.
+</p>
+
+<p>
+More generally, given Events C, D, E s.t:
+</p>
+<ol class="org-ol">
+<li>D &sub; E</li>
+<li>C &cap; D = C &cap; E</li>
+</ol>
+
+<p>
+P(C|D) &ge; P(C|E) (not very interesting, but this is just the general case alice's claim)
+</p>
+</div>
+</div>
+<div id="outline-container-orga400323" class="outline-3">
+<h3 id="orga400323"><span class="section-number-3">2.4</span> Monty Hall Problem</h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+The Monty Hall problem. This is a much discussed puzzle, based on an
+old American game show. You are told that a prize is equally likely to
+be found behind any one of three closed doors in front of you. You
+point to one of the doors. A friend opens for you one of the remaining
+two doors, after making sure that the prize is not behind it. At this
+point, you can stick to your initial choice, or switch to the other
+unopened door. You win the prize if it lies behind your final choice
+of a door. Consider the following strategies:
+</p>
+
+<p>
+Stick to your initial choice.
+</p>
+
+<p>
+Switch to the other unopened door.
+</p>
+
+<p>
+You first point to door 1. If door 2 is opened, you do not switch. If
+door 3 is opened, you switch.
+</p>
+
+<p>
+Which is the best strategy?
+</p>
+
+<p>
+There is a lot of literature on this problem. (<a href="https://www.wikiwand.com/en/Monty_Hall_problem">wiki</a>) But here is the
+intuiteive idea. If he decides to stick to initial choice, chance of
+winning = 1/3. We bank on the probability of getting initial guess
+right. If he decides to switch, we ban on the probability of getting
+the initial guess wrong, which is more likely. So its better.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge13b81f" class="outline-2">
+<h2 id="orge13b81f"><span class="section-number-2">3</span> Counting</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Counting is a very useful thing to know especially for finding probabilities.
+As a large number of probability problems reduce to counting elements in a set.
+</p>
+</div>
+<div id="outline-container-org6103a8b" class="outline-3">
+<h3 id="org6103a8b"><span class="section-number-3">3.1</span> Basic Counting Principle</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+r stages, n<sub>i</sub> choices in stage i.
+</p>
+
+<p>
+then total number of possibilities n1.n2.n3&#x2026;nr
+</p>
+
+<p>
+i.e if there are r stages, and n<sub>i</sub> choices for each stage, then total number of
+distict possibilities is product of choices in each stage.
+</p>
+
+<p>
+This is the basic counting principle.
+</p>
+</div>
+</div>
+<div id="outline-container-org75d1444" class="outline-3">
+<h3 id="org75d1444"><span class="section-number-3">3.2</span> Permutation</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Number of ways of arranging 'n' elements.
+</p>
+
+<p>
+we have 'n' slots, and we want to put elements into these slots.
+By the counting principle, the number of ways we can do this is
+</p>
+
+<p>
+n.(n-1).(n-2)&#x2026;1 = n!
+</p>
+</div>
+</div>
+<div id="outline-container-org4f1f62b" class="outline-3">
+<h3 id="org4f1f62b"><span class="section-number-3">3.3</span> Number of subsets</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+If we have 'n' elements, how many distinct subsets can we form?
+</p>
+
+<p>
+Well, each element has 2 choices, its either in the set or not in the set.
+</p>
+
+<p>
+2<sup>n</sup> subsets can be formed.
+</p>
+</div>
+</div>
+<div id="outline-container-org427983e" class="outline-3">
+<h3 id="org427983e"><span class="section-number-3">3.4</span> Combination</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+we have 'n' elements, select a subset of 'k' elements of the original 'n' elements.
+</p>
+
+<p>
+Notation: n choose k, (<sup>n</sup><sub>k</sub>)
+</p>
+</div>
+<div id="outline-container-orgc7e965a" class="outline-4">
+<h4 id="orgc7e965a"><span class="section-number-4">3.4.1</span> How?</h4>
+<div class="outline-text-4" id="text-3-4-1">
+<p>
+Lets break this down using the counting principle.
+</p>
+
+<p>
+We have 'k' slots, and we need to pick a element for each slot.
+</p>
+
+<p>
+To construct an ordered list, we pick n.(n-1).(n-2)&#x2026;(n-k+1) = n!/(n-k)!
+However, in this we only need to choose the elements, no need to order them!
+So lets divide this by the number of ways they can be arranged. In this case, thats k!. (k elements can we arranged in k! ways from the counting principle)
+</p>
+
+<p>
+nC<sub>k</sub> = n!/(n-k)!k!
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org72e79ce" class="outline-3">
+<h3 id="org72e79ce"><span class="section-number-3">3.5</span> Binomial Coefficients</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+Binomial Coefficients (<sup>n</sup><sub>k</sub>) -&gt; Binomial probabilities
+</p>
+</div>
+<div id="outline-container-org52549ab" class="outline-4">
+<h4 id="org52549ab"><span class="section-number-4">3.5.1</span> n &gt;= 1 indepenedent coin tosses; P(H) = p P(k heads) = ??</h4>
+<div class="outline-text-4" id="text-3-5-1">
+<p>
+P(k heads) = no. of k head sequences * P(single k head sequence)
+</p>
+
+<p>
+This argument works only if P(single k head sequence) is for every sequence.
+</p>
+
+<p>
+In this case P(k heads) = (<sup>n</sup><sub>k</sub>) . p<sup>k</sup>(1-p)<sup>k</sup>.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org36a41df" class="outline-3">
+<h3 id="org36a41df"><span class="section-number-3">3.6</span> Partitions</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+Suppose we an 'n' items, and we need to split them among r people with n<sub>i</sub> items given to person r<sub>i</sub>.
+</p>
+
+<p>
+How many ways can we do that? or in other words, how many ways can we partition these n items into r sets?
+</p>
+</div>
+<div id="outline-container-org535163a" class="outline-4">
+<h4 id="org535163a"><span class="section-number-4">3.6.1</span> Hint: Think about how many ways we can order the n items.</h4>
+<div class="outline-text-4" id="text-3-6-1">
+<p>
+n items can be ordered in n! ways.
+Alternatively:
+Deal n<sub>i</sub> items to person i and then order.
+</p>
+
+<p>
+Suppose there are C ways of distributing the 'n' items among r people,
+</p>
+
+<p>
+then
+</p>
+
+<p>
+C.(n1!.n2!.n3!&#x2026;n<sub>r</sub>!) = n!
+</p>
+
+<p>
+Thus,
+</p>
+
+<p>
+C (number of partitions) = n!/(n1!.n2!.n3!&#x2026;nr!)
+</p>
+
+<p>
+This is called the <b>multinomial coefficient</b>. For the special case of r=2, we get the binomial coefficient. n!/(n-r)!.r!
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgd1ddb1b" class="outline-3">
+<h3 id="orgd1ddb1b"><span class="section-number-3">3.7</span> Each Person gets one ace problem</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+We deal a deck of 52 cards among 4 people.
+Find the probability that each person gets one ace?
+</p>
+
+<p>
+Well, 2 ways to solve it.
+</p>
+</div>
+<div id="outline-container-orgc6fadbd" class="outline-4">
+<h4 id="orgc6fadbd"><span class="section-number-4">3.7.1</span> first way, using a probability model.</h4>
+<div class="outline-text-4" id="text-3-7-1">
+<p>
+outcomes are: partitions
+all partitions are equally likely. hence we can use the uniform probability law and just count.
+</p>
+
+<p>
+Partition the 52 cards among 4 people.
+</p>
+
+<p>
+total ways = 52!/(13!.13!.13!.13!)
+</p>
+
+<p>
+favorable ways = (4!).48!/(12!.12!.12!.12!)
+</p>
+
+<p>
+P(each gets one ace) = favorable/total.
+</p>
+</div>
+</div>
+<div id="outline-container-orge54cc8f" class="outline-4">
+<h4 id="orge54cc8f"><span class="section-number-4">3.7.2</span> second way</h4>
+<div class="outline-text-4" id="text-3-7-2">
+<p>
+lets arrange the 52 cards with the 4 aces on top.
+now, distribute the aces such that each person gets 1.
+</p>
+
+<p>
+1st Ace: there are 52 slots, it can go anywhere.
+2nd Ace: there are 51 slots, it can go anywhere except the first person. 39/51
+3rd Ace: 26/50
+4th Ace: 13/49
+</p>
+
+<p>
+P(each gets one) = (39/51).(26/50).(13/49)
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orge62a73f" class="outline-3">
+<h3 id="orge62a73f"><span class="section-number-3">3.8</span> Birthday paradox</h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+there are n people, each person has a random birthday in one of the 365 days.
+Find the P(no 2 birthdays coincide).
+</p>
+
+<p>
+&Omega; = All possible birthday combinations.
+  = (365)<sup>n</sup>
+</p>
+
+<p>
+All combinations where no 2 have the same b'day
+</p>
+
+<p>
+365.364.363.362&#x2026;(365 - n + 1)
+</p>
+
+<p>
+P(no 2 b'days coincide) = 365.364.363.362&#x2026;.(365 - n + 1)/365<sup>n</sup>
+</p>
+
+
+<p>
+Interestingly at around n = 23, this probability is about 50%.
+</p>
+</div>
+</div>
+<div id="outline-container-org3c9afab" class="outline-3">
+<h3 id="org3c9afab"><span class="section-number-3">3.9</span> Rooks on a chessboard</h3>
+<div class="outline-text-3" id="text-3-9">
+<p>
+8 rooks are placed on 8 positions on a 8 * 8 chessboard with all positions equally likely.
+Find the probability that all are safe.
+</p>
+
+<p>
+&Omega;: All possible combination of placements.
+ = 64C<sub>8</sub>.
+</p>
+
+<p>
+One example,
+</p>
+<pre class="example">
+* * * * * * * C
+* * * * * * C *
+* * * * * C * *
+* * * * C * * *
+* * * C * * * *
+* * C * * * * *
+* C * * * * * *
+C * * * * * * *
+</pre>
+
+<p>
+A: safe possible combinations = each rook in unique row and column
+  = since there are 8 rows, we need to select a unique column across all rows.
+  = 8.7.6.5.4.3.2 = 8!
+</p>
+
+<p>
+P(A) = 8!/64C<sub>8</sub>
+</p>
+
+<p>
+Another way to think about the numerator, pick one safe possibility, and permute the
+rows of this possibility. this can be done in 8! ways.
+</p>
+</div>
+</div>
+<div id="outline-container-org1b693a5" class="outline-3">
+<h3 id="org1b693a5"><span class="section-number-3">3.10</span> Multinomial probabilities</h3>
+<div class="outline-text-3" id="text-3-10">
+<p>
+An urn contains balls of r different colors.
+we draw n balls, with different draws being independent. For a given draw, there is a
+probability p<sub>i</sub>, i = 1..r of obtaining a ball of color i.
+</p>
+
+<p>
+Let n1, n2&#x2026;n<sub>r</sub> be nonnegative integers that some to 1.
+What is probability that we obtain exactly n<sub>i</sub> balls of type i for each i=1..r.
+</p>
+
+<p>
+From the multinomial coefficient discussion, The number of ways of partitioning a set of n items,
+ into r sets of size n1, n2&#x2026;n<sub>r</sub> is
+</p>
+
+<p>
+C = n!/(n1!.n2!.n3!&#x2026;n<sub>r</sub>!)
+</p>
+
+<p>
+For each of these sets, we want a sequence n<sub>i</sub> balls of color i.
+Thus probability of getting a particular combination of balls is p<sub>1</sub><sup>(n1)</sup>.p<sub>2</sub><sup>(n2)</sup>.p<sub>3</sub><sup>(n3)</sup>&#x2026;p<sub>r</sub><sup>(nr)</sup>
+</p>
+
+<p>
+Thus, p(get type (n<sub>1</sub>, n<sub>2</sub> &#x2026; n<sub>r</sub>)) = C.p<sub>1</sub><sup>(n1)</sup>.p<sub>2</sub><sup>(n2)</sup>.p<sub>3</sub><sup>(n3)</sup>&#x2026;p<sub>r</sub><sup>(nr)</sup>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org0b15a04" class="outline-2">
+<h2 id="org0b15a04"><span class="section-number-2">4</span> Discrete random variables</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-org7338712" class="outline-3">
+<h3 id="org7338712"><span class="section-number-3">4.1</span> Probability Mass functions and Expectations</h3>
+<div class="outline-text-3" id="text-4-1">
+</div><div id="outline-container-org6a98668" class="outline-4">
+<h4 id="org6a98668"><span class="section-number-4">4.1.1</span> Random Variable</h4>
+<div class="outline-text-4" id="text-4-1-1">
+<p>
+Consider a sample space of students 'a', 'b', 'c', 'd'.
+W is a random variable that takes an outcome (student) and returns a value (weight in this case)
+</p>
+
+<pre class="example">
+                   +------+
+student ---------&gt; |  W   | --------&gt; weight 'kgs'
+                   +------+
+</pre>
+
+<p>
+A random variable (r.v) associates a 'value' (a number) to every possible outcome in &Omega;.
+</p>
+<ul class="org-ul">
+<li>Mathematically: Its a function from the sample space &Omega; to the real numbers.</li>
+<li>It can take discrete or continuous values.</li>
+<li>A function of one or several r.vs is also a r.v.</li>
+</ul>
+<p>
+ex)meaning of X + Y: is a r.v that takes the value x + y, when X takes the value x and Y takes the value y
+</p>
+</div>
+</div>
+<div id="outline-container-orgcaffb41" class="outline-4">
+<h4 id="orgcaffb41"><span class="section-number-4">4.1.2</span> Probability Mass function (PMF) of a discrete r.v X</h4>
+<div class="outline-text-4" id="text-4-1-2">
+<ul class="org-ul">
+<li>Its the probability that the random variable X takes on a value x, P<sub>X</sub>(x) = P(X = x)</li>
+<li>The PMF P<sub>X</sub> is a function of an argument 'x', for any x, it specifies the probability that
+the random variable X takes on this particular value of x.</li>
+</ul>
+
+<p>
+Consider a sample space of {a,b,c,d} and a random variable X which can take values (1,2,3).
+The &Omega; has p(event) = 1/4 for all values.
+</p>
+
+<p>
+If X(a) = 1, X(b) = 1, X(c) = 2, X(d) = 3.
+</p>
+
+<p>
+Then P<sub>X</sub>(1) = {w &forall; w &isin; &Omega; where X(w) = 1} = P({a &cup; b}) = 1/2.
+</p>
+</div>
+<ol class="org-ol"><li><a id="org77668e7"></a>Properties<br  /><div class="outline-text-5" id="text-4-1-2-1">
+<ul class="org-ul">
+<li>P<sub>x</sub>(x) &gt;= 0</li>
+<li>&Sigma;<sub>x</sub> P<sub>X</sub>(x) = 1</li>
+</ul>
+</div></li></ol>
+</div>
+<div id="outline-container-org0730d52" class="outline-4">
+<h4 id="org0730d52"><span class="section-number-4">4.1.3</span> Random variable vs number</h4>
+<div class="outline-text-4" id="text-4-1-3">
+<p>
+Let X be a random variable that takes numeric values, with PMF P<sub>X</sub>(x). Let Y be
+another integer-valued r.v and let y be a number.
+</p>
+
+<ul class="org-ul">
+<li>P<sub>x</sub>(y) is a number.</li>
+<li>p<sub>X</sub>(Y) is a random variable.</li>
+</ul>
+<p>
+why?
+Y is a r.v that maps w in the sample space to an integer y.
+for different y &isin; Y(w), p<sub>X</sub>(Y) maps y to p<sub>X</sub>(y)
+i.e p<sub>X</sub>(Y) maps &Omega; to {p<sub>X</sub>(Y(w)) | w &isin; &Omega;}
+</p>
+</div>
+</div>
+<div id="outline-container-org43cb809" class="outline-4">
+<h4 id="org43cb809"><span class="section-number-4">4.1.4</span> Bernoulli and indicator random variables</h4>
+<div class="outline-text-4" id="text-4-1-4">
+<ul class="org-ul">
+<li>Random variables that model "success/failure", "heads/tails" etc&#x2026;</li>
+<li>X {1 w.p p, 0 w.p 1 - p}.</li>
+</ul>
+<p>
+Bernoulli with parameter p &isin; [0, 1]
+</p>
+<ul class="org-ul">
+<li>Indicator r.v of an event A: I<sub>A</sub> = 1 iff A occurs</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgca5ed73" class="outline-4">
+<h4 id="orgca5ed73"><span class="section-number-4">4.1.5</span> Discrete uniform R.V</h4>
+<div class="outline-text-4" id="text-4-1-5">
+<p>
+<b>parameters</b>: a, b. [a, b] <br  />
+<b>experiment</b>: pick a, a+1, a+2&#x2026;b all equally likely with probability 1/(b-a+1) <br  />
+<b>Sample Space</b>: a, a+1 .. b. Number of values = (b-a+1) <br  />
+<b>model of</b>: complete ignorance! <br  />
+<b>PMF</b>: p<sub>X</sub>(i) = 1/(b-a+1) where a &lt;= i &lt;= b <br  />
+</p>
+</div>
+</div>
+<div id="outline-container-org9132c9a" class="outline-4">
+<h4 id="org9132c9a"><span class="section-number-4">4.1.6</span> Binomial R.V</h4>
+<div class="outline-text-4" id="text-4-1-6">
+<p>
+<b>parameters</b>: positive integer n; p &isin; [0, 1] <br  />
+<b>Experiment</b>: n independent tosses of a coin with P(Heads) = p. <br  />
+<b>Sample Space</b>: Set of sequences of 1 and 0, of length n. <br  />
+<b>R.V X</b>: number of 1's that are observed. <br  />
+<b>Model of</b>: Number of successes in a given number of independent trials. <br  />
+<b>PMF</b>: \(p_X(k) = {n \choose k}p^k(1-p)^(n-k)\)
+</p>
+</div>
+</div>
+<div id="outline-container-orgdec58f3" class="outline-4">
+<h4 id="orgdec58f3"><span class="section-number-4">4.1.7</span> Geometric R.V</h4>
+<div class="outline-text-4" id="text-4-1-7">
+<p>
+<b>Parameter</b>: 0 &lt; p &lt;= 1 <br  />
+<b>Experiment</b>: Infinitely many independent occurrences of an event with probability p. <br  />
+<b>note</b>: When we say infinitely many independent occurrences, we mean that any finite subset of the outcomes are independent. <br  />
+<b>Sample Space</b>: Set of Infinite sequences of 1 and 0. <br  />
+<b>Random Variable</b> X: Number of trials until first success. <br  />
+<b>Model of</b>: Waiting times, number of trials until a success. <br  />
+<b>PMF</b>: \(P_X(k) = P(we get first success in kth trial) = (1-p)^(1-k).p\)
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf048fce" class="outline-3">
+<h3 id="orgf048fce"><span class="section-number-3">4.2</span> Expectation/Mean of a R.V</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+It is the average that you expect to see in a large number of random and independent
+repetitions of an experiment.
+</p>
+
+<p>
+E[X] = &Sigma;<sub>x</sub> xp<sub>x</sub>(x)
+</p>
+
+<p>
+<b>Note</b> If we have an infinite sum, it needs to be well-defined.
+i.e We assume &Sigma;<sub>x</sub> |x|p(x) &lt; &infin;
+</p>
+</div>
+
+<div id="outline-container-orgde92f9b" class="outline-4">
+<h4 id="orgde92f9b"><span class="section-number-4">4.2.1</span> Expected value of Bernoulli R.V</h4>
+<div class="outline-text-4" id="text-4-2-1">
+<p>
+Let I<sub>A</sub> be a indicator r.v of the occurence of event A.
+P(A) = p.
+</p>
+
+<p>
+X = {1, w.p p; 0, w.p (1-p)}
+E[X] = 1.p + 0.(1-p) = p
+</p>
+
+<p>
+E[ I<sub>A</sub> ] = p
+</p>
+</div>
+</div>
+<div id="outline-container-org48f694f" class="outline-4">
+<h4 id="org48f694f"><span class="section-number-4">4.2.2</span> Expected value of Uniform R.V</h4>
+<div class="outline-text-4" id="text-4-2-2">
+<p>
+let X be a uniform r.v.
+Uniform on 0&#x2026;n.
+p(x) = 1/(n-0+1) = 1/n+1
+</p>
+
+<p>
+E[X] = 0/(n+1) + 1/(n+1) + 2/(n+1) + &#x2026; n/(n+1) = 1/(n+1) (0 + 1 + 2 + 3 &#x2026; n)
+= n.(n+1)/2(n+1) = n/2
+</p>
+
+<p>
+E.V is at the center of gravity of the distribution.
+</p>
+</div>
+</div>
+<div id="outline-container-orgda2b567" class="outline-4">
+<h4 id="orgda2b567"><span class="section-number-4">4.2.3</span> Expectation as population avg.</h4>
+<div class="outline-text-4" id="text-4-2-3">
+<p>
+X is an R.V thats the weight of the student.
+In a class of n students, where x<sub>i</sub> is weight of ith student, and p(i) = 1/n
+E[X] = (1/n).&Sigma;<sub>x</sub> x<sub>i</sub>. = sum of weights/total = average.
+</p>
+
+<p>
+Thus Expectation can be thought of either as the expected value over a bunch of repeated trials, or (as in this case)
+average of a population.
+</p>
+</div>
+</div>
+<div id="outline-container-org61f7e01" class="outline-4">
+<h4 id="org61f7e01"><span class="section-number-4">4.2.4</span> The Expected Value Rule (for calculating E[g(X)]</h4>
+<div class="outline-text-4" id="text-4-2-4">
+<p>
+Let X be a r.v, let Y be a r.v = g(X) where g is a function from X -&gt; Y.
+What is E[Y]?
+</p>
+
+<p>
+E[Y] = E[g(x)] = &Sigma;<sub>x</sub> g(x).p<sub>X</sub>(x)
+</p>
+
+<ul class="org-ul">
+<li>Proof</li>
+</ul>
+
+<p>
+E[Y] = &Sigma;<sub>y</sub>(&Sigma;<sub>x</sub> where g(x) = y).p(x)
+     = &Sigma;<sub>y</sub> y.&Sigma; p(x)
+     = &Sigma;<sub>y</sub> y.p(y)
+</p>
+</div>
+</div>
+
+<div id="outline-container-org28098e2" class="outline-4">
+<h4 id="org28098e2"><span class="section-number-4">4.2.5</span> Linearity of expectation</h4>
+<div class="outline-text-4" id="text-4-2-5">
+<p>
+E[aX + b] = aE[X] + b
+</p>
+
+<p>
+let g(x) = a.x + b.
+</p>
+
+<p>
+Let Y = g(x)
+</p>
+
+<p>
+E[Y] = E[g(x)] = &Sigma;<sub>x</sub> g(x).p(x) = &Sigma;<sub>x</sub>(ax + b)p<sub>x</sub>(x) = a.E[X] + b
+E[g(x)] = g(E[X]) is true for some g's. (true when g is linear, for non-linear fns its generally false)
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgb6b2151" class="outline-3">
+<h3 id="orgb6b2151"><span class="section-number-3">4.3</span> Variance and conditioning on an event; multiple r.vs</h3>
+<div class="outline-text-3" id="text-4-3">
+</div><div id="outline-container-org5a1d15d" class="outline-4">
+<h4 id="org5a1d15d"><span class="section-number-4">4.3.1</span> Variance</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+Measure of spread of an r.v.
+</p>
+
+<p>
+E[X - &mu;] = E[X] - E[&mu;] = &mu; - &mu; = 0.
+i.e The average distance from the mean is 0. which makes sense.
+</p>
+
+<p>
+variance = var(X) = E[(X - &mu;)<sup>2</sup> ].
+Avg of squared distance from the mean. &gt;= 0.
+</p>
+
+<p>
+&sigma;<sub>x</sub> = sqrt(var(X))
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="org9a793d6"></a>usefule formula for calculating variance<br  /><div class="outline-text-5" id="text-4-3-1-1">
+<p>
+var(X) = E[(X - &mu;)<sup>2</sup>] = E[X<sup>2</sup> + &mu;<sup>2</sup> -2.X.&mu;] = E[ X<sup>2</sup> ] + E[X]<sup>2</sup> - 2.E[X]<sup>2</sup> = E[ X<sup>2</sup> ] - E[X]<sup>2</sup>
+</p>
+</div></li>
+<li><a id="orga003cbe"></a>Properties<br  /><div class="outline-text-5" id="text-4-3-1-2">
+<p>
+var(aX + b) = a<sup>2.var</sup>(X)
+</p>
+</div>
+<ol class="org-ol"><li><a id="org8543c96"></a>Proofs<br  /><div class="outline-text-6" id="text-4-3-1-2-1">
+<p>
+&mu; = E[X]
+</p>
+
+<ul class="org-ul">
+<li>Let Y = X + b, &nu; = E[Y] = E[X] + b</li>
+</ul>
+<p>
+var(Y) = E[(Y - &nu;)<sup>2</sup> ]
+ = E[(X + b - (&mu; + b))<sup>2</sup>] = E[(X - &mu;)<sup>2</sup> ] = var(X).
+</p>
+
+<p>
+Thus, adding a constant does not change the .
+</p>
+
+<ul class="org-ul">
+<li>Let Y = a.X &nu; = E[Y] = E[a.X] = a.E[X]</li>
+</ul>
+<p>
+var(Y) = E[(Y - &nu;)<sup>2</sup> ] = E[(a.X - a.E[X])<sup>2</sup> ] = E[a<sup>2</sup>.(X - E[X])] = a<sup>2.var</sup>(X)
+</p>
+</div></li></ol></li></ol>
+</div>
+
+<div id="outline-container-orgd7ed228" class="outline-4">
+<h4 id="orgd7ed228"><span class="section-number-4">4.3.2</span> Variance of Bernoulli R.V</h4>
+<div class="outline-text-4" id="text-4-3-2">
+<p>
+var(X) = E[X<sup>2</sup> ] - E[X]<sup>2</sup> = p - p<sup>2</sup> = p(1-p)
+This is a parabola, whose value is maximum when p = 0.5.
+</p>
+</div>
+</div>
+<div id="outline-container-org8c387ae" class="outline-4">
+<h4 id="org8c387ae"><span class="section-number-4">4.3.3</span> Variance of Uniform R.V</h4>
+<div class="outline-text-4" id="text-4-3-3">
+<p>
+var(X) = E[ X<sup>2</sup> ] - E[X]<sup>2</sup>
+       = 1/(n+1) * (0<sup>2</sup> + 1<sup>2</sup> + &#x2026; n<sup>2</sup>) - (n/2)<sup>2</sup>
+       = 1/(n+1) * (n/6 * n.(n+1)(2n+1) - (n/2)<sup>2</sup>
+       = n(n+2)/12
+</p>
+
+<p>
+For a general u.r.v from a to b, b - a = n
+</p>
+
+<p>
+Adding a constant does not change pmf,
+thus var(X) = 1/12 * (b - a)(b - a + 2)
+</p>
+</div>
+</div>
+<div id="outline-container-orgc66da3d" class="outline-4">
+<h4 id="orgc66da3d"><span class="section-number-4">4.3.4</span> Conditional pmfs and expectations given an event</h4>
+<div class="outline-text-4" id="text-4-3-4">
+<p>
+P<sub>X</sub>|A (x) = P(X=x|A)
+</p>
+
+<p>
+&Sigma;<sub>x</sub> p<sub>X</sub>|A(x) = 1
+</p>
+
+<p>
+conditional expectation: E[X|A] = &Sigma;<sub>x</sub> x.p<sub>X</sub>|A(x)
+</p>
+
+<p>
+E[g(X)|A] = &Sigma;<sub>x</sub> g(x).p<sub>X</sub>|A(x)
+</p>
+
+<p>
+Its pretty much the same, except that the pmf becomes the conditional pmf.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org1bf0e2c" class="outline-4">
+<h4 id="org1bf0e2c"><span class="section-number-4">4.3.5</span> Total expectation theorem</h4>
+<div class="outline-text-4" id="text-4-3-5">
+<p>
+Conditional probability allows us to divide our sample space into smaller and simpler
+pieces and then find the event in question. (Divide and conquer!)
+</p>
+
+<p>
+P(B) = P(B|A1).P(A1) + P(B|A2).P(A2) + P(B|A3).P(A3) &#x2026; + P(B|A<sub>N</sub>).P(A<sub>N</sub>)
+</p>
+
+<p>
+Now, let event B = {X = x},
+</p>
+
+<p>
+p<sub>X</sub>(x) = P(A<sub>1</sub>).p<sub>X</sub>|A1(x) + P(A<sub>2</sub>).p<sub>X</sub>|A2(x) + &#x2026; + P(A<sub>n</sub>).p<sub>X</sub>|AN(x)
+</p>
+
+<p>
+This makes sense, the pmf of X=x is the same as sum of pmf of X=x given A<sub>i</sub> for i = 1 to n.
+</p>
+
+<p>
+mulitplying by x on both sides and sum for all possible choices of x,
+</p>
+
+<p>
+&Sigma;<sub>x</sub> xp<sub>X</sub>(x) = P(A<sub>1</sub>)&Sigma;<sub>x</sub> x.P<sub>X</sub>|A1(x) + &#x2026; + P(A<sub>n</sub>).&Sigma;<sub>X</sub> x.p<sub>X</sub>|A<sub>n</sub>(x)
+</p>
+
+<p>
+E[X] = P(A<sub>1</sub>).E[X|A1] + P(A<sub>2</sub>)E[X|A2] + &#x2026; P(A<sub>n</sub>).E[ X|A<sub>n</sub> ]
+</p>
+
+<p>
+Thus, we can divide and conquer expectations!
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgc47ac5d" class="outline-4">
+<h4 id="orgc47ac5d"><span class="section-number-4">4.3.6</span> Geometric R.V is Memoryless</h4>
+<div class="outline-text-4" id="text-4-3-6">
+<p>
+X: number of tosses until first head; P(H) = p.
+</p>
+
+<p>
+p<sub>X</sub>(k) = (1-p)<sup>(k-1)</sup>.p, k =  1,2 &#x2026;
+</p>
+
+<p>
+Now say we joined the experiment after the first toss.
+Our geometric distribution would be the same as that for X, with parameter p.
+</p>
+
+<p>
+<b>Memorylessness</b>
+Number of remaining coin tosses, conditioned on tails in the first toss, is Geometric
+with parameter p.
+</p>
+
+<p>
+More formally,
+Conditioned on X &gt; 1, X - 1 is a geometric r.v with parameter p.
+</p>
+
+<p>
+P(X-1 = 3 | X &gt; 1) = P(T2T3H4|T1)
+</p>
+
+<p>
+As the tosses are independent, P(T2T3H4|T1) = P(T2T3H4) = P(X = 3) = (1-p)<sup>2.p</sup>
+</p>
+
+<p>
+Generalizing this argument,
+</p>
+
+<p>
+P(X - 1 = k | X &gt; 1) = P(X = k) = P(X - n = k | X &gt; n)
+</p>
+</div>
+</div>
+<div id="outline-container-org04a6067" class="outline-4">
+<h4 id="org04a6067"><span class="section-number-4">4.3.7</span> Mean of Geometric R.V</h4>
+<div class="outline-text-4" id="text-4-3-7">
+<p>
+Consider X as a geometric r.v with parameter p.
+</p>
+
+<p>
+E[X] = &Sigma;<sub>k</sub> k.(1-p)<sup>(k-1)</sup>.p
+</p>
+
+<p>
+This is a infinite sum, can we simplify this or think of it in someother way?
+</p>
+
+<p>
+E[X] = 1 + E[X-1]
+</p>
+
+<p>
+First toss + remaining tosses (true by linearity of expectation)
+</p>
+
+<p>
+Sucess in the first trial or success in a later toss.
+</p>
+
+<p>
+E[X] = 1 + p.E[X-1|X=1] + (1-p)E[X-1|X&gt;1]
+ = 1 + 0 + (1-p)E[X] (from the memorylessness property)
+</p>
+
+<p>
+thus E[X] = 1/p
+</p>
+
+<p>
+Fairly difficult calculations become easy if we break down the problem in a clever way.
+</p>
+</div>
+</div>
+<div id="outline-container-org4cccc9c" class="outline-4">
+<h4 id="org4cccc9c"><span class="section-number-4">4.3.8</span> Joint pmfs and expected value rule</h4>
+<div class="outline-text-4" id="text-4-3-8">
+<p>
+X: p<sub>X</sub>
+Y: p<sub>y</sub>
+</p>
+
+<p>
+P(X = Y) ?
+</p>
+
+<p>
+Joint PMF: p<sub>(X, Y)</sub>(x, y) = P(X = x and Y = y)
+</p>
+
+<p>
+&Sigma;<sub>x</sub> &Sigma;<sub>Y</sub> p<sub>(X, Y)</sub>(x, y) = 1
+</p>
+
+<p>
+p<sub>X</sub>(x) = &Sigma;<sub>y</sub> P<sub>(X, Y)</sub>(x, y)
+p<sub>Y</sub>(y) = &Sigma;<sub>x</sub> P<sub>(X, Y)</sub>(x, y)
+</p>
+
+<p>
+p<sub>x</sub> and p<sub>y</sub> are called marginal pmfs.
+</p>
+</div>
+</div>
+<div id="outline-container-org81a0ef3" class="outline-4">
+<h4 id="org81a0ef3"><span class="section-number-4">4.3.9</span> Functions of multiple r.vs</h4>
+<div class="outline-text-4" id="text-4-3-9">
+<p>
+Z = g(X, Y)
+</p>
+
+<p>
+p<sub>Z</sub>(z) = P(Z=z) = P(g(X, Y) = z) = &Sigma;<sub>(x, y where g(x, y) = z)</sub> P<sub>(X, Y)</sub> (x, y)
+</p>
+
+<p>
+Expected value rule: E[g(X, Y)] = &Sigma;<sub>x</sub> &Sigma;<sub>y</sub> g(x, y).p<sub>(X, Y)</sub>(x, y)
+</p>
+</div>
+</div>
+<div id="outline-container-orgf36b031" class="outline-4">
+<h4 id="orgf36b031"><span class="section-number-4">4.3.10</span> Linearity of Expectations for multiple r.vs</h4>
+<div class="outline-text-4" id="text-4-3-10">
+<p>
+We know, E[aX + b] = a.E[x] + b
+</p>
+
+<p>
+E[X + Y] = E[X] + E[Y]
+</p>
+
+<p>
+E[X + Y] = E[g(X, Y)]
+ = &Sigma;<sub>x</sub> &Sigma;<sub>Y</sub> g(x, y).p<sub>(X, Y)</sub>(x, y)
+ = &Sigma;<sub>x</sub> &Sigma;<sub>Y</sub> (x + y).p<sub>(X, Y)</sub>(x, y)
+ = &Sigma;<sub>x</sub> x.&Sigma;<sub>y</sub> p<sub>(X, Y)</sub>(x, y) + &Sigma;<sub>y</sub> y.&Sigma;<sub>x</sub> p<sub>(X, Y)</sub>(x, y)
+ = E[X] + E[Y]
+</p>
+
+<p>
+similarly,
+</p>
+
+<p>
+E[A1 + A2 + &#x2026;] = E[A1] + E[A2] + &#x2026;
+</p>
+
+<p>
+Example,
+</p>
+
+<p>
+E[2X + 3Y - Z] = 2E[X] + 3E[Y] - E[Z]
+</p>
+</div>
+</div>
+<div id="outline-container-orga4191bd" class="outline-4">
+<h4 id="orga4191bd"><span class="section-number-4">4.3.11</span> The mean of the binomial</h4>
+<div class="outline-text-4" id="text-4-3-11">
+<p>
+Let X be a binomial r.v which indicated number of successes in n independent trials
+with parameters p, p.
+</p>
+
+<p>
+E[X] = &Sigma;<sub>k</sub> k.(<sup>n</sup><sub>k</sub>)p<sup>k</sup>.(1-p)<sup>(n-k)</sup>
+</p>
+
+<p>
+This is a complex sum, can we simplify this?
+</p>
+
+<p>
+Let X<sub>i</sub> be a indicator r.v that indicates success in i<sup>th</sup> trial.
+</p>
+
+<p>
+X = X<sub>1</sub> + X<sub>2</sub> + &#x2026; X<sub>n</sub>.
+</p>
+
+<p>
+Thus E[X] = E[X1] + E[X2] + &#x2026; E[Xn] = np
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org719bda5" class="outline-3">
+<h3 id="org719bda5"><span class="section-number-3">4.4</span> Conditioning on a Random Variable, Indenpendent r.v's</h3>
+<div class="outline-text-3" id="text-4-4">
+</div><div id="outline-container-org8cbcb4b" class="outline-4">
+<h4 id="org8cbcb4b"><span class="section-number-4">4.4.1</span> Conditioning on a R.V</h4>
+<div class="outline-text-4" id="text-4-4-1">
+<p>
+p<sub>X</sub>|Y(x|y) = P(X=x|Y=y) = P(X=x, Y=y)/(P(Y=y) = p<sub>(X, Y)</sub>(x, y)/p<sub>Y</sub>(y) defined for y such that p<sub>Y</sub>(y) &gt; 0.
+</p>
+
+<p>
+The way to think about this, is to fix y and think of the conditional pmf. &Sigma;<sub>x</sub> p<sub>(X|Y)</sub>(x|y) = 1
+</p>
+</div>
+</div>
+<div id="outline-container-orge5e0382" class="outline-4">
+<h4 id="orge5e0382"><span class="section-number-4">4.4.2</span> Mulitplication rule for pmfs</h4>
+<div class="outline-text-4" id="text-4-4-2">
+<p>
+p<sub>(X, Y)</sub>(x, y) = p<sub>Y</sub>(y).p<sub>x</sub>(x/y) = p<sub>X</sub>(x).P<sub>Y</sub>(y/x)
+</p>
+</div>
+</div>
+<div id="outline-container-org4725d32" class="outline-4">
+<h4 id="org4725d32"><span class="section-number-4">4.4.3</span> Conditional expectation on r.vs</h4>
+<div class="outline-text-4" id="text-4-4-3">
+<p>
+E[X|Y] = &Sigma;<sub>x</sub> x.p<sub>X</sub>|Y(x|y)
+</p>
+
+<p>
+Expected value rule,
+</p>
+
+<p>
+E[g(X)|Y=y] = &Sigma;<sub>x</sub> g(x)p<sub>(X|Y)</sub>(x|y)
+</p>
+
+<p>
+Total probability and expectation theorem
+</p>
+
+<p>
+Total probability theorem,
+</p>
+
+<p>
+p<sub>X</sub>(x) = P(A1).p<sub>X</sub>|A1(x) + &#x2026; + P(An).p<sub>(X|An)</sub>(x)
+</p>
+
+<p>
+suppose we are given Y = {y1, &#x2026; yn} A<sub>i</sub> = {Y=y<sub>i</sub>},
+</p>
+
+<p>
+P<sub>X</sub>(x) = &Sigma;<sub>y</sub> p<sub>Y</sub>(y).p<sub>X</sub>|Y(x|y)
+</p>
+
+<p>
+Similarly,
+</p>
+
+<p>
+E[X] = P(A1).E[X|A1] + &#x2026; P(An).E[X|An]
+</p>
+
+<p>
+E[X] = &Sigma;<sub>y</sub> p<sub>Y</sub>(y).E[X|Y=y]
+</p>
+</div>
+</div>
+<div id="outline-container-org5a9a921" class="outline-4">
+<h4 id="org5a9a921"><span class="section-number-4">4.4.4</span> Independence of Random Variables</h4>
+<div class="outline-text-4" id="text-4-4-4">
+<p>
+Independence of 2 events is
+P(A &cap; B) = P(A).P(B), P(A|B) = P(A)
+</p>
+
+
+<p>
+For an r.v and a event A,
+</p>
+
+<p>
+P(X = x and A) = P(X = x).P(A) for all x
+P(A|X=x) = P(A), for all x.
+</p>
+
+<p>
+For 2 random variables,
+</p>
+
+<p>
+p<sub>(X, Y)</sub>(x, y) = p<sub>X</sub>(x).P<sub>Y</sub>(y), p<sub>X</sub>|Y(x|y) = p<sub>X</sub>(x), p<sub>Y</sub>|X(y|x) = p<sub>Y</sub>(y)
+</p>
+
+<p>
+What does this mean?
+</p>
+
+<p>
+If we know something about y, our beliefs about x does not change.
+</p>
+</div>
+</div>
+<div id="outline-container-orge2d77f2" class="outline-4">
+<h4 id="orge2d77f2"><span class="section-number-4">4.4.5</span> Independence and expectations</h4>
+<div class="outline-text-4" id="text-4-4-5">
+<p>
+In general,
+</p>
+
+<p>
+E[g(X, Y)] &ne; g(E[X], E[Y])
+</p>
+
+<p>
+Exceptions: E[aX + b] = aE[x] + b
+</p>
+
+<p>
+E[X + Y + Z] = E[X] + E[Y] + E[Z]
+</p>
+
+<p>
+However, if X and Y are independent,
+</p>
+
+<p>
+E[XY] = E[X].E[Y]
+</p>
+
+
+<p>
+E[X/Y] = &Sigma;<sub>x</sub> &Sigma;<sub>Y</sub> x/y . p<sub>X</sub>(x).p<sub>Y</sub>(y)
+       = E[X]E[1/Y]
+</p>
+</div>
+</div>
+<div id="outline-container-org5df92b7" class="outline-4">
+<h4 id="org5df92b7"><span class="section-number-4">4.4.6</span> Variance and independence</h4>
+<div class="outline-text-4" id="text-4-4-6">
+<p>
+In general,
+var(X + Y) &ne; var(X) + var(Y)
+</p>
+
+<p>
+If X, Y are independent
+</p>
+
+<p>
+var(X + Y) = var(X) + var(Y)
+</p>
+
+<p>
+Proof:
+for the sake of proof, lets assume E[X] = E[Y] = 0
+</p>
+
+<p>
+var(X + Y) = E[(X+Y - &mu;)<sup>2</sup> ] = E[(X + Y)<sup>2</sup> ] = E[X<sup>2</sup> + Y<sup>2</sup> + 2XY]
+ = E[ X<sup>2</sup> ] + E[ Y<sup>2</sup> ] + 0
+ = var(X) + var(Y)
+</p>
+
+
+<p>
+E[XY] = &Sigma;<sub>X</sub> &Sigma;<sub>Y</sub> xy.p<sub>(X, Y)</sub>(x, y)
+      = 0
+</p>
+
+<p>
+var(X + Y) = E[ (X+Y)<sup>2</sup> ] = E[X<sup>2</sup> ] + E[Y<sup>2</sup> ] + 2.E[XY]
+</p>
+</div>
+</div>
+<div id="outline-container-org3403845" class="outline-4">
+<h4 id="org3403845"><span class="section-number-4">4.4.7</span> Hat Problem</h4>
+<div class="outline-text-4" id="text-4-4-7">
+<p>
+n people throw their hats into a box and then pick one at random.
+</p>
+
+<ul class="org-ul">
+<li>All permutations are equally likely.</li>
+<li>Equivalent to picking one hat at a time</li>
+</ul>
+
+<p>
+X: number of people who get their own hat back.
+</p>
+
+<p>
+E[X] = &Sigma;<sub>x</sub> x.p<sub>X</sub>(x)
+</p>
+
+<p>
+p<sub>X</sub>(x) is hard to figure out.
+</p>
+
+<p>
+Instead, X<sub>i</sub> = 1 if person i selects own hat, else 0.
+</p>
+
+<p>
+X = &Sigma;<sub>x</sub> X<sub>i</sub>
+</p>
+
+<p>
+E[ X<sub>i</sub> ]?
+</p>
+
+<p>
+By looking at the first description of the problem, 'all permutations are equally likely', this description is symmetric w.r.t all the
+persons, hence E[X<sub>i</sub> ] = E[ X<sub>1</sub> ] = E[ X<sub>2</sub> ] &#x2026;
+</p>
+
+<p>
+E[ X<sub>1</sub> ] = x.p(X<sub>1</sub> = 1) = 1/n
+</p>
+
+<p>
+thus, E[X] = 1. easy!
+</p>
+
+<p>
+Now, lets compute the variance of X.
+</p>
+
+<p>
+X = X1 + X2 + &#x2026; Xn
+</p>
+
+<p>
+however, X1, X2 etc are not independent, (knowing X1 tells us something about X2. Ex) Consider the 2 person case.)
+</p>
+
+<p>
+thus,
+</p>
+
+<p>
+var(X) = E[ X<sup>2</sup> ] - E[X]<sup>2</sup>
+</p>
+
+<p>
+E[ X<sup>2</sup> ] = E[ &Sigma;<sub>(i=j)</sub>X<sub>i</sub><sup>2</sup> + &Sigma;<sub>(i &ne; j)</sub>X<sub>i.X</sub><sub>j</sub> ]
+</p>
+
+<p>
+E[ X<sub>i</sub><sup>2</sup> ] = E[ X<sub>1</sub><sup>2</sup> ] = E[ X<sub>1</sub> ] = 1/n (As its a bernoulli r.v)
+</p>
+
+<p>
+for i &ne; j, E[ X<sub>i.X</sub><sub>j</sub> ] = E[X1.X2] = E[X1=1 and X2 = 1] = 1/n . 1/(n-1)
+</p>
+
+<p>
+Thus, var(X) = (1 + n(n - 1)/n(n-1)  (As there are n(n-1) cross terms where i &ne; j)) - E[X]<sup>2</sup>
+</p>
+
+<p>
+var(X) = 2 - 1 = 1.
+</p>
+</div>
+</div>
+<div id="outline-container-orgf86fb30" class="outline-4">
+<h4 id="orgf86fb30"><span class="section-number-4">4.4.8</span> Inclusion Exclusion formula</h4>
+<div class="outline-text-4" id="text-4-4-8">
+<p>
+This is a beatiful generalization of the below mentioned formula.
+</p>
+
+<p>
+P(A U B) = P(A) + P(B) - P(A &cap; B)
+</p>
+
+<p>
+A(A1 &cup; A2 &cup; A3) = P(A1) + P(A2) + P(A3) - (P(A &cap; B) + P(A &cap; C) + P(A &cap; B)) + P(A &cap; B &cap; C)
+</p>
+
+<p>
+But here is a formal derivation using indicator functions,
+</p>
+
+<p>
+For a set A<sub>i</sub>, we'll associate a indicator fn X<sub>i</sub> which is 1 when outcome is inside and 0 when outcome is outside A<sub>i</sub>
+</p>
+
+<p>
+For A<sub>i</sub><sup>c</sup>, indicator is 1 - X<sub>i</sub>
+</p>
+
+<p>
+A<sub>i</sub> &cap; A<sub>j</sub>, indicator is X<sub>i.X</sub><sub>j</sub>
+</p>
+
+<p>
+A<sub>i</sub><sup>c</sup> &cap; A<sub>j</sub><sup>c</sup>, indicator is (1 - X<sub>i</sub>).(1 - X<sub>j</sub>)
+</p>
+
+<p>
+A<sub>i</sub> &cup; A<sub>j</sub>, indicator is 1 - (1-X<sub>i</sub>).(1-X<sub>j</sub>)
+</p>
+
+<p>
+Why? Because, A<sub>i</sub> &cup; A<sub>j</sub> = (A<sub>i</sub><sup>c</sup> &cap; A<sub>j</sub><sup>c</sup>)<sup>c</sup>
+</p>
+
+<p>
+Now,
+</p>
+
+<p>
+P(A1 &cup; A2 &cup; A3) = E[indicator of A1 &cup; A2 &cup; A3]
+= E[1 - (1 - X1)(1 - X2)(1 - X3)]
+= E[1 - 1 + X1 + X2 + X3 - X1X2  - X2X3 - X1X3 + X1X2X3]
+</p>
+
+<p>
+In general, this leads to the inclusion exclusion formula,
+</p>
+
+<p>
+P(&cup;<sub>(k=1)</sub><sup>n</sup> A<sub>k</sub>) = &Sigma;<sub>i</sub> P(A<sub>i</sub>) - &Sigma;<sub>(i1 &lt; i2)</sub>P(A<sub>i1</sub> &cap; A<sub>i2</sub>) + &Sigma;<sub>(i1 &lt; i2 &lt; i3)</sub>P(A<sub>i1</sub> &cap; A<sub>i2</sub> &cap; A<sub>i3</sub>) - &#x2026; + (-1)<sup>(n-1)</sup>P(&cap;<sub>(k=1)</sub><sup>n</sup> A<sub>k</sub>)
+</p>
+</div>
+</div>
+<div id="outline-container-org91f3b30" class="outline-4">
+<h4 id="org91f3b30"><span class="section-number-4">4.4.9</span> Independence of events versus random variables</h4>
+<div class="outline-text-4" id="text-4-4-9">
+<p>
+Let A and B be events.
+</p>
+
+<p>
+X = I<sub>A</sub>, Y = I<sub>B</sub>.
+</p>
+
+<p>
+X and Y are independent iff A and B are indenpendent. (and similarly for n events and indicator variables)
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org7c4d59f" class="outline-2">
+<h2 id="org7c4d59f"><span class="section-number-2">5</span> Continuous random variables</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-orgee3632e" class="outline-3">
+<h3 id="orgee3632e"><span class="section-number-3">5.1</span> What is continuous R.V</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+f<sub>X</sub>(x) is the probability density function for continuous r.v X.
+</p>
+
+<p>
+P(a &le; X &le; b) = &int;<sub>a</sub><sup>b</sup> f<sub>X</sub>(x).dx
+</p>
+
+<p>
+f<sub>x</sub>(x)dx &ge; 0, &int;<sub>(-&infin; to &infin;)</sub> f<sub>X</sub>(x) = 1
+</p>
+
+<p>
+Definition: A random variable is continuous if it can be described by a PDF.
+i.e its not just enough if it a r.v takes values in a continues set, it also has
+to have a PDF to describe it.
+</p>
+
+<p>
+P(a &le; X &le; a + &delta;) &asymp; f<sub>X</sub>(a).&delta; (integrals)
+PDF is defined for intervals. Every point by itself has 0 probability.
+But collectively, it has a positive values.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgcf6915d" class="outline-3">
+<h3 id="orgcf6915d"><span class="section-number-3">5.2</span> Uniform continues R.V</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+&int;<sub>(a to b)</sub>c.dx = 1.
+</p>
+
+<p>
+area = b.h = (b - a).h
+Height of rectangle = 1/(b - a)
+</p>
+</div>
+</div>
+<div id="outline-container-orgc6f3acb" class="outline-3">
+<h3 id="orgc6f3acb"><span class="section-number-3">5.3</span> Expected Value and Variance of continuous R.V</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+similar to the discrete case,
+</p>
+
+<p>
+E[X] = &int;<sub>(-&infin; to &infin;)</sub>xf<sub>X</sub>(x).dx
+</p>
+
+<p>
+NOTE: This assumes that &int;<sub>(-&infin; to &infin;)</sub>|x|f<sub>X</sub>(x).dx is well defined. i.e &le; &infin;
+</p>
+</div>
+
+<div id="outline-container-org7c5e461" class="outline-4">
+<h4 id="org7c5e461"><span class="section-number-4">5.3.1</span> Expected Value rule</h4>
+<div class="outline-text-4" id="text-5-3-1">
+<p>
+E[g(X)] = &int;<sub>(-&infin; to &infin;)</sub> g(x)f<sub>X</sub>(x).dx (derivation is little more complex)
+</p>
+</div>
+</div>
+<div id="outline-container-orgd397eae" class="outline-4">
+<h4 id="orgd397eae"><span class="section-number-4">5.3.2</span> Variance</h4>
+<div class="outline-text-4" id="text-5-3-2">
+<p>
+var(X) = E[ (x - &mu;)<sup>2</sup> ]
+</p>
+
+<p>
+s.d &sigma;<sub>x</sub> = sqrt(var(X))
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org0992c70" class="outline-3">
+<h3 id="org0992c70"><span class="section-number-3">5.4</span> Exponential R.V</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+parameter: &lambda; &gt; 0.
+Exponential r.v usually models time until something happens.
+</p>
+
+<p>
+f<sub>X</sub>(x) = &lambda;.e<sup>(-&lambda;.x)</sup> for x &ge; 0
+</p>
+
+<p>
+small &lambda;, small initial value, small decay rate.
+large &lambda;, large initial value, but fast decay.
+</p>
+
+<p>
+Very similar to Geometric R.V
+</p>
+
+<p>
+P(X &ge; a) = &int;<sub>(a to &infin;)</sub>&lambda;.e<sup>(-&lambda;.x)</sup>dx = e<sup>(-&lambda;.a)</sup>
+E[X] = 1/&lambda;
+Var(X) = 1/&lambda;<sup>2</sup>
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgff8a783" class="outline-3">
+<h3 id="orgff8a783"><span class="section-number-3">5.5</span> Cumulative Distribution Function (CDF)</h3>
+<div class="outline-text-3" id="text-5-5">
+<p>
+definition: F<sub>X</sub>(x) = P(X &le; x) = &int;<sub>(-&infin; to x)</sub>f<sub>X</sub>(x).dx
+</p>
+
+<p>
+We can get PDF from CDF, dF<sub>X</sub>(x)/dx = f<sub>X</sub>(x)
+</p>
+</div>
+</div>
+<div id="outline-container-org46b26c9" class="outline-3">
+<h3 id="org46b26c9"><span class="section-number-3">5.6</span> Normal R.Vs / Gaussian R.Vs</h3>
+<div class="outline-text-3" id="text-5-6">
+<ul class="org-ul">
+<li>Important in the theory of probability. (Central limit theorem)</li>
+<li>Convenient analytical properties.</li>
+<li>Model of noise consisting of many, small independent noise terms.</li>
+</ul>
+
+
+<p>
+Standard Normal N(0, 1) = f<sub>X</sub>(x) = 1/sqrt(2&pi;) . e<sup>(-x<sup>2</sup>/2)</sup>
+E[X] = 0
+Var(X) = 1 (integration by parts)
+</p>
+
+<p>
+General Normal N(&mu;, &sigma;) = 1/&sigma;.sqrt(2&pi;) . e<sup>(-(x - &mu;)<sup>2</sup>/2.&sigma;<sup>2</sup>)</sup>
+</p>
+
+<p>
+E[X] = &mu;
+Var(X) = &sigma;<sup>2</sup>
+</p>
+</div>
+
+<div id="outline-container-org9d30e58" class="outline-4">
+<h4 id="org9d30e58"><span class="section-number-4">5.6.1</span> Linear functions of normal r.vs</h4>
+<div class="outline-text-4" id="text-5-6-1">
+<p>
+Normal R.V is very useful analytically, cause of this property.
+</p>
+
+<p>
+Given X ~ N(&mu;, &sigma;<sup>2</sup>)
+</p>
+
+<p>
+Y = a.X + b
+</p>
+
+<p>
+E[Y] = a.&mu; + b
+Var(Y) = a<sup>2.&sigma;</sup><sup>2</sup>
+</p>
+
+<p>
+Also, (we'll prove this later)
+</p>
+
+<p>
+Y ~ N(a.&mu; + b, a<sup>2.&sigma;</sup><sup>2</sup>)
+</p>
+
+<p>
+Special case, a = 0, Y = b, lets think of this as the degenerate case where Y ~ N(b, 0)
+</p>
+</div>
+</div>
+<div id="outline-container-orgde51836" class="outline-4">
+<h4 id="orgde51836"><span class="section-number-4">5.6.2</span> Probabilities of Normal R.V</h4>
+<div class="outline-text-4" id="text-5-6-2">
+<p>
+Unfortunately, there is no closed form solution available for CDF.
+But we do have standard normal tables.
+</p>
+
+<p>
+&Phi;(Y) = F<sub>Y</sub>(y) = P(Y &le; y) = 'value from table'
+</p>
+</div>
+<ol class="org-ol"><li><a id="org7f6de79"></a>convert any normal r.v to standard normal r.v<br  /><div class="outline-text-5" id="text-5-6-2-1">
+<p>
+Let X be a normal variable and have mean &mu; and variance &sigma;<sup>2</sup>.
+</p>
+
+<p>
+Let Y = X - &mu;/&sigma;
+E[Y] = 0.
+Var(Y) = 1/&sigma;<sup>2</sup> * Var(X) = 1.
+</p>
+
+<p>
+Thus, Y is a standard normal variable.
+</p>
+</div></li></ol>
+</div>
+</div>
+<div id="outline-container-org76014ce" class="outline-3">
+<h3 id="org76014ce"><span class="section-number-3">5.7</span> Conditional PDF</h3>
+<div class="outline-text-3" id="text-5-7">
+<p>
+f<sub>X</sub>|A(x).&delta; &asymp; P(x &le; X &le; x + &delta;|A)
+</p>
+
+<p>
+The definition of conditional probability for continuous r.v
+</p>
+
+<p>
+P(X &isin; B | A) = &int;<sub>(B)</sub>f<sub>X</sub>|A(x).dx
+</p>
+
+<p>
+&int; f<sub>X</sub>|A(x) = 1
+</p>
+
+<p>
+Conditioning a c.r.v on an event,
+</p>
+
+<p>
+P(x &le; X &le; x + &delta; | X &isin; A) &asymp; f<sub>(X|X &isin; A)</sub>(x).&delta;
+</p>
+
+<p>
+= P(x &le; X &le; x + &delta;, X &isin; A)/P(A)
+= P(x &le; X &le; x + &delta;)/P(A) &asymp; f<sub>X</sub>(x)/P(A)
+</p>
+
+<p>
+E[X] = &int; x.f<sub>X</sub>(x)dx
+E[X|A] = &int; x.f<sub>X</sub>|A(x)dx
+</p>
+
+<p>
+Expected value rule,
+</p>
+
+<p>
+E[g(x)] = &int; g(x).f<sub>X</sub>|A(x)dx
+E[g(x)|A] = &int; g(x).f<sub>X</sub>|A(x)dx
+</p>
+</div>
+</div>
+<div id="outline-container-org17a36ac" class="outline-3">
+<h3 id="org17a36ac"><span class="section-number-3">5.8</span> Memorylessness of exponential r.v</h3>
+<div class="outline-text-3" id="text-5-8">
+<p>
+Do you prefer a new or used light bulb?
+</p>
+
+<p>
+Bulb lifetime T: exponential in (&lambda;)
+</p>
+
+<p>
+P(T &gt; x) = e<sup>(-&lambda;.x)</sup>, for x &ge; 0
+</p>
+<ul class="org-ul">
+<li>we are told t &gt; T</li>
+<li>r.v X: remaining lifetime = T - t</li>
+</ul>
+
+<p>
+P(X &gt; x | T &gt; t) = P(T-t &gt; x, T &gt; t) / P(T &gt; t)
+ = P(T &gt; x + t, T &gt; t)/P(T &gt; t)
+= P(T &gt; x + t)/P(T &gt; t)
+= e<sup>(-&lambda;*(t + x))</sup>/e<sup>(-&lambda;.t)</sup> = e-<sup>(&lambda;.x)</sup>
+</p>
+
+<p>
+using this memorylessness property, we can also see that
+</p>
+
+<p>
+f<sub>T</sub>(x) = &lambda;.e<sup>(-&lambda;.x)</sup>, for x &ge; 0
+</p>
+
+<p>
+P(0 &le; T &le; &delta;) &asymp; &lambda;.&delta;
+</p>
+
+<p>
+P(t &le; T &le; t + &delta; | T &gt; t) &asymp; &lambda;.&delta;
+</p>
+
+<p>
+This is similar to independent coin flips, every &delta; time steps,
+with P(success) = &lambda;.&delta;
+</p>
+</div>
+</div>
+<div id="outline-container-org99568a5" class="outline-3">
+<h3 id="org99568a5"><span class="section-number-3">5.9</span> Total Probability Theorem</h3>
+<div class="outline-text-3" id="text-5-9">
+<p>
+F<sub>X</sub>(x) = P(X &le; x) = P(A<sub>1</sub>).P(X &le; x | A<sub>1</sub>) + &#x2026;
+</p>
+
+<p>
+= P(A<sub>1</sub>).F<sub>X</sub>|A<sub>1</sub>(x) + &#x2026;
+</p>
+
+<p>
+taking derivative on both sides,
+</p>
+
+<p>
+f<sub>X</sub>(x) = P(A<sub>1</sub>).f<sub>X</sub>(x) + &#x2026;
+</p>
+
+<p>
+Multiplying by x and integrating
+</p>
+
+<p>
+E[x] = P(A<sub>1</sub>).E[ X|A<sub>1</sub> ] + &#x2026;
+</p>
+</div>
+</div>
+<div id="outline-container-org4958206" class="outline-3">
+<h3 id="org4958206"><span class="section-number-3">5.10</span> Mixed distributions</h3>
+<div class="outline-text-3" id="text-5-10">
+<p>
+Consider Y discrete, Z continuous as 2 random variables.
+</p>
+
+<p>
+let X = { Y, with probability p; Z, with probability (1-p) }
+X is mixed random variable.
+</p>
+
+<p>
+F<sub>X</sub>(x) = p.P(Y &le; x) + (1-p).P(Z &le; x) = p.F<sub>Y</sub>(x) + (1-p).F<sub>Z</sub>(x)
+</p>
+</div>
+</div>
+<div id="outline-container-org87594df" class="outline-3">
+<h3 id="org87594df"><span class="section-number-3">5.11</span> Joint PDFs</h3>
+<div class="outline-text-3" id="text-5-11">
+<p>
+Jointly continuous r.vs and joint pdfs
+</p>
+
+<p>
+pdf is denoted by f<sub>(X, Y)</sub>(x, y)
+</p>
+
+<p>
+&int;<sub>(-&infin; to &infin;)</sub> &int;<sub>(-&infin; to &infin;)</sub> f<sub>(X, Y)</sub>(x, y) = 1
+</p>
+
+<p>
+Two r.v's are jointly continuous if they can be described by a joint pdf.
+</p>
+
+<p>
+P(a &le; X &le; a + &delta;, b &le; Y &le; b + &delta;) &asymp; f<sub>(X, Y)</sub>(a, c).&delta;<sup>2</sup>
+</p>
+
+<p>
+f<sub>(X, Y)</sub>(x, y): probability per unit area.
+</p>
+
+<p>
+area(B) = 0 =&gt; P((X, Y) &isin; B) = 0
+</p>
+
+<p>
+For joint continuity, its not enough if X and Y are continuous. We also need their probability to be spread over a two dimensional set.
+</p>
+</div>
+</div>
+<div id="outline-container-org0e4a6fd" class="outline-3">
+<h3 id="org0e4a6fd"><span class="section-number-3">5.12</span> Joint to marginal PDFs</h3>
+<div class="outline-text-3" id="text-5-12">
+<p>
+f<sub>X</sub>(x) = &int; f<sub>(X, Y)</sub>(x, y).dy
+f<sub>Y</sub>(y) = &int; f<sub>(X, Y)</sub>(x, y).dx
+</p>
+</div>
+</div>
+<div id="outline-container-orga044850" class="outline-3">
+<h3 id="orga044850"><span class="section-number-3">5.13</span> Joint CDF</h3>
+<div class="outline-text-3" id="text-5-13">
+<p>
+we can get CDF from PDF by integrating,
+F<sub>X</sub>(x) = P(X &le; x) = &int;<sub>(-&infin; to x)</sub>f<sub>X</sub>(t).dt
+</p>
+
+<p>
+and conversely get PDF from CDF by differentiating,
+f<sub>X</sub>(x) = dF<sub>X</sub>(x)/dx
+</p>
+
+<p>
+F<sub>(X, Y)</sub> = P(X &le; x, Y &le; y) = &int;<sub>(-&infin; to y)</sub> &int;<sub>(-&infin; to x)</sub>f<sub>(X, Y)</sub>(s, t).ds.
+</p>
+
+<p>
+If we take derivative, w.r.t y, and then with x, we get the joint pdf f<sub>(X, Y)</sub>(s, t)
+</p>
+
+<p>
+f<sub>(X, Y)</sub>(x, y) = &delta;<sup>2.F</sup><sub>(X, Y)</sub>(x, y)/&delta;.x&delta;.y
+</p>
+</div>
+</div>
+<div id="outline-container-orgf1f4a59" class="outline-3">
+<h3 id="orgf1f4a59"><span class="section-number-3">5.14</span> Conditional PDFs given another r.v</h3>
+<div class="outline-text-3" id="text-5-14">
+<p>
+p<sub>X</sub>|Y(x|y) = P(X = x|Y = y) = p<sub>(X,Y)</sub>(x, y)/p<sub>Y</sub>(y) if p<sub>Y</sub>(y) &gt; 0
+</p>
+
+<p>
+However, in the continuous case p<sub>Y</sub>(Y = y) = 0, so we can't use this definition, but
+we can use this as a guide.
+</p>
+
+<p>
+Definition:
+</p>
+
+<p>
+f<sub>X</sub>|Y(x|y) = f<sub>(X, Y)</sub>(x, y)/f<sub>Y</sub>(y) if f<sub>Y</sub>(y) &gt; 0 ---&#x2013;&#x2014; 1
+</p>
+
+<p>
+We know that the pdf/conditional pdf is used to approximate the probability of a small event
+</p>
+
+<p>
+P(x &le; X &le; x + &delta; | A) &asymp; f<sub>X</sub>|A(x).&delta; where P(A) &gt; 0
+</p>
+
+<p>
+the problem with using this to define conditioning on a continuous r.v is that
+P<sub>Y</sub>(Y = y) = 0. But we can instead define Y &asymp; y. y &le; Y &le; y + &epsilon;
+</p>
+
+<p>
+P(x &le; X &le; x + &delta; | y &le; Y &le; y + &epsilon;) &asymp; f<sub>(X, Y)</sub>(x, y).&delta;.&epsilon;/f<sub>Y</sub>(y).&epsilon;
+</p>
+
+<p>
+= f<sub>X</sub>|Y(x | y).&delta;
+</p>
+
+<p>
+In general,
+</p>
+
+
+<p>
+P(X &isin; A | Y = y) = &int;<sub>A</sub> f<sub>X</sub>|Y(x|y)dx
+</p>
+
+<p>
+Think of 1 as, the value of Y is fixed at some y.
+</p>
+
+<p>
+&int;<sub>(-&infin; to &infin;)</sub>f<sub>X</sub>|Y(x|y)dx = &int;<sub>(-&infin; to &infin;)</sub>f<sub>(X, Y)</sub>(x, y)dx/f<sub>Y</sub>(y) = 1
+</p>
+
+<p>
+the f<sub>Y</sub>(y) is needed so the the conditional probability integrates to 1. The numerator is the marginal pdf f<sub>Y</sub>(y).
+</p>
+</div>
+</div>
+<div id="outline-container-orge04896b" class="outline-3">
+<h3 id="orge04896b"><span class="section-number-3">5.15</span> Total probability and total expectation theorem</h3>
+<div class="outline-text-3" id="text-5-15">
+<p>
+Theorem:
+</p>
+
+<p>
+f<sub>X</sub>(x) = &int;<sub>(-&infin; to &infin;)</sub>f<sub>Y</sub>(y).f<sub>X</sub>|Y(x|y).dy
+</p>
+
+<p>
+definition:
+</p>
+
+<p>
+E[X|Y] = &int;<sub>(-&infin; to &infin;)</sub>x.f<sub>X</sub>|Y(x|y).dx
+</p>
+
+<p>
+From this,
+</p>
+
+<p>
+E[X] = &int;<sub>(-&infin; to &infin;)</sub>f<sub>Y</sub>(y).E[X|Y].dy
+</p>
+
+<p>
+Proof:
+     = &int;<sub>(-&infin; to &infin;)</sub>f<sub>Y</sub>(y).&int;<sub>(-&infin; to &infin;)</sub>(x.f<sub>X</sub>|Y(x)).dx.dy
+ = &int;<sub>(-&infin; to &infin;)</sub>x&int;<sub>(-&infin; to &infin;)</sub>f<sub>Y</sub>(y)f<sub>X</sub>|Y(y).dy.dx
+= &int;<sub>(-&infin; to &infin;)</sub>x.f<sub>X</sub>(x)dx.1
+= E[X]
+</p>
+</div>
+</div>
+<div id="outline-container-org86d7fbd" class="outline-3">
+<h3 id="org86d7fbd"><span class="section-number-3">5.16</span> Independence</h3>
+<div class="outline-text-3" id="text-5-16">
+<p>
+Independence in the continuous r.v world is pretty similar to the discrete case,
+</p>
+
+<p>
+If X &amp; Y are independent,
+</p>
+
+<p>
+f<sub>(X, Y)</sub>(x, y) = f<sub>X</sub>(x).f<sub>Y</sub>(y) for all x &amp; y.
+</p>
+
+<p>
+equivalent to saying f<sub>X</sub>|Y(x|y) = f<sub>X</sub>(x) for all y with f<sub>Y</sub>(y) &gt; 0 or vice-versa.
+</p>
+
+<p>
+Consequences of independence are also the same,
+</p>
+
+<p>
+E[XY] = E[X].E[Y]
+</p>
+
+<p>
+var(X + Y) = var(X) + var(Y)
+</p>
+
+<p>
+g(X) &amp; h(Y) are also independent: E[g(X)h(Y)] = E[g(X)].E[h(Y)]
+</p>
+</div>
+</div>
+<div id="outline-container-org812b35a" class="outline-3">
+<h3 id="org812b35a"><span class="section-number-3">5.17</span> Stick breaking example</h3>
+<div class="outline-text-3" id="text-5-17">
+<p>
+We have a stick of length l.
+</p>
+
+<p>
+Break the stick twice,
+</p>
+<ul class="org-ul">
+<li>First break at X: uniform [0, l]</li>
+<li>Second break at Y: uniform [0, x]</li>
+</ul>
+
+<p>
+f<sub>(X, Y)</sub>(x, y) = f<sub>X</sub>(x).f<sub>Y</sub>|X(y) = 1/l * 1/x
+</p>
+
+<p>
+f<sub>Y</sub>(y) = &int;<sub>(-&infin; to &infin;)</sub>f<sub>(X, Y)</sub>(x, y).dx = &int;<sub>(y to l)</sub>1/l.x dx = 1/l log(l/y)
+</p>
+
+<p>
+E[Y] = &int;<sub>(0, l)</sub>1/l E[Y|X=x]dx = &int;<sub>(0, l)</sub>1/l * x/2 dx
+</p>
+</div>
+</div>
+<div id="outline-container-org9b1d33e" class="outline-3">
+<h3 id="org9b1d33e"><span class="section-number-3">5.18</span> Independent normals</h3>
+<div class="outline-text-3" id="text-5-18">
+</div><div id="outline-container-orgde024ba" class="outline-4">
+<h4 id="orgde024ba"><span class="section-number-4">5.18.1</span> Independent standard normals</h4>
+<div class="outline-text-4" id="text-5-18-1">
+<p>
+f<sub>(X, Y)</sub>(x, y) = f<sub>X</sub>(x).f<sub>Y</sub>(y)
+= 1/sqrt(2&pi;) * exp(-x<sup>2</sup>/2). 1/sqrt(2&pi;) * exp(-y<sup>2</sup>/2)
+</p>
+
+<p>
+this can be rewritten as,
+</p>
+
+<p>
+1/2&pi; * exp(-1/2 (x<sup>2</sup> + y<sup>2</sup>))
+</p>
+</div>
+</div>
+<div id="outline-container-org20f818d" class="outline-4">
+<h4 id="org20f818d"><span class="section-number-4">5.18.2</span> Independent general normals</h4>
+<div class="outline-text-4" id="text-5-18-2">
+<p>
+f<sub>(X, Y)</sub>(x, y) = f<sub>X</sub>(x).f<sub>Y</sub>(y)
+</p>
+
+<p>
+= 1/2&pi;(&sigma;<sub>X.&sigma;</sub><sub>Y</sub>) * exp(- (x - &mu;<sub>x</sub>)<sup>2</sup>/2&sigma;<sub>x</sub><sup>2</sup> - (y - &mu;<sub>y</sub>)<sup>2</sup>/2&sigma;<sub>y</sub><sup>2</sup>)
+</p>
+
+<p>
+This is an equation that discribes an ellipse. It gives contours that are stretched along x and y based on the variances.
+If X, Y are not independent, we get a bivariate normal distribution, that also has ellipses as contours, but are not parallel
+to the x, y coordinates.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orga8349a4" class="outline-3">
+<h3 id="orga8349a4"><span class="section-number-3">5.19</span> Baye's rule variations</h3>
+<div class="outline-text-3" id="text-5-19">
+<p>
+In baye's inference, we have a unobserverd value x, with prior p<sub>X</sub>(.).
+We observe y, with model p<sub>Y</sub>|X(.|.). Then we infer p<sub>X</sub>|Y(.|y)
+</p>
+
+<p>
+p<sub>X</sub>|Y(x|y) = p<sub>Y</sub>|X(y|x).p(x)/p<sub>Y</sub>(y)
+</p>
+
+<p>
+In a continuous setting, its very similar.
+</p>
+
+<p>
+f<sub>X</sub>|Y(x/y) = f<sub>Y</sub>(x).f<sub>Y</sub>|X(y|x)/f<sub>Y</sub>(y)
+</p>
+</div>
+<div id="outline-container-org7824611" class="outline-4">
+<h4 id="org7824611"><span class="section-number-4">5.19.1</span> Mixed baye's rule</h4>
+<div class="outline-text-4" id="text-5-19-1">
+<p>
+Dealing with discrete and continuous r.v.
+</p>
+
+<p>
+K: discrete, Y: continuous
+</p>
+
+<p>
+p(K = k, y &le; Y &le; y + &delta;)
+= p<sub>K</sub>(k).p(y &le; Y &le; y + &delta;|K=k) = p<sub>K</sub>(k) * f<sub>Y</sub>|K(y).&delta;
+= p(y &le; Y &le; y + &delta;).p(k/y &le; Y &le; y + &delta;) = f<sub>Y</sub>(y).&delta; * p<sub>K</sub>|Y(k|y)
+</p>
+
+<p>
+Thus, rearranging, we have
+</p>
+
+<p>
+p<sub>K</sub>|Y(k|y) = p<sub>K</sub>(k).f<sub>Y</sub>|K(y|k) / f<sub>Y</sub>(y)
+</p>
+
+<p>
+f<sub>Y</sub>(y) = &Sigma;<sub>K</sub> p<sub>K</sub>(k').f<sub>Y</sub>|K(y|k')
+</p>
+
+<p>
+OR
+</p>
+
+<p>
+f<sub>Y</sub>|K(y | k) = p<sub>K</sub>(k | y).f<sub>Y</sub>(y)/p<sub>K</sub>(k)
+p<sub>K</sub>(k) = &int; f<sub>Y</sub>(y').p<sub>K</sub>|Y(k|y')dy'
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org939c419" class="outline-2">
+<h2 id="org939c419"><span class="section-number-2">6</span> Further topics on random variables</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-org6fe98d9" class="outline-3">
+<h3 id="org6fe98d9"><span class="section-number-3">6.1</span> Derived Distributions</h3>
+<div class="outline-text-3" id="text-6-1">
+</div><div id="outline-container-orgee8aaae" class="outline-4">
+<h4 id="orgee8aaae"><span class="section-number-4">6.1.1</span> PMF of a general function of a discrete R.V</h4>
+<div class="outline-text-4" id="text-6-1-1">
+<p>
+Let X be an R.V and Y = g(X)
+p<sub>Y</sub>(y) = &Sigma;<sub>(g(x) = y)</sub>p<sub>X</sub>(x)
+</p>
+</div>
+<ol class="org-ol"><li><a id="org631ae7b"></a>Linear function of discrete r.v<br  /><div class="outline-text-5" id="text-6-1-1-1">
+<p>
+Y = a.X + b
+</p>
+
+<p>
+p<sub>Y</sub>(Y=y) = p<sub>X</sub>(X=y - b/a)
+</p>
+</div></li></ol>
+</div>
+<div id="outline-container-org4eb5834" class="outline-4">
+<h4 id="org4eb5834"><span class="section-number-4">6.1.2</span> Linear function of continous r.v</h4>
+<div class="outline-text-4" id="text-6-1-2">
+<p>
+In case of a continuous r.v, let X be a continous r.v and Y = a.X + b
+</p>
+
+<p>
+If a = 0, Y is a constant r.v
+</p>
+
+<p>
+when a &gt; 0,
+</p>
+
+<p>
+p(Y = y) = p(Y = a.X + b) = p(X = y - b /a) = 0
+</p>
+
+<p>
+This is because in the continous case, probability of a point is 0.
+</p>
+
+<p>
+Instead, lets work with intervals, by using CDFs
+</p>
+
+<p>
+F<sub>Y</sub>(y) = P(Y &le; y) = P(a.X + b &le; y) = P(X &le; (y - b)/a) = F<sub>X</sub>((y - b)/a)
+</p>
+
+<p>
+To find the pdf, lets differentiate.
+</p>
+
+<p>
+f<sub>Y</sub>(y) = f<sub>X</sub>((y - b)/a)*1/a
+</p>
+
+<p>
+when a &lt; 0,
+</p>
+
+<p>
+we get F<sub>Y</sub>(y) = P(X &ge; (y - b)/a) = 1 - P(X &le; (y - b)/a)
+</p>
+
+<p>
+Using chain rule again,
+</p>
+
+<p>
+f<sub>Y</sub>(y) = -1/a * f<sub>X</sub>(y - b/a)
+</p>
+
+<p>
+Thus,
+</p>
+
+<p>
+f<sub>Y</sub>(y) = 1/|a| * f<sub>X</sub>((y - b)/a)
+</p>
+</div>
+</div>
+<div id="outline-container-orgb130f26" class="outline-4">
+<h4 id="orgb130f26"><span class="section-number-4">6.1.3</span> Linear function of normal r.v</h4>
+<div class="outline-text-4" id="text-6-1-3">
+<p>
+Let X ~ N(&mu;, &sigma;<sup>2</sup>)
+</p>
+
+<p>
+f<sub>X</sub>(x) = 1/sqrt(2&pi;) * exp{-(x - &mu;)<sup>2</sup>/2.&sigma;<sup>2</sup>}
+</p>
+
+<p>
+Y = a.X + b
+</p>
+
+<p>
+From above, we know that f<sub>Y</sub>(y) = 1/|a| * f<sub>X</sub>((y - b)/ a)
+</p>
+
+<p>
+Substituing, x as (y - b /a), we get
+</p>
+
+<p>
+Y = aX + b ~ N(a&mu; + b, a<sup>2.&sigma;</sup><sup>2</sup>)
+</p>
+</div>
+</div>
+<div id="outline-container-orgeb61f8e" class="outline-4">
+<h4 id="orgeb61f8e"><span class="section-number-4">6.1.4</span> PDF of a general function of a continous r.v</h4>
+<div class="outline-text-4" id="text-6-1-4">
+<p>
+Its a two step procedure,
+</p>
+
+<ul class="org-ul">
+<li>find the CDF. F<sub>Y</sub>(y) = P(Y &le; y) = P(g(X) &le;  y)</li>
+<li>differentiate it.</li>
+</ul>
+</div>
+<ol class="org-ol"><li><a id="org09ec6ee"></a>Ex 1<br  /><div class="outline-text-5" id="text-6-1-4-1">
+<p>
+Y = X<sup>3</sup>, X is uniform on [0, 2]
+</p>
+
+<p>
+Y goes from [0, 8]
+</p>
+
+<p>
+F<sub>Y</sub>(y) = P(X<sup>3</sup> &le; y) = P(X &le; y<sup>(1/3)</sup>) = 1/2 * y<sup>(1/3)</sup>
+</p>
+
+<p>
+f<sub>Y</sub>(y) = 1/6 * y<sup>(1/3)</sup>
+</p>
+</div></li>
+<li><a id="org37ff04e"></a>Ex 2<br  /><div class="outline-text-5" id="text-6-1-4-2">
+<p>
+X is uniform on [5, 10]
+Y = 10/X
+</p>
+
+<p>
+Y takes values between [1, 2]
+</p>
+
+<p>
+F<sub>Y</sub>(y) = P(Y &le; y) = P(10/X &le; y) = P(X &ge; 10/y) = 1/5 * (10 - 10/y)
+</p>
+
+<p>
+f<sub>Y</sub>(y) = 2/y<sup>2</sup> 1 &le; y &le; 2
+</p>
+</div></li>
+<li><a id="orgb0e2701"></a>General formula for the monotonic function case<br  /><div class="outline-text-5" id="text-6-1-4-3">
+<p>
+Y = g(X), When g is monotic, there turns out to be a general formula for computing the PDF.
+</p>
+
+<p>
+what is monotic, x &lt; x' =&gt; g(x) &lt; g(x)'.
+</p>
+
+<p>
+Assuming g is strictly increasing and differentiable,
+In this case the inverse function h, gives us x for a given value of y. x = h(y)
+</p>
+
+<p>
+F<sub>Y</sub>(y) = P(Y &le; y) = P(X &le; h(y)) = F<sub>X</sub>(h(y))
+</p>
+
+<p>
+Thus,
+</p>
+
+<p>
+f<sub>Y</sub>(y) = f<sub>X</sub>(h(y)). d(h(y))/dh
+</p>
+
+<p>
+If g is a strictly deacreasing function of h,
+</p>
+
+<p>
+F<sub>Y</sub>(y) = P(Y &le; y) = P(X &ge; h(y)) = 1 - F<sub>X</sub>(h(y))
+</p>
+
+<p>
+Thus,
+f<sub>Y</sub>(y) = -f<sub>X</sub>(h(y)).d(h(y))/dy.
+</p>
+
+<p>
+h is increasing/decreasing just as g. Thus, we can use absolute value for dh/dy
+</p>
+
+<p>
+Thus, in both cases,
+</p>
+
+<p>
+f<sub>Y</sub>(y) = f<sub>X</sub>(h(y)).|d(h(y)/dy|
+</p>
+</div>
+<ol class="org-ol"><li><a id="org804f524"></a>Intuitive derivation for the monotonic function case<br  /><div class="outline-text-6" id="text-6-1-4-3-1">
+<p>
+P(y &le; Y &le; y + &delta;<sub>1</sub>) = P(x &le; X &le; x + &delta;<sub>2</sub>)
+</p>
+
+<p>
+P(x &le; X &le; x + &delta;<sub>2</sub>) &asymp; f<sub>X</sub>(x).&delta;<sub>2</sub>
+P(y &le; Y &le; x + &delta;<sub>1</sub>) &asymp; f<sub>Y</sub>(y).&delta;<sub>1</sub>
+</p>
+
+<p>
+&delta;<sub>2</sub> = &delta;<sub>1</sub> * d(h(x)/dy (i.e how much did x wiggle, given that y wiggled by &delta;<sub>1</sub> :) )
+</p>
+
+<p>
+f<sub>X</sub>(x).&delta;<sub>1</sub> * d(h(x))/dy = f<sub>Y</sub>(y).&delta;<sub>1</sub>
+</p>
+
+<p>
+We get the same result, f<sub>Y</sub>(y) = f<sub>X</sub>(x) * d(h(x))/dy
+</p>
+</div></li></ol></li>
+<li><a id="orgab50eed"></a>Nonmonotonic case<br  /><div class="outline-text-5" id="text-6-1-4-4">
+<p>
+Ex) Y = X<sup>2</sup>
+</p>
+
+
+<p>
+F<sub>Y</sub>(y) = P<sub>Y</sub>(Y &le; y) = P<sub>X</sub>(X<sup>2</sup> &le; y) = P<sub>X</sub>(|X| &le; sqrt(y)) = P<sub>X</sub>(-sqrt(y) &le; X &le; sqrt(y))
+</p>
+
+<p>
+= F<sub>X</sub>(sqrt(y)) - F<sub>X</sub>(-sqrt(y))
+</p>
+
+<p>
+f<sub>Y</sub>(y) = f<sub>X</sub>(sqrt(y)).1/2.sqrt(y) + f<sub>X</sub>(-sqrt(y)).1/2.sqrt(y)
+</p>
+</div></li>
+<li><a id="orgd8eadb6"></a>A function of multiple r.vs<br  /><div class="outline-text-5" id="text-6-1-4-5">
+<p>
+Z = g(X, Y)
+</p>
+
+<p>
+Same method, find CDF(Z) and then find PDF(Z)
+</p>
+</div></li></ol>
+</div>
+</div>
+<div id="outline-container-org9d6d5c8" class="outline-3">
+<h3 id="org9d6d5c8"><span class="section-number-3">6.2</span> Distribution of sums of independent r.vs</h3>
+<div class="outline-text-3" id="text-6-2">
+</div><div id="outline-container-orgdaa702c" class="outline-4">
+<h4 id="orgdaa702c"><span class="section-number-4">6.2.1</span> Sum of independent discrete r.vs</h4>
+<div class="outline-text-4" id="text-6-2-1">
+<p>
+Z = X + Y; X, Y independent with known pmfs, discrete
+</p>
+
+<p>
+As x, y are independent P<sub>(X, Y)</sub>(x, y) = P<sub>X</sub>(x).P<sub>Y</sub>(y)
+</p>
+
+<p>
+P<sub>Z</sub>(z) = &Sigma;<sub>x</sub> P(X=x, Y=y)
+      = &Sigma;<sub>x</sub> P(X=x, Y=z - x)
+</p>
+
+<p>
+This is called the <b>convolution formula</b>.
+</p>
+
+<p>
+Ex)
+X and Y are independent,
+</p>
+
+<p>
+Let X = {1, 2, 3} with probability {1/6, 3/6, 2/6}
+Let Y = {2, 3, 4} with probability {2/6, 3/6, 1/6}
+</p>
+
+<p>
+Z = X + Y
+</p>
+
+<p>
+p<sub>Z</sub>(6) = {2, 4} + {3, 3}
+</p>
+
+<p>
+But figuring this out by inspection can get painful.
+</p>
+
+<p>
+Instead, this is easier done using the convolution formula.
+</p>
+
+<p>
+y = z - x
+</p>
+
+<p>
+flip Y, we get {-2, -3, -4} with probability {2/6, 3/6, 1/6}
+</p>
+
+<p>
+shift by (add) z=6
+</p>
+
+<p>
+flipped and shifted Y: {4, 3, 2} with probability {2/6, 3/6, 1/6}
+</p>
+
+<p>
+Now, multiply the probabilities that are on top of each other.
+</p>
+
+<p>
+1/6 * 3/6 + 3/6 * 2/6 = 3/36 + 6/36 = 9/36 = 1/4
+</p>
+</div>
+</div>
+<div id="outline-container-org028be71" class="outline-4">
+<h4 id="org028be71"><span class="section-number-4">6.2.2</span> Sum of independent continuous r.vs</h4>
+<div class="outline-text-4" id="text-6-2-2">
+<p>
+continuous convolution formula:
+</p>
+
+<p>
+f<sub>Z</sub>(z) = &int;<sub>(-&infin; to &infin;)</sub>f<sub>X</sub>(x).f<sub>Y</sub>(z - x)dx
+</p>
+
+<p>
+How?
+</p>
+
+<p>
+Let Z = X + Y
+</p>
+
+<p>
+Given x = 3, z = y + 3
+</p>
+
+<p>
+f<sub>Z</sub>|X(z|3) = f<sub>(Y + 3)</sub>(z|3) = f<sub>(Y+3|X)</sub>(z|3) = f<sub>(Y + 3)</sub>(z) as X and Y are independent.
+</p>
+
+<p>
+f<sub>(X + b)</sub>(x) = f<sub>X</sub>(x - b)
+</p>
+
+<p>
+Thus, f<sub>(Y + 3)</sub>(z) = f<sub>Y</sub>(z - 3)
+</p>
+
+<p>
+In general,
+</p>
+
+<p>
+f<sub>(Z|X)</sub>(z|x) = f<sub>Y</sub>(z - x)
+</p>
+
+<p>
+Joint PDF of X and Z
+</p>
+
+<p>
+f<sub>(X, Y)</sub>(x, z) = f<sub>X</sub>(x).f<sub>Y</sub>(z - x)
+</p>
+
+<p>
+From joint to marginal,
+</p>
+
+<p>
+f<sub>Z</sub>(z) = &int;<sub>(-&infin; to &infin;)</sub>f<sub>(X, Z)</sub>(x, z)dx = &int;<sub>(-&infin; to &infin;)</sub>f<sub>X</sub>(x).f<sub>Y</sub>(z - x)dx
+</p>
+
+<p>
+Same mechanics as discrete case (flip and shift)
+</p>
+</div>
+</div>
+<div id="outline-container-org90260ee" class="outline-4">
+<h4 id="org90260ee"><span class="section-number-4">6.2.3</span> Sum of independent normal r.vs</h4>
+<div class="outline-text-4" id="text-6-2-3">
+<p>
+Doing some algebra, the sum of finitely many independent normal r.vs is also normal
+</p>
+
+<p>
+X ~ N(&mu;<sub>X</sub>, &sigma;<sup>2</sup><sub>x</sub>), Y ~ N(&mu;<sub>Y</sub>, &sigma;<sup>2</sup><sub>y</sub>), Z ~ N(&mu;<sub>Z</sub>, &sigma;<sup>2</sup><sub>z</sub>)
+</p>
+
+<p>
+Then X + Y + Z ~ N(&mu;<sub>X</sub> + &mu;<sub>Y</sub> + &mu;<sub>Z</sub>, &sigma;<sub>X</sub><sup>2</sup> + &sigma;<sub>Y</sub><sup>2</sup> + &sigma;<sub>Z</sub><sup>2</sup>)
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org9a1e81c" class="outline-3">
+<h3 id="org9a1e81c"><span class="section-number-3">6.3</span> Covariance</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+Let X, Y be 2 r.vs
+In general, covariance helps us know if 2 r.vs typically tend to go together.
+</p>
+
+<p>
+Covariance &gt; 0, positive values of x, y go together, and -ve values go together
+Covariance &lt; 0, positive values of x tends to go with negative y and vice-versa.
+</p>
+
+<p>
+Definition,
+</p>
+
+<p>
+cov(X, Y) = E[(X - E[X]).(Y - E[Y])]
+</p>
+
+<p>
+Now, if X, Y are independent
+</p>
+
+<p>
+cov(X, Y) = E[(X - E[X])].E[(Y - E[Y])] = 0.
+</p>
+
+<p>
+Thus, independence =&gt; cov(X, Y) is 0.
+But the converse is not true.
+</p>
+</div>
+<div id="outline-container-orgc691531" class="outline-4">
+<h4 id="orgc691531"><span class="section-number-4">6.3.1</span> Properties</h4>
+<div class="outline-text-4" id="text-6-3-1">
+<ul class="org-ul">
+<li>cov(X, X) = E[ (X - E[X])<sup>2</sup> ] = var(X)</li>
+</ul>
+</div>
+<ol class="org-ol"><li><a id="org173fe88"></a>Alternate formula for covariance<br  /><div class="outline-text-5" id="text-6-3-1-1">
+<p>
+E[XY + E[X].E[Y] -YE[X] - XE[Y]]
+</p>
+
+<p>
+E[XY] + E[X].E[Y] - E[Y].E[X] - E[X].E[Y]
+</p>
+
+<p>
+Thus, cov(X, Y) = E[XY] - E[X].E[Y]
+</p>
+</div></li>
+<li><a id="org151a9de"></a>Covariance of linear function of a value<br  /><div class="outline-text-5" id="text-6-3-1-2">
+<p>
+Assume 0 means, (for simpler calculation)
+</p>
+
+<p>
+cov(X, a.Y + b) = E[aXY + bX] = aE[XY] + bE[X] = a.cov(XY)
+</p>
+
+<p>
+Thus, multiplying by a constant increases covariance by a, but adding constant does not
+affect it.
+</p>
+
+<p>
+cov(X, Y + Z) = E[X.Y + X.Z] = cov(X, Y) + cov(X, Z)
+</p>
+</div></li></ol>
+</div>
+</div>
+<div id="outline-container-org7d9d153" class="outline-3">
+<h3 id="org7d9d153"><span class="section-number-3">6.4</span> Variance of sum of r.vs</h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+var(X1 + X2) = E[((X1 + X2) - E[X1 + X2])<sup>2</sup> ]
+</p>
+
+<p>
+Expanding and grouping,
+</p>
+
+<p>
+= E[(X1 - E[X1])<sup>2</sup> + (X2 - E[X2])<sup>2</sup> + 2.(X1 - E[X1]).(X2 - E[X2])]
+= var(X1) + var(X2) + 2.cov(X1, X2)
+</p>
+
+<p>
+Expanding this for multiple r.vs
+</p>
+
+<p>
+Assume 0 mean for all r.vs
+</p>
+
+<p>
+var(X1 + X2 + &#x2026; Xn) = E[ (X1 + X2 + &#x2026;X<sub>n</sub>)<sup>2</sup> ]
+  = E[ &Sigma;<sub>n</sub>(X<sub>i</sub>)<sup>2</sup> + &Sigma;<sub>(i &ne; j)</sub>X<sub>i.X</sub><sub>j</sub> ]
+  = &Sigma;<sub>n</sub> var(X<sub>i</sub>) + &Sigma;<sub>(i &ne; j)</sub>cov(X<sub>i</sub>, X<sub>j</sub>)
+</p>
+</div>
+</div>
+<div id="outline-container-org11fb012" class="outline-3">
+<h3 id="org11fb012"><span class="section-number-3">6.5</span> Correlation</h3>
+<div class="outline-text-3" id="text-6-5">
+<p>
+Dimensionless version of the covariance.
+</p>
+
+<p>
+&rho;(X, Y) = cov(X, Y)/&sigma;<sub>x.&sigma;</sub><sub>y</sub>
+</p>
+
+<p>
+It measures the degree of association between X and Y, but has fixed upper and lower limits.
+</p>
+</div>
+
+<div id="outline-container-org5ef4fbe" class="outline-4">
+<h4 id="org5ef4fbe"><span class="section-number-4">6.5.1</span> Properties</h4>
+<div class="outline-text-4" id="text-6-5-1">
+</div><ol class="org-ol"><li><a id="orga4bfd37"></a>&rho; always lies between -1 and +1<br  /><div class="outline-text-5" id="text-6-5-1-1">
+<p>
+For simplicity, lets assume 0 mean and unit variance. (but its true for all cases)
+</p>
+
+<p>
+E[(X - &rho;.Y)<sup>2</sup> ] = 1 - 2*&rho;<sup>2</sup> + &rho;<sup>2</sup> = 1 - &rho;<sup>2</sup>
+</p>
+
+<p>
+Since E[(X - &rho;.Y)<sup>2</sup>) should be &ge; 0.
+Thus 1 - &rho;<sup>2</sup> &ge; 0
+&rho;<sup>2</sup> &le; 1 or -1 &le; &rho; &le; 1
+</p>
+</div></li>
+<li><a id="org14e81e8"></a>Independent r.vs =&gt; 0 correlation. (but converse is not true)<br  /></li>
+<li><a id="org4fe8e92"></a>&rho;(X, X) = 1, &rho;(X, -X) = -1.<br  /></li>
+<li><a id="orgc4a2806"></a>If |&rho;| = 1 &lt;=&gt; (X - E[X]) = c.(Y - E[Y])  (linearly related)<br  /></li>
+<li><a id="org593dacf"></a>cov(a.X + b, Y) = a.cov(X, Y) =&gt; &rho;(aX + b, Y) = a.cov(X, Y)/|a|.&sigma;<sub>X.&sigma;</sub><sub>y</sub> = sign(a) * &rho;(X, Y)<br  /><div class="outline-text-5" id="text-6-5-1-5">
+<p>
+Thus, going from one set of units to another does not affect the association with some other variable.
+This reflects in the dimensionless property of the correlation.
+</p>
+</div></li></ol>
+</div>
+<div id="outline-container-org7d68e3d" class="outline-4">
+<h4 id="org7d68e3d"><span class="section-number-4">6.5.2</span> Interpretation of the correlation</h4>
+<div class="outline-text-4" id="text-6-5-2">
+<p>
+A large correlation implies Association but not causation.
+</p>
+
+<p>
+What does a large correlation mean?
+</p>
+
+<p>
+There is some underlying common (but perhaps hidden) factor that affects both the variables.
+</p>
+</div>
+</div>
+<div id="outline-container-org36a6f95" class="outline-4">
+<h4 id="org36a6f95"><span class="section-number-4">6.5.3</span> Correlations matter, a nice problem</h4>
+<div class="outline-text-4" id="text-6-5-3">
+<p>
+Say we have $100M  and decide to invest $10M in each of 10 states.
+At each state i, the return on investment is a random variable X<sub>i</sub>, with mean 1 and s.d 1.3 (in millions).
+Should we invest or not?
+</p>
+
+<p>
+var(X<sub>1</sub> + X<sub>2</sub> + &#x2026; X<sub>10</sub>) = &Sigma;<sub>(i=1 to 10)</sub> var(X<sub>i</sub>) + &Sigma;<sub>((i, j): i &ne; j)</sub>cov(X<sub>i</sub>, X<sub>j</sub>)
+</p>
+
+<p>
+Now, if (X<sub>i</sub>)'s  are uncorrelated, then  var = 10 * (1.3)<sup>2</sup> = 16.9, thus &sigma; = 4.1
+Expected return = 10.
+Thus, in order to make a loss, we have to go like about 2.5 s.ds below the mean.
+</p>
+
+<p>
+Using chebyshevs condition, the proportion of entires greater than 2.5 s.ds is &lt;= 0.16
+</p>
+
+<p>
+However, if the (X<sub>i</sub>)'s are correlated (say &rho; = 0.9)
+Then cov(X<sub>i</sub>, X<sub>j</sub>) = &rho;.&sigma;<sub>x.&sigma;</sub><sub>y</sub> = 1.52
+Then, variance = 16.9 + 90 * 1.52 = 154.
+&sigma;(X<sub>1</sub> + X<sub>2</sub> + &#x2026; X<sub>10</sub>) = 12.4.
+</p>
+
+<p>
+Hmmm, event one s.d below can lead to losses, so its a nono.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgf0c1efd" class="outline-3">
+<h3 id="orgf0c1efd"><span class="section-number-3">6.6</span> Conditional expectation and variance as r.vs</h3>
+<div class="outline-text-3" id="text-6-6">
+</div><div id="outline-container-org3e68c78" class="outline-4">
+<h4 id="org3e68c78"><span class="section-number-4">6.6.1</span> Conditional expectation as an r.v</h4>
+<div class="outline-text-4" id="text-6-6-1">
+<p>
+Given X is an r.v and h(x) = x<sup>2</sup>.
+What is h(X)?
+This is a random variable, that takes the value x<sup>2</sup> when X takes the value x.
+</p>
+
+<p>
+We know,
+</p>
+
+<p>
+E[X|Y=y] = &Sigma;<sub>x</sub> x.p<sub>X</sub>|Y(x|y) (integration in the continuous case)
+</p>
+
+<p>
+Lets call this g(y). (Its a value)
+</p>
+
+<p>
+now, what is g(Y)?
+Its a r.v that takes the value E[X|Y=y] when Y takes the value y.
+</p>
+
+<p>
+Definition, E[X|Y] = g(Y)
+</p>
+<ul class="org-ul">
+<li>Its a function of Y</li>
+<li>It is a r.v</li>
+<li>has a distribution mean, variance etc&#x2026;</li>
+</ul>
+</div>
+<ol class="org-ol"><li><a id="orge42c42a"></a>Whats its mean?<br  /><div class="outline-text-5" id="text-6-6-1-1">
+<p>
+E[E[X|Y]] = E[X]
+</p>
+
+<p>
+This is called the law of iterated expectations.
+</p>
+
+<p>
+Using the expected value rule,
+E[g(Y)] = &Sigma;<sub>y</sub> g(Y=y).p<sub>Y</sub>(y) = &Sigma;<sub>y</sub> E[X|Y=y]*p<sub>Y</sub>(y)
+</p>
+
+<p>
+From the total expectation theorem, we get E[X]
+</p>
+</div></li>
+<li><a id="orged0ca37"></a>Forecast revision example<br  /><div class="outline-text-5" id="text-6-6-1-2">
+<p>
+Suppose forecasts are made by calculating the expected value, given any information.
+</p>
+
+<p>
+X: February sales
+</p>
+
+<p>
+Forecasting in the begining of the year: E[X]
+</p>
+
+<p>
+End of january: will get new information, Y=y.
+</p>
+
+<p>
+New forecast: E[X|Y=y]
+</p>
+
+<p>
+But at the begining of the year, we don't know the revised forecast. its a r.v E[X|Y]
+</p>
+
+<p>
+Using law of iterated expectations, we get E[E[X|Y]] = E[X]
+i.e expected value of revised foreecast is the same as the original expectation.
+</p>
+</div></li></ol>
+</div>
+<div id="outline-container-org8d8b944" class="outline-4">
+<h4 id="org8d8b944"><span class="section-number-4">6.6.2</span> Conditional variance as an r.v</h4>
+<div class="outline-text-4" id="text-6-6-2">
+<p>
+var(X) = E[(X - E[X])<sup>2</sup>)
+</p>
+
+<p>
+var(X|Y=y) = E[(X - E[X|Y=y])<sup>2</sup> |Y=y] (this is a value)
+</p>
+
+<p>
+Similar to the conditional expectation case, we can write a r.v as
+</p>
+
+<p>
+var(X|Y) = E[(X - E[X|Y])<sup>2</sup> |Y]
+</p>
+
+<p>
+var(X|Y) takes the value var(X|Y=y) when Y=y
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="org5c0716d"></a>What is its expected value?<br  /><div class="outline-text-5" id="text-6-6-2-1">
+<p>
+var(X|Y=y) = E[X<sup>2</sup> |Y=y] - E[X|Y=y]<sup>2</sup> for all y (this is a value)
+</p>
+
+<p>
+var(X|Y) = E[X<sup>2</sup> |Y] - E[X|Y]<sup>2</sup> (this is an r.v)
+</p>
+
+<p>
+E[var(X|Y)] = E[X<sup>2</sup> ] - E[E[X|Y]<sup>2</sup> ] (using law of iterated expectation for the first term)
+</p>
+</div></li>
+<li><a id="org620afbf"></a>Law of total variance<br  /><div class="outline-text-5" id="text-6-6-2-2">
+<p>
+var(X) = E[var(X|Y)] + var(E[X|Y])
+</p>
+
+<p>
+the proof is just manipulation, no intuition
+</p>
+
+<p>
+E[var(X|Y)] = E[X<sup>2</sup> ] - E[E[X|Y]<sup>2</sup> ] (using law of iterated expectation for the first term)
+</p>
+
+<p>
+var(E[X|Y]) = E[E[X|Y])<sup>2</sup> ] - E[X]<sup>2</sup>
+</p>
+
+<p>
+Thus, E[var(X|Y)] + var(E[X|Y]) = E[X<sup>2</sup> |Y] - E[X<sup>2</sup> ] = var(X)
+</p>
+</div></li>
+<li><a id="orgb0c5cad"></a>Example: Section mean and variance<br  /><div class="outline-text-5" id="text-6-6-2-3">
+<p>
+Two sections of a class: y=1 (10 students), y=2 (20 students)
+x<sub>i</sub>: score of student i
+</p>
+
+<p>
+Experiment: Pick a stundent at random (uniformly)
+</p>
+
+<p>
+random variables: X and Y where X takes the score of the selected student and Y is the section.
+</p>
+
+<p>
+Given data,
+</p>
+
+<p>
+E[X|Y=1] = 90, E[X|Y=2] = 60
+</p>
+
+
+<p>
+We can find E[X]
+</p>
+
+<p>
+E[X] = &Sigma;<sub>x</sub> x<sub>i.p</sub>(x<sub>i</sub>) = 1/30 * &Sigma;<sub>(i=1 to 30)</sub>(x<sub>i</sub>) = 1/30 * (90 * 10 + 60 * 20) = 70
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="orgbd261e6"></a>E[X|Y] ?<br  /><div class="outline-text-6" id="text-6-6-2-3-1">
+<p>
+1/3 * 90 + 2/3 * 60 = 70 which is the same as E[X]. cool!
+</p>
+
+<p>
+Thus, we can find E[X] using this new divide and conquer method using law of iterated expectations.
+</p>
+</div></li>
+<li><a id="org2d3307c"></a>var(E[X|Y])?<br  /><div class="outline-text-6" id="text-6-6-2-3-2">
+<p>
+E[(E[X|Y] - E[E[X|Y]])<sup>2</sup> ] = 1/3 * (90 - 70)<sup>2</sup> + 2/3 * (60 - 70)<sup>2</sup> = 200
+</p>
+</div></li>
+<li><a id="org8ddf1ac"></a>var(X|Y=y)<br  /><div class="outline-text-6" id="text-6-6-2-3-3">
+<p>
+var(X|Y=1) = E[(X - E[X|Y=1])<sup>2</sup> |Y=1 ] =  from above, we can see that this is 10
+</p>
+
+<p>
+Similarly
+</p>
+
+<p>
+var(X|Y=2) = 20
+</p>
+</div></li>
+<li><a id="org7c5b67a"></a>E[var(X|Y)]<br  /><div class="outline-text-6" id="text-6-6-2-3-4">
+<p>
+1/3 * 10 + 2/3 * 20 = 50/3
+</p>
+</div></li>
+<li><a id="orgaab386a"></a>var(X)<br  /><div class="outline-text-6" id="text-6-6-2-3-5">
+<p>
+E[var(X|Y)] + var(E[X|Y])
+</p>
+
+<p>
+(average variability within a section) + (variability between sections)
+</p>
+
+<p>
+i.e the overall randomness can be broken into these two pieces.
+</p>
+</div></li></ol></li>
+<li><a id="org078bcfc"></a>Mean of the sum of a random number of random variables<br  /><div class="outline-text-5" id="text-6-6-2-4">
+<p>
+N: number of stores visited (N is a nonnegative integer r.v)
+X<sub>i</sub>: money spent at store i
+</p>
+<ul class="org-ul">
+<li>X<sub>i</sub> independent, identically distributed</li>
+<li>independent of N</li>
+</ul>
+
+<p>
+Total money spent Y = X<sub>1</sub> + X<sub>2</sub> &#x2026; + X<sub>N</sub>
+</p>
+
+<p>
+hmmm, how do we do this?
+</p>
+
+<p>
+always a good idea to condition on something and then see if we can figure stuff out.
+</p>
+
+<p>
+E[Y|N=n] = E[X<sub>1</sub> + &#x2026; X<sub>n</sub> | N=n] = E[ X<sub>1</sub> ] + E[ X<sub>2</sub> ] + &#x2026; E[ X<sub>n</sub> ] (as X<sub>i</sub> and N are independent)
+Let each E[X<sub>i</sub> ] = E[X]
+Thus E[Y|N=n] = n.E[X]
+</p>
+
+<p>
+Using total expectation theorem,
+</p>
+
+<p>
+E[Y] = &Sigma;<sub>y</sub> p<sub>N</sub>(n)E[Y|N=n] = &Sigma;<sub>n</sub> P<sub>N</sub>(n).n.E[X] = E[N].E[X]
+which makes intuitive sense. Its the expected number of stores visited times the money spent at each store.
+</p>
+
+<p>
+Another approach is to use the law of iterated expectations,
+</p>
+
+<p>
+E[Y] = E[E[Y|N]] = E[N.E[X]] = E[X].E[N] (As E[X] is a constant)
+</p>
+</div></li>
+<li><a id="org4e2e51a"></a>Variance of the sum of a random number of random variables<br  /><div class="outline-text-5" id="text-6-6-2-5">
+<p>
+var(Y) = ?
+</p>
+
+<p>
+Y = X<sub>1</sub> + &#x2026; X<sub>N</sub>
+</p>
+
+<p>
+from the law of total variance,
+</p>
+
+<p>
+we know var(Y) = E[var(Y|N)] + var(E[Y|N])
+</p>
+
+<p>
+E[Y|N] = N.E[X]
+</p>
+
+<p>
+var(E[Y|N]) = var(N.E[X]) = E[X]<sup>2.var</sup>(N)
+</p>
+
+<p>
+to find the first term,
+var(Y|N=n) = var(X<sub>1</sub> + &#x2026; X<sub>n</sub> | N=n) = var(X<sub>1</sub> + &#x2026; X<sub>n</sub>) = n.var(X)
+</p>
+
+<p>
+var(Y|N) = N.var(X)
+E[var(Y|N)] = E[N.var(X)] = var(X).E[N]
+</p>
+
+<p>
+Thus, var(Y) = var(X).E[N] + E[X]<sup>2.var</sup>(N)
+</p>
+</div></li></ol>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc4ca031" class="outline-2">
+<h2 id="orgc4ca031"><span class="section-number-2">7</span> Bayesian Inference</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+If our probability model is good, it should be able to predict the real world.
+Using Data from the real world, we do inference and statistics to improve our model.
+</p>
+
+<p>
+Application domains:
+</p>
+
+<p>
+Polls, marketing/advertising, finance, natural sciences, neuroscience, astronomy, engineering (fight against noise).
+</p>
+</div>
+<div id="outline-container-org599f9ed" class="outline-3">
+<h3 id="org599f9ed"><span class="section-number-3">7.1</span> Types of Inference problems</h3>
+<div class="outline-text-3" id="text-7-1">
+</div><div id="outline-container-org33c4a21" class="outline-4">
+<h4 id="org33c4a21"><span class="section-number-4">7.1.1</span> Model building versus inferring unobserved variables</h4>
+<div class="outline-text-4" id="text-7-1-1">
+<p>
+Ex) X = a.S + W
+</p>
+
+<p>
+S is sent, W is noise.
+</p>
+
+<p>
+Inference: we know X, we know a, we infer X.
+Model building: we know S, we observe X, we find a.
+</p>
+
+<p>
+Usually in inference problems, we try to estimate some numerical unknown value. (Try to get as close to it as we can)
+</p>
+</div>
+</div>
+<div id="outline-container-org0b65810" class="outline-4">
+<h4 id="org0b65810"><span class="section-number-4">7.1.2</span> Hypothesis testing versus estimation</h4>
+<div class="outline-text-4" id="text-7-1-2">
+<ul class="org-ul">
+<li>unknown takes one of few possible values.</li>
+<li>make the probability of incorrect decision pretty small.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgbab28d4" class="outline-3">
+<h3 id="orgbab28d4"><span class="section-number-3">7.2</span> Introduction to Bayesian inference framework</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+Unknown &theta;
+</p>
+<ul class="org-ul">
+<li>treated as an r.v</li>
+<li>prior distribution p<sub>&Theta;</sub> or f<sub>&Theta;</sub></li>
+</ul>
+
+<p>
+Observation X
+</p>
+<ul class="org-ul">
+<li>observation model p<sub>X</sub>|&theta; or f<sub>X</sub>|&theta;</li>
+</ul>
+
+<p>
+Use appropriate version of the Bayes rule to find p<sub>&theta;</sub>|X(.|X = x) or f<sub>&theta;</sub>|X(.|X = x)
+</p>
+
+<p>
+<i>Where does the initial prior come from?</i>
+symmetry, known ranges, earlier studies, subjective or arbitrary.
+</p>
+
+<p>
+The complete answer in a bayesian inference problem is the posterior distribution: PMF p<sub>&theta;</sub>|X(. | x) or PDF f<sub>&theta;</sub>|X(. | x)
+</p>
+</div>
+<div id="outline-container-org05fed62" class="outline-4">
+<h4 id="org05fed62"><span class="section-number-4">7.2.1</span> Point estimates in Bayesian Inference</h4>
+<div class="outline-text-4" id="text-7-2-1">
+<p>
+If suppose we want one answer to describe the posterior, what would it be?
+</p>
+
+<p>
+2 ways:
+</p>
+<ul class="org-ul">
+<li>Maximum a posteriori probability (MAP):</li>
+</ul>
+
+<p>
+p<sub>&theta;</sub>|X(&theta;<sup>*</sup> | x) = max<sub>&theta;</sub> p<sub>&theta;</sub>|X(&theta;|x)
+f<sub>&theta;</sub>|X(&theta;<sup>*</sup> | x) = max<sub>&theta;</sub> f<sub>&theta;</sub>|X(&theta;|x)
+</p>
+
+<p>
+the value of &theta; that maximizes the conditional probability
+</p>
+
+<ul class="org-ul">
+<li>Conditional expectation: E[&theta;|X=x] (LMS: least mean square)</li>
+</ul>
+
+<p>
+Note:
+estimate: &theta; = g(x) (number)
+estimator: &Theta; = g(X) (r.v)
+</p>
+</div>
+</div>
+<div id="outline-container-orge72b2d3" class="outline-4">
+<h4 id="orge72b2d3"><span class="section-number-4">7.2.2</span> Discreate parameter &Theta;, discrete X</h4>
+</div>
+<div id="outline-container-org5106331" class="outline-4">
+<h4 id="org5106331"><span class="section-number-4">7.2.3</span> Discrete parameter &Theta;, continuous observation</h4>
+<div class="outline-text-4" id="text-7-2-3">
+<p>
+Both cases above are handled by a simple application of the bayes rule. (using pmf or pdf as required)
+</p>
+
+<p>
+p<sub>(&Theta;|x)</sub>(&theta;|x) = p<sub>&Theta;</sub>(&theta;) * f<sub>X</sub>|&Theta;(x|&theta;) / f<sub>X</sub>(x)
+</p>
+
+<p>
+where f<sub>X</sub>(x) = &Sigma;<sub>&theta;</sub>' f<sub>X</sub>|&Theta;(x|&theta;') * p(&theta;')
+</p>
+
+<p>
+Overall probability of error:
+</p>
+
+<p>
+P(&Theta;' &ne; &theta;) = &Sigma;<sub>&theta;</sub> P(&theta;' &ne; &theta; | &theta; = &theta;) * p<sub>&theta;</sub>(&theta;)
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org4459b96" class="outline-3">
+<h3 id="org4459b96"><span class="section-number-3">7.3</span> Linear models with normal noise</h3>
+<div class="outline-text-3" id="text-7-3">
+</div><div id="outline-container-orga8193c0" class="outline-4">
+<h4 id="orga8193c0"><span class="section-number-4">7.3.1</span> Recognizing normal pdfs</h4>
+<div class="outline-text-4" id="text-7-3-1">
+<p>
+X ~ N(&mu;, &sigma;<sup>2</sup>) f<sub>X</sub>(x) = 1/&sigma;*sqrt(2&pi;) * e^-(x - &mu;)<sup>2</sup>/2&sigma;<sup>2</sup>
+</p>
+
+<p>
+f<sub>X</sub>(x) = c.e^(-(&alpha;*x<sup>2</sup> + &beta; * x + &gamma;)  &alpha; &gt; 0 as the pdf has to integrate to 1.
+</p>
+
+<p>
+We can use the trick of 'completing the square' to convert this to the form c.e<sup>(-(x - &mu;)/2*&sigma;<sup>2</sup>)</sup> (Normal distribution form)
+</p>
+
+<p>
+&alpha;(x<sup>2</sup> + &beta; * x/&alpha; + &gamma;/&alpha;) = &alpha;((x + &beta;/2.&alpha;)<sup>2</sup> -&beta;<sup>2</sup>/4.&alpha;<sup>2</sup> + &gamma;/&alpha;
+</p>
+
+<p>
+Thus, we can write
+</p>
+
+<p>
+f<sub>X</sub>(x) = c.e<sup>(-&alpha;* (x + &beta;/2*&alpha;)<sup>2</sup>)</sup>.e<sup>(-&alpha;*(-&beta;<sup>2</sup>/4.&alpha;<sup>2</sup> + &gamma;/&alpha;))</sup>
+</p>
+
+<p>
+Which is of the form  N(-&beta;/2*&alpha;, 1/2.&alpha;)
+</p>
+
+<p>
+Once we are convinced this is a normal fn, To find the peak (which is also the mean, as this is a normal distribution)
+we need not do this completion of squares thingy, instead just maximize the function (or minimize the quadratic exponent)
+</p>
+
+<p>
+2 * &alpha; * x + &beta; = 0
+</p>
+
+<p>
+x = -&beta;/2.&alpha; (which is the mean/peak)
+</p>
+
+<p>
+Thus exponential of a quadratic function of x is a normal pdf.
+</p>
+</div>
+</div>
+<div id="outline-container-org7dff23d" class="outline-4">
+<h4 id="org7dff23d"><span class="section-number-4">7.3.2</span> Estimating a normal r.v in the presence of additive normal noise</h4>
+<div class="outline-text-4" id="text-7-3-2">
+<p>
+X = &Theta; + W       &Theta;, W ~ N(0, 1) and independent
+</p>
+
+<p>
+Now how do we infer &theta;?
+</p>
+
+<p>
+we have to do that using bayes inference.
+</p>
+
+<p>
+f<sub>(&Theta;/x)</sub>(&theta;/x) = f<sub>(x/&theta;)</sub>(x/&theta;) * f(&theta;) /f<sub>X</sub> (x)
+</p>
+
+<p>
+Since X = &theta; + W, its distribution is N(&theta;, 1)
+</p>
+
+<p>
+Thus, f<sub>(&theta;|X)</sub>(&theta;|x) = 1/f<sub>X</sub>(x) * c * e<sup>(-1/2 * &theta;<sup>2</sup>)</sup>.c * e^(-1/2 * (x - &theta;)<sup>2</sup> = c(x).e<sup>(- quadratic)</sup>
+</p>
+
+<p>
+Thus, we observe that the posterior is normal.
+</p>
+
+<p>
+Hence &Theta;<sub>Map</sub> = &Theta;<sub>LMS</sub> = E[&Theta;|X=x] = Mean or Peak of the posterior distribution.
+</p>
+
+<p>
+We can find the peak by minimizing the quadratatic. (Which happens to be x/2)
+</p>
+
+<p>
+The estimator &Theta;<sub>MAP</sub> = X/2
+</p>
+
+<p>
+Even with general means and variances:
+</p>
+<ul class="org-ul">
+<li>posterior is normal.</li>
+<li>LMS and MAP estimators coincide.</li>
+<li>these estimators are linear, of the form &Theta; = a.X + b</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org44d0842" class="outline-4">
+<h4 id="org44d0842"><span class="section-number-4">7.3.3</span> Case of multiple observations</h4>
+<div class="outline-text-4" id="text-7-3-3">
+<p>
+This is a very interesting model that appears quite often in practice.
+We observe the same variable multiple times and then try to estimate the variable.
+</p>
+
+<p>
+X<sub>1</sub> = &Theta; + W<sub>1</sub>
+.
+.
+.
+X<sub>N</sub> = &Theta; + W<sub>N</sub>
+</p>
+
+<p>
+&Theta; ~ N(x<sub>0</sub>, &sigma;<sub>0</sub><sup>2</sup>) W<sub>i</sub> ~ N(0, &sigma;<sub>i</sub><sup>2</sup>)
+</p>
+
+<p>
+&Theta;, W<sub>1</sub> &#x2026; W<sub>N</sub> are independent.
+</p>
+
+<p>
+Let x = [x<sub>1</sub>, x<sub>2</sub>, &#x2026; x<sub>N</sub> ], i.e a vector of observations.
+</p>
+
+<p>
+Now given this vector, whats our estimate of &theta;? We can use bayes rules f<sub>&Theta;</sub>|X(&theta;|x)
+</p>
+
+<p>
+f<sub>(X<sub>i</sub> | &theta;)</sub> = c<sub>i.e</sub><sup>(-(x<sub>i</sub> - &mu;)/&sigma;<sub>i</sub><sup>2</sup>)</sup>
+</p>
+
+<p>
+f<sub>(X|&Theta;)</sub>(x|&theta;) = f<sub>(X<sub>1</sub>, &#x2026; X<sub>N</sub>|&Theta;)</sub>(x<sub>1</sub>, &#x2026; x<sub>n</sub> | &Theta;)
+</p>
+
+<p>
+given &Theta; = &theta;: W<sub>i</sub> 's are independent (knowing &theta; does not make them dependent)
+Now, X<sub>i</sub> 's are obtained by just adding a constant to these w<sub>i</sub> 's, hence they are independent.
+</p>
+
+<p>
+Thus, we can write f<sub>(X|&Theta;)</sub>(x|&theta;) = &prod;<sub>i</sub> f<sub>(X<sub>i</sub> | &theta;)</sub> (x<sub>i</sub> | &theta;)
+</p>
+
+<p>
+f<sub>(&Theta;|x)</sub> (&theta;|x) = 1/f<sub>X</sub>(x) * c<sub>0.e</sub><sup>(-(&theta; - x<sub>0</sub>)<sup>2</sup>/2.&sigma;<sub>0</sub><sup>2</sup>)</sup> * &prod;<sub>i</sub> c<sub>i.e</sub><sup>(-(x<sub>i</sub> - &theta;)<sup>2</sup>/2.&sigma;<sub>i</sub><sup>2</sup>)</sup>
+</p>
+
+<p>
+Rearranging and combining terms, we recognize this as a normal distribution.
+</p>
+
+<p>
+Find the peak:
+</p>
+
+<p>
+We take derivative w.r.t &theta; and set to 0.
+</p>
+
+<p>
+&Sigma;<sub>(i = 0 to n)</sub> (&theta; - x<sub>i</sub>) / &sigma;<sub>i</sub><sup>2</sup> = 0
+</p>
+
+<p>
+We get &theta; = &Sigma;<sub>(i = 0 to n)</sub> x<sub>i</sub>/&sigma;<sub>i</sub><sup>2</sup>  / &Sigma;<sub>(i = 0 to n)</sub> 1/&sigma;<sub>i</sub><sup>2</sup>
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="orgfeddb7a"></a>Key conclusions<br  /><div class="outline-text-5" id="text-7-3-3-1">
+<ul class="org-ul">
+<li>posterior is normal</li>
+<li>LMS and MAP estimates coincide.</li>
+<li>these estimates are 'linear', of the form &theta; = a<sub>0</sub> + a<sub>1.x</sub><sub>1</sub> + &#x2026; + a<sub>n.x</sub><sub>n</sub></li>
+</ul>
+
+<p>
+Interpretations:
+</p>
+
+<ul class="org-ul">
+<li>estimate &theta;: weighted average of x<sub>0</sub> (prior mean) and x<sub>i</sub> (observations)</li>
+<li>weights determined by variances.</li>
+</ul>
+</div></li></ol>
+</div>
+<div id="outline-container-org885c937" class="outline-4">
+<h4 id="org885c937"><span class="section-number-4">7.3.4</span> Mean squared error</h4>
+<div class="outline-text-4" id="text-7-3-4">
+<p>
+Performance measures for our estimate.
+</p>
+
+<ul class="org-ul">
+<li>Mean squared error:</li>
+</ul>
+<p>
+After estimating &theta;', we find the mean squared error as follows.
+</p>
+
+<p>
+E[(&theta; - &theta;')<sup>2</sup> |X = x] = var(&theta; | X  = x) (as our estimate &theta; is the mean value)
+</p>
+
+<p>
+Using the formula for estimating variance of a normal (with quadratic in the exponent),
+</p>
+
+<p>
+we get var(&theta;|X = x) = 1/&Sigma;<sub>(i = 0 to n)</sub>1/&sigma;<sub>i</sub><sup>2</sup>
+</p>
+
+<p>
+Thus, thats our mean squared error.
+</p>
+</div>
+<ol class="org-ol"><li><a id="org41684e5"></a>Example<br  /><div class="outline-text-5" id="text-7-3-4-1">
+<p>
+X = &Theta; + W
+</p>
+
+<p>
+&Theta; ~ N(0, 1), W ~ N(0, 1) independent &Theta;, W
+</p>
+
+<p>
+We estimated &Theta;' = X/2  E[(&Theta; - &Theta;')<sup>2</sup> | X = x] = prior variance + variance of observation = 1/2 (using our formula above)
+</p>
+</div></li></ol>
+</div>
+<div id="outline-container-org5a33719" class="outline-4">
+<h4 id="org5a33719"><span class="section-number-4">7.3.5</span> Multiple parameter, trajectory estimation</h4>
+<div class="outline-text-4" id="text-7-3-5">
+<p>
+Seen a lot in the real world.
+</p>
+
+<p>
+Lets take an example,
+</p>
+
+<p>
+Someone throws a ball along a projectile.
+</p>
+
+<p>
+From newtons laws,
+</p>
+
+<p>
+x(t) = &theta;<sub>0</sub> + &theta;<sub>1.t</sub> + &theta;<sub>2.t</sub><sup>2</sup>
+</p>
+
+<ul class="org-ul">
+<li>We don't know the &theta;'s, so lets model them as random variables &Theta;<sub>0</sub>, &Theta;<sub>1</sub>, &Theta;<sub>2</sub>.</li>
+</ul>
+<p>
+Independent priors, f<sub>&theta;</sub><sub>j</sub>
+</p>
+
+<ul class="org-ul">
+<li>We take measurements at times t<sub>1</sub>, &#x2026; t<sub>n</sub></li>
+</ul>
+
+<p>
+X<sub>i</sub> = &Theta;<sub>0</sub> + &Theta;<sub>1.t</sub><sub>i</sub> + &theta;<sub>2.t</sub><sub>i</sub><sup>2</sup> + W<sub>i</sub>
+</p>
+
+<p>
+noise model, f<sub>W</sub><sub>i</sub>.
+Independent W<sub>i</sub>, independent from &theta;<sub>j</sub>.
+</p>
+
+<p>
+A Model with normality assumptions.
+</p>
+
+<p>
+Assume &Theta;<sub>j</sub> ~ N(0, &sigma;<sub>j</sub>), W<sub>i</sub> ~ N(0, &sigma;<sup>2</sup>); independent.
+</p>
+
+<ul class="org-ul">
+<li>Given &Theta; = (&theta;<sub>0</sub>, &theta;<sub>1</sub>, &theta;<sub>2</sub>); X<sub>i</sub> ~ N(&theta;<sub>0</sub> + &theta;<sub>1.t</sub><sub>i</sub> + &theta;<sub>2.t</sub><sub>i</sub><sup>2</sup>, &sigma;<sub>i</sub><sup>2</sup>)</li>
+</ul>
+
+<p>
+posterior = 1/f<sub>X</sub>(x) * &prod;<sub>(j = to 2)</sub> f<sub>&theta;</sub><sub>j</sub>(&theta;<sub>j</sub>). &prod;<sub>(i = 1 to n)</sub> f<sub>X</sub><sub>j</sub>|&theta;(x<sub>i</sub> | &theta;)
+</p>
+
+<p>
+MAP estimate: maximize over (&theta;<sub>0</sub>, &theta;<sub>1</sub>, &theta;<sub>2</sub>) (minimize the quadratic)
+</p>
+
+<p>
+we get 3 equations (linear), 3 unknowns.
+</p>
+</div>
+</div>
+<div id="outline-container-org4af858e" class="outline-4">
+<h4 id="org4af858e"><span class="section-number-4">7.3.6</span> Linear normal models</h4>
+<div class="outline-text-4" id="text-7-3-6">
+<ul class="org-ul">
+<li>&Theta;<sub>j</sub> and X<sub>i</sub> are linear functions of independent normal random variables.</li>
+</ul>
+
+<p>
+Inference under this class of models goes under the name linear regression.
+</p>
+
+<p>
+we do this just like the trajectory estimation we did above.
+</p>
+
+<ul class="org-ul">
+<li>f<sub>&Theta;</sub>|X(&theta;|x) = c(x).exp { -quadratic(&theta;<sub>1</sub>, &#x2026; &theta;<sub>m</sub>) }</li>
+<li>MAP estimate: maximize over (&theta;<sub>1</sub>, &#x2026; &theta;<sub>m</sub>);</li>
+</ul>
+<p>
+(minimize quadratic equation, just by taking derivative and setting to 0)
+</p>
+
+<p>
+&Theta;'<sub>(MAP, j)</sub>: linear function of X = (X<sub>1</sub>, &#x2026; X<sub>n</sub>).
+</p>
+
+<p>
+Facts:
+</p>
+<ul class="org-ul">
+<li>&theta;'<sub>(MAP, j)</sub> = E[&Theta;<sub>j</sub> | X]</li>
+<li>marginal posterior PDF of &Theta;<sub>j</sub>: f<sub>(&theta;<sub>j</sub> | X)</sub> (&theta;<sub>j</sub> | x), is normal</li>
+<li>MAP estimates based on the joint posterior PDF: same as MAP estimate based on marginal posterior PDF.</li>
+<li>E[(&Theta;'<sub>(i, MAP)</sub> - &Theta;<sub>i</sub>)<sup>2</sup> | X = x]: same for all x.</li>
+</ul>
+
+<p>
+Thus, this class of models have a rich set of important and elegant properties.
+Hence, they are used very much in practice. (probably the most used statistical models)
+</p>
+
+<p>
+<i>note</i> this model goes under the name of linear regression.
+To be precise, this model is mathematically equivalent to a (Bayesian) linear regression model.
+However, in typical presentations of linear regression, the notation and the interpretation
+(in terms of "explanatory" and "dependent" variables) looks quite different at first sight.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org6c8361a" class="outline-3">
+<h3 id="org6c8361a"><span class="section-number-3">7.4</span> Least mean square estimation</h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+So far, we have used 2 types of estimates, 1) MAP 2) Mean of conditional expectation.
+</p>
+</div>
+<div id="outline-container-org8452516" class="outline-4">
+<h4 id="org8452516"><span class="section-number-4">7.4.1</span> How about using some criterion and then minimizing that?</h4>
+<div class="outline-text-4" id="text-7-4-1">
+<p>
+Minimize the mean squared error. E[(&Theta; - &theta;')<sup>2</sup> | X = x].
+This is called the <b>least mean square estimator</b>
+</p>
+</div>
+</div>
+<div id="outline-container-org50dbe57" class="outline-4">
+<h4 id="org50dbe57"><span class="section-number-4">7.4.2</span> LMS without any observations</h4>
+<div class="outline-text-4" id="text-7-4-2">
+<p>
+unknown &theta;; prior p<sub>&theta;</sub>(&theta;)
+</p>
+
+<p>
+Lets take an example prior: uniform [4, 10]
+</p>
+<ul class="org-ul">
+<li>no observations available.</li>
+<li>MAP rule: find the point where this distribution is the highest.</li>
+</ul>
+<p>
+In this case, its any &theta; &isin; [4, 10]
+</p>
+<ul class="org-ul">
+<li>(Conditional) expectation</li>
+</ul>
+<p>
+In this case, its 7.
+</p>
+
+<p>
+But which is the 'right' one?
+</p>
+
+<p>
+Lets use a criterion, mean squared error. E[(&theta; - &theta;')<sup>2</sup> ] where &theta;' is our estimate (constant)
+</p>
+
+<p>
+Minimize this,
+</p>
+
+<p>
+Expanding and setting derivative to 0,
+</p>
+
+<p>
+E[ &theta;<sup>2</sup> ] + &theta;'<sup>2</sup> - 2.&theta;'.E[&theta;] = 0
+</p>
+
+<p>
+d/d&theta;'
+</p>
+
+<p>
+&theta;' =  E[&theta;]
+</p>
+
+<p>
+Thus, the optimal estimate according to LMS is the expected value.
+</p>
+
+<p>
+Another way to show this (more from a probability perspective, and less calculusy&#x2026;)
+</p>
+
+<p>
+var(&theta; - &theta;') + (E[&theta; - &theta;']<sup>2</sup>)
+</p>
+
+<p>
+var(&theta;) + (E[&theta; - &theta;']<sup>2</sup>)
+We can make the expected value 0 when &theta;' = E[&theta;]
+</p>
+
+<p>
+Optimal mean squared error = E[ (&theta; - E[&theta;])<sup>2</sup> ] = var(&theta;)
+</p>
+</div>
+</div>
+<div id="outline-container-org16059b8" class="outline-4">
+<h4 id="org16059b8"><span class="section-number-4">7.4.3</span> LMS single unknown and observation</h4>
+<div class="outline-text-4" id="text-7-4-3">
+<p>
+unknown &theta;, prior p<sub>&theta;</sub>(&theta;)
+</p>
+<ul class="org-ul">
+<li>interested in a point estimate &theta;'.</li>
+</ul>
+
+<p>
+observation X; model p<sub>X</sub>|&theta;(x|&theta;)
+</p>
+<ul class="org-ul">
+<li>observe that X = x</li>
+</ul>
+
+<p>
+minimize the conditional mean squared error
+</p>
+
+<p>
+E[(&theta; - &theta;')<sup>2</sup> | X=x]
+</p>
+
+<p>
+The minimization process is the same as before, except that this is in a conditional universe.
+</p>
+
+<p>
+&theta;' = E[&theta;|X=x]
+</p>
+
+<p>
+Estimator function is E[&theta;|X]
+</p>
+</div>
+</div>
+<div id="outline-container-org4cdf5bd" class="outline-4">
+<h4 id="org4cdf5bd"><span class="section-number-4">7.4.4</span> LMS performance evaluation</h4>
+<div class="outline-text-4" id="text-7-4-4">
+<p>
+How good is our estimate?
+MSE = E[(&Theta; - E[&theta;|X=x])<sup>2</sup> | X = x] = var(&Theta;|X=x)
+</p>
+
+<p>
+Thus, conditional variance is the optimal mean squared error.
+</p>
+
+<p>
+Expected performance of design, (we haven't used our estimate, so no  observation)
+</p>
+
+<p>
+MSE = E[(&Theta; - E[&theta;|X])<sup>2</sup> ] = E[var(&Theta;|X)]
+</p>
+</div>
+</div>
+<div id="outline-container-orgce16d19" class="outline-4">
+<h4 id="orgce16d19"><span class="section-number-4">7.4.5</span> LMS estimation of &Theta; based on X</h4>
+<div class="outline-text-4" id="text-7-4-5">
+<ul class="org-ul">
+<li>LMS relevant to estimation (not hypothesis testing).</li>
+<li>Same as MAP if the posterior is unimodal and symmetric around the mean.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org930244d" class="outline-4">
+<h4 id="org930244d"><span class="section-number-4">7.4.6</span> Multidimensional case</h4>
+<div class="outline-text-4" id="text-7-4-6">
+<p>
+LMS estimation with multiple observations and unknowns.
+</p>
+
+<p>
+unknown: &theta;; prior: p<sub>&theta;</sub>(&theta;)
+interested in point estimate &theta;'
+</p>
+
+<p>
+Observations X = (X1, X2, X3 &#x2026; ): model p<sub>X</sub>(x|&theta;)
+</p>
+
+<p>
+We previously did not rely on the dimension of X.
+</p>
+
+<p>
+LMS estimate: E[&theta; | X1=x<sub>1</sub>, X2=x<sub>2</sub> &#x2026; ]
+</p>
+
+<p>
+If &Theta; is a vector, apply to each component seperately.
+</p>
+
+<p>
+&Theta; = (&theta;<sub>1</sub>, &#x2026; &theta;<sub>m</sub>)
+</p>
+
+<p>
+then &theta;'<sub>j</sub> = E[&Theta;<sub>j</sub> | X1 = x<sub>1</sub>, X2 = x<sub>2</sub> &#x2026; ]
+</p>
+</div>
+</div>
+<div id="outline-container-org3c700e6" class="outline-4">
+<h4 id="org3c700e6"><span class="section-number-4">7.4.7</span> Challenges of LMS estimation</h4>
+<div class="outline-text-4" id="text-7-4-7">
+<p>
+By bayes rule,
+</p>
+
+<p>
+f<sub>&Theta;</sub>(&theta;|X) = f<sub>(X|&theta;)</sub>(x|&theta;).f<sub>&theta;</sub>(&theta;) / f<sub>X</sub>(x)
+</p>
+
+<p>
+f<sub>X</sub>(x) = &int; f<sub>&theta;</sub>(&theta;').f<sub>X</sub>|&theta;(x|&theta;')d&theta;'
+</p>
+
+<ul class="org-ul">
+<li>Full correct model, f<sub>X</sub>|&theta;(x|&theta;), may not be available.</li>
+<li>can be hard to compute/implement/analyze.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orge5e79f8" class="outline-4">
+<h4 id="orge5e79f8"><span class="section-number-4">7.4.8</span> Properties of LMS estimation</h4>
+<div class="outline-text-4" id="text-7-4-8">
+<p>
+Estimator &Theta;' = E[&Theta;|X]
+Error = &Theta;' - &theta;
+</p>
+
+
+<p>
+E[error|X=x] = 0
+</p>
+
+<p>
+proof:
+</p>
+
+<p>
+E[estimate - &theta;|X=x] = estimate - E[&Theta;|X=x] = 0
+</p>
+
+<p>
+cov(error, estimator) = 0
+</p>
+
+<p>
+proof:
+cov(error, estimate) = E[error * estimate] - E[error].E[estimate]
+</p>
+
+<p>
+Conditioning on X,
+</p>
+
+<p>
+E[error * estimate | X = x] = estimate * E[error|X] = 0
+</p>
+
+<p>
+the second term in cov is 0, as E[error|X] = 0
+</p>
+
+<p>
+&theta; = estimate - error
+</p>
+
+<p>
+var(Estimator) = var(estimator) + var(error) (property of variance)
+</p>
+
+<p>
+Thus, variance can be composed into 2 pieces, variance of the estimator and the variance of the estimation error.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org4e52338" class="outline-3">
+<h3 id="org4e52338"><span class="section-number-3">7.5</span> Linear least mean square estimation</h3>
+<div class="outline-text-3" id="text-7-5">
+<p>
+Conditional expectation E[&theta;|X] may be hard to compute/implement.
+estrict the estimator &theta;' = aX + b.
+</p>
+</div>
+<div id="outline-container-orgeb3688f" class="outline-4">
+<h4 id="orgeb3688f"><span class="section-number-4">7.5.1</span> LLMS formulation</h4>
+<div class="outline-text-4" id="text-7-5-1">
+<p>
+Unknown &theta;; observation X
+</p>
+
+<ul class="org-ul">
+<li>Minimize E[ (&theta; - &theta;')<sup>2</sup> ]</li>
+<li>Estimator &theta;' = g(X) -&gt; &theta;'<sub>LMS</sub> = E[&theta;|X]</li>
+<li>Now instead, consider estimators of the form &theta;' = a.X + b</li>
+</ul>
+
+<p>
+Minimizing E[ (&theta; - aX - b)<sup>2</sup> ], w.r.t a, b.
+</p>
+
+<p>
+<b>note</b> If E[&theta;|X] is linear, then &theta;'<sub>LMS</sub> = &theta;'<sub>LLMS</sub>
+</p>
+</div>
+</div>
+<div id="outline-container-orgfc1edef" class="outline-4">
+<h4 id="orgfc1edef"><span class="section-number-4">7.5.2</span> Solution to the LLMS formulation</h4>
+<div class="outline-text-4" id="text-7-5-2">
+<p>
+minimize E[ (&theta; - a.X - b)<sup>2</sup> ], w.r.t a, b.
+</p>
+
+<ul class="org-ul">
+<li>suppose a has already been found: b = E[&theta;] - a.E[X]. (Same argument as before, where we found &theta;'=E[&theta;] for E[(&theta; - &theta;')<sup>2</sup> ].</li>
+</ul>
+
+<p>
+substituting our b,
+</p>
+
+<p>
+min E[ (&theta; - a.X) - E[&theta; - a.X])<sup>2</sup> ] = var(&theta; - a.X)
+</p>
+
+<p>
+var(&theta; - a.X) = var(&theta;) + a<sup>2.var</sup>(X) - 2.a.cov(&theta;, X)
+</p>
+
+<p>
+d/d&theta; = 0: a = cov(&theta;, X)/var(X)
+</p>
+
+<p>
+Thus,
+</p>
+
+<p>
+&theta;'<sub>LLMS</sub> = E[&theta;] + Cov(&theta;, X)/var(X)(X - E[X])
+</p>
+
+<p>
+Alternatively,
+&rho; = cov(&theta;, X)/&sigma;<sub>&theta;.&sigma;</sub><sub>x</sub>
+</p>
+
+<p>
+a = &rho;.&sigma;<sub>&theta;.&sigma;</sub><sub>x</sub> / &sigma;<sub>X</sub><sup>2</sup>
+</p>
+
+<p>
+&theta;<sub>LLMS</sub> ' = E[&theta;] + &rho;.&sigma;<sub>&theta;</sub>/&sigma;<sub>X</sub>(X - E[X])
+</p>
+</div>
+</div>
+<div id="outline-container-org6bca6bb" class="outline-4">
+<h4 id="org6bca6bb"><span class="section-number-4">7.5.3</span> Properties</h4>
+<div class="outline-text-4" id="text-7-5-3">
+<ul class="org-ul">
+<li>Only means, variances and covariances matter.</li>
+<li>&rho; &gt; 0:</li>
+</ul>
+<p>
+If we see X &gt; E[&theta;] =&gt; &theta;'<sub>LLMS</sub> &gt; E[&theta;]
+</p>
+<ul class="org-ul">
+<li>Similarly if &rho; &lt; 0, when we see large X, we'll comeup with low estimate for &theta;.</li>
+<li>&rho; = 0:</li>
+</ul>
+<p>
+&theta;'<sub>LLMS</sub> = E[&theta;]
+</p>
+
+<p>
+Which also makes sense, if there is no correlation, it just reports the expected value.
+</p>
+</div>
+</div>
+<div id="outline-container-org3c4591e" class="outline-4">
+<h4 id="org3c4591e"><span class="section-number-4">7.5.4</span> MSE for LLMS</h4>
+<div class="outline-text-4" id="text-7-5-4">
+<p>
+To simplify algebra, we'll work with 0 mean and variance case. (though the result holds for all cases)
+</p>
+
+<p>
+E[ (&theta; - &rho;.&sigma;<sub>&theta;</sub>/&sigma;<sub>X.X</sub>)<sup>2</sup> ] = (1 - &rho;<sup>2</sup>).var(&theta;)
+</p>
+
+<p>
+Thus, large low implies lower mean square estimation error.
+</p>
+</div>
+</div>
+<div id="outline-container-org8406344" class="outline-4">
+<h4 id="org8406344"><span class="section-number-4">7.5.5</span> Coin bias example</h4>
+<div class="outline-text-4" id="text-7-5-5">
+<ul class="org-ul">
+<li>coin with bias &theta;; prior f<sub>&theta;</sub>(.)</li>
+<li>fix n; X = number of heads</li>
+</ul>
+
+<p>
+Find the bias.
+</p>
+
+<p>
+Let f<sub>&theta;</sub>(.) be uniform [0, 1]
+</p>
+
+<p>
+&theta;<sub>LMS</sub> = X+1/ n+2
+</p>
+
+<p>
+lets derive this from LLMS, (as the LMS is linear, LLMS should give us the same result)
+</p>
+
+<p>
+E[&theta;] = 1/2 var(&theta;) = 1/12
+</p>
+
+<p>
+p<sub>X</sub>|&theta;: Bin(n, &theta;) E[X|&theta;] = n.&theta; var(X|&theta;) = n.&theta;(1-&theta;)
+</p>
+
+<p>
+E[X] = E[n&theta;] = n/2 (using law of iterated expectation on E[X|&theta;])
+</p>
+
+<p>
+E[X<sup>2</sup> | &theta;] = var(X|&Theta;) + E[X<sup>2</sup> |&Theta;]<sup>2</sup> = E[n.&theta;(1-&theta;) + n<sup>2.&theta;</sup><sup>2</sup> ] = E[n&theta; - + (n<sup>2</sup> - n).&theta;<sup>2</sup> ]
+</p>
+
+<p>
+E[ X<sup>2</sup> ] = E[E[X<sup>2</sup> | &theta;]] = n/2 + (n<sup>2</sup> - n)/3 = n/6 + n<sup>2</sup>/3
+</p>
+
+<p>
+var(X) = E[ X<sup>2</sup> ]  - E[X]<sup>2</sup> = n/6 + n<sup>2</sup>/3 - n<sup>2</sup>/4 = n(n + 2)/12
+</p>
+
+<p>
+cov(&theta;/X) = n/3 - n/4 = n/12
+</p>
+
+<p>
+Using this stuff,
+</p>
+
+<p>
+&Theta;<sub>LLMS</sub> = X + 1 / n+2
+</p>
+</div>
+</div>
+<div id="outline-container-orge159a04" class="outline-4">
+<h4 id="orge159a04"><span class="section-number-4">7.5.6</span> LLMS with multiple observations</h4>
+<div class="outline-text-4" id="text-7-5-6">
+<ul class="org-ul">
+<li>Unknown &Theta;; observations X = (X1, X2, X3 &#x2026; Xn)</li>
+<li>Consider estimators of the form: &theta;' = a<sub>1.X</sub><sub>1</sub> + &#x2026; + a<sub>n.X</sub><sub>n</sub> + b</li>
+<li>Find the best choices of a1, a2, &#x2026; an</li>
+</ul>
+
+<p>
+minimize E[ (a<sub>1.X</sub><sub>1</sub> + &#x2026; + a<sub>n.X</sub><sub>n</sub> + b - &theta;)<sup>2</sup> ]
+</p>
+
+<ul class="org-ul">
+<li>If E[&theta;|X] is linear in X, then &Theta;'<sub>LMS</sub> = &theta;'<sub>LLMS</sub></li>
+</ul>
+</div>
+<ol class="org-ol"><li><a id="orge37f061"></a>How to minimize this?<br  /><div class="outline-text-5" id="text-7-5-6-1">
+<p>
+Take derivative and set to 0.
+</p>
+
+<p>
+Taking derivative of quadrative will give us a linear equation in b and the a<sub>i</sub>
+</p>
+
+<ul class="org-ul">
+<li>Only means, variances and covariances matter.</li>
+<li>If multiple unknown &theta;<sub>j</sub>, apply to each one seperately.</li>
+</ul>
+</div></li></ol>
+</div>
+<div id="outline-container-orgb031348" class="outline-4">
+<h4 id="orgb031348"><span class="section-number-4">7.5.7</span> Representation of data matters</h4>
+<div class="outline-text-4" id="text-7-5-7">
+</div><ol class="org-ol"><li><a id="org0fd3c13"></a>Estimation based on X versus X<sup>3</sup><br  /><div class="outline-text-5" id="text-7-5-7-1">
+<ul class="org-ul">
+<li>LMS: E[&theta;|X] is the same as E[ &theta;|X<sup>3</sup> ]</li>
+<li>LLMS is different: estimator &theta;' = a.X + b versus &theta;' = a.X<sup>3</sup> + b</li>
+</ul>
+
+<p>
+For finding a.X<sup>3</sup> + b, we need to know cov(X<sup>3</sup>, &theta;) var(X<sup>3</sup>)
+Generally, these higher order r.vs are harder to compute.
+</p>
+
+<p>
+We can take this further,
+</p>
+
+<p>
+&theta;' = a1.X + a2.X<sup>2</sup> + a3.X<sup>3</sup> + &#x2026; + b
+&theta;' = a1.X + a2.e<sup>X</sup> + &#x2026; + b
+</p>
+
+<p>
+<b>Note</b> these estimators are still called linear estimators, as our coefficients are linear.
+</p>
+
+<p>
+These are harder to compute, but are useful when we know somewhat know the shape of the output.
+</p>
+</div></li></ol>
+</div>
+</div>
+</div>
+<div id="outline-container-org5497aa7" class="outline-2">
+<h2 id="org5497aa7"><span class="section-number-2">8</span> Limit theorems and classical statistics</h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-orge4fd15f" class="outline-3">
+<h3 id="orge4fd15f"><span class="section-number-3">8.1</span> Inequalities</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+Generally, in probability, Inequalities use a bit of information about
+a distribution to learn something about probabilities of 'extreme
+events'.
+</p>
+</div>
+<div id="outline-container-orgcfa362d" class="outline-4">
+<h4 id="orgcfa362d"><span class="section-number-4">8.1.1</span> Markov Inequality</h4>
+<div class="outline-text-4" id="text-8-1-1">
+<p>
+Intuitively, If X &ge; 0, and E[X] is small, then X is unlikely to be very large.
+</p>
+
+<p>
+If X &ge; 0 and a &gt; 0, then P(X &ge; a) &le; E[X]/a.
+</p>
+
+<p>
+Thus, if the expected value is small, this probability is also small.
+If a is very large, again this probability is small.
+</p>
+
+<p>
+Another way to think about this,
+</p>
+
+<p>
+If X &ge; 0, and k is a constant, then P(X &ge; k.E[X]) &le; 1/k
+</p>
+</div>
+<ol class="org-ol"><li><a id="orgeed9b35"></a>Proof<br  /><div class="outline-text-5" id="text-8-1-1-1">
+<p>
+E[X] = &int;<sub>(0 to &infin;)</sub> x.f(x)dx
+</p>
+
+<p>
+P(X &ge; a) = &int;<sub>(a to &infin;)</sub>x.f(x)dx
+</p>
+
+<p>
+Since E[X] is an integral over a larger region of the same function,
+</p>
+
+<p>
+E[X] &ge; P(X &ge; a)
+     &ge; &int;<sub>(a to &infin;)</sub>a.f(x).dx (substituting the lower bound a, for x)
+     &ge; a.P(X &ge; a)
+</p>
+
+<p>
+Here is an instructive proof of the same,
+</p>
+
+<p>
+Let Y = { 0 if X &lt; a, a if X &ge; a}
+</p>
+
+<p>
+Y &le; X (from the above definition)
+</p>
+
+<p>
+Thus, E[Y] &le; E[X]
+</p>
+
+<p>
+a.P(X &ge; a) &le; E[X]
+</p>
+</div></li></ol>
+</div>
+<div id="outline-container-orgebbe87f" class="outline-4">
+<h4 id="orgebbe87f"><span class="section-number-4">8.1.2</span> Chebyshev Inequality</h4>
+<div class="outline-text-4" id="text-8-1-2">
+<p>
+Consider R.V X, with mean &mu; and variance &sigma;<sup>2</sup>
+If variance is small, X is unlikely to be far from the mean.
+</p>
+
+<p>
+P(|X - &mu;| &ge; c) &le; &sigma;<sup>2</sup>/c<sup>2</sup>
+</p>
+
+<p>
+Using this inequality, P(|X - &mu;| &ge; k.&sigma;) &le; &sigma;<sup>2</sup>/k<sup>2</sup>.&sigma;<sup>2</sup> = 1/k<sup>2</sup> Thus,
+we can also think about this as, proportion of entries greater than k
+s.ds away from the mean is bounded by 1/k<sup>2</sup>.
+</p>
+
+<p>
+In general, this is a better bound than the markov inequality. This is becuase it uses more
+information about the r.v.
+</p>
+</div>
+<ol class="org-ol"><li><a id="orgb6219c8"></a>Proof<br  /><div class="outline-text-5" id="text-8-1-2-1">
+<p>
+P(|X - &mu;| &ge; c) = P((X - &mu;)<sup>2</sup> &ge; c<sup>2</sup>) 
+</p>
+
+<p>
+Appying markov inequality,
+</p>
+
+<p>
+P((X - &mu;)<sup>2</sup> &ge; c<sup>2</sup>) = E[ (X - &mu;)<sup>2</sup> ] / c<sup>2</sup> = &sigma;<sup>2</sup>/c<sup>2</sup>
+</p>
+</div></li></ol>
+</div>
+</div>
+<div id="outline-container-orgfab8b24" class="outline-3">
+<h3 id="orgfab8b24"><span class="section-number-3">8.2</span> The Weak Law of Large numbers (WLLN)</h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+Plays a central role in probability theory.
+</p>
+
+<p>
+Start with a distribution with mean &mu; and variance &sigma;<sup>2</sup>
+</p>
+
+<p>
+Let X<sub>1</sub>, X<sub>2</sub>, &#x2026; be independent and identically distributed (i.i.d) r.vs.
+</p>
+
+<p>
+Sample Mean: M<sub>n</sub> = X<sub>1</sub> + X<sub>2</sub> + &#x2026; X<sub>n</sub> / n
+M<sub>n</sub> is a function. (since its a function of r.vs)
+</p>
+
+<p>
+True mean &mu; = E[ X<sub>i</sub> ]. i.e the expected value over all possible values of one of the r.vs. (say X<sub>i</sub>)
+&mu; is a number, it is not random.
+</p>
+
+<p>
+E[ M<sub>n</sub> ] = (E[X1] + E[X2] + &#x2026; E[Xn])/ n = n.&mu;/n = &mu;
+</p>
+
+<p>
+Thus, expected value of sample mean is the true mean.
+</p>
+
+<p>
+var(M<sub>n</sub>) = Var((X1 + &#x2026; Xn)/n) = var((X1 + &#x2026; Xn))/n<sup>2</sup> = n.&sigma;<sup>2</sup>/n = &sigma;<sup>2</sup>/n
+</p>
+
+<p>
+From the chebyshev inequality, 
+</p>
+
+<p>
+P(|M<sub>n</sub> - &mu;| &gt; &epsilon;) = var(M<sub>n</sub>)/&epsilon;<sup>2</sup> = &sigma;<sup>2</sup>/n.&epsilon;<sup>2</sup>. As n &#x2013;&gt; &infin;, this value tends to 0.
+</p>
+
+<p>
+WLLN: For &epsilon; &gt; 0, P(|M<sub>n</sub> - &mu;| &gt; &epsilon;) = P(|((X1 + X2 + &#x2026; Xn)/ n) - &mu;| &ge; &epsilon;) -&gt; 0, as n -&gt; &infin;
+</p>
+</div>
+<div id="outline-container-org10fbff2" class="outline-4">
+<h4 id="org10fbff2"><span class="section-number-4">8.2.1</span> Interpreting WWLN</h4>
+<div class="outline-text-4" id="text-8-2-1">
+<p>
+One experiment,
+</p>
+<ul class="org-ul">
+<li>Many measurements X<sub>i</sub> = &mu; + W<sub>i</sub></li>
+<li>W<sub>i</sub>, measurement noise; E[ W<sub>i</sub> ] = 0; indepent W<sub>i</sub></li>
+<li>Sample Mean M<sub>n</sub> is unlikely to be far off from the true mean &mu;.</li>
+</ul>
+
+<p>
+Many independent repetitions of the same experiment
+</p>
+<ul class="org-ul">
+<li>event A, with p = P(A)</li>
+<li>X<sub>i</sub>: indicator of event A</li>
+<li>True mean E[X<sub>i</sub> ] = &mu;</li>
+<li>M<sub>n</sub> is the empirical frequency of A.</li>
+</ul>
+<p>
+WWLN tells us that this frequency is unlikely to be far from p.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org9c16a84" class="outline-3">
+<h3 id="org9c16a84"><span class="section-number-3">8.3</span> Convergence in probability</h3>
+<div class="outline-text-3" id="text-8-3">
+<p>
+A sequence Y<sub>n</sub> converges in probability to a value <i>a</i> if:
+</p>
+
+<p>
+for &epsilon; &gt; 0, lim<sub>(n -&gt; &infin;)</sub> P(|Y<sub>n</sub> - a| &ge; &epsilon;) = 0
+</p>
+</div>
+<div id="outline-container-org6562639" class="outline-4">
+<h4 id="org6562639"><span class="section-number-4">8.3.1</span> Some properties</h4>
+<div class="outline-text-4" id="text-8-3-1">
+<p>
+If X<sub>n</sub> -&gt; a, Y<sub>n</sub> -&gt; b, in probability
+</p>
+
+<p>
+If g is continuous, then g(X<sub>n</sub>) -&gt; g(a). ex) X<sub>n</sub><sup>2</sup> - &gt;a<sup>2</sup>
+</p>
+
+<p>
+X<sub>n</sub> + Y<sub>n</sub> -&gt; a + b
+</p>
+
+<p>
+<b>But</b> E[ X<sub>n</sub> ] need not converge to a.
+This makes intuitive sense, as Expected value is affected by a long tail. (extreme values).
+But convergence is to do with where the bulk of the probability lies.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgc6f6c95" class="outline-3">
+<h3 id="orgc6f6c95"><span class="section-number-3">8.4</span> Related topics</h3>
+<div class="outline-text-3" id="text-8-4">
+<p>
+Better bounds than Markov and chebyshev inequalities
+</p>
+<ul class="org-ul">
+<li>Chernoff bound</li>
+<li>Central limit theorem</li>
+</ul>
+
+<p>
+Different types of convergence
+</p>
+<ul class="org-ul">
+<li>convergence in probability</li>
+<li>convergence "with probability 1" (stronger notion of convergence)</li>
+</ul>
+
+<p>
+Ex) Suppose we have r.vs Y<sub>n</sub>, Y. We say we have 'convergence with probability 1' if:
+P({w : Y<sub>n</sub>(w) -&gt; Y(w) as n -&gt; &infin;}) = 1.
+</p>
+<ul class="org-ul">
+<li>convergence of sequence of CDFs to a limiting CDF</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgdeb767b" class="outline-3">
+<h3 id="orgdeb767b"><span class="section-number-3">8.5</span> Central Limit theorem</h3>
+<div class="outline-text-3" id="text-8-5">
+</div><div id="outline-container-org7997414" class="outline-4">
+<h4 id="org7997414"><span class="section-number-4">8.5.1</span> Different views of sum of i.i.d r.vs</h4>
+<div class="outline-text-4" id="text-8-5-1">
+<p>
+X<sub>1</sub>, X<sub>2</sub>, &#x2026; X<sub>n</sub> i.i.d mean &mu; variance &sigma;<sup>2</sup>
+</p>
+
+<p>
+S<sub>n</sub> = X<sub>1</sub> + X<sub>2</sub> + &#x2026; X<sub>n</sub>
+variance n.&sigma;<sup>2</sup>
+</p>
+
+<p>
+M<sub>n</sub> = S<sub>n</sub> / n
+variance = &sigma;<sup>2</sup>/n
+</p>
+
+<p>
+From WWLN, variance -&gt; 0 as n -&gt; &infin;
+</p>
+
+<p>
+Can we instead try to obtain a more interesting limiting distribution?
+lets divide by sqrt(n) instead of n
+</p>
+
+<p>
+S<sub>n</sub>/sqrt(n) = (X1 + X2 &#x2026; Xn) / sqrt(n)
+variance: n.&sigma;<sup>2</sup>/n = &sigma;<sup>2</sup> = constant!!
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-org04595c6" class="outline-2">
+<h2 id="org04595c6"><span class="section-number-2">9</span> Bernoulli and Poisson Process</h2>
+</div>
+<div id="outline-container-orge1f53b7" class="outline-2">
+<h2 id="orge1f53b7"><span class="section-number-2">10</span> Markov Chains</h2>
+<div class="outline-text-2" id="text-10">
+</div><div id="outline-container-org6e03ba9" class="outline-3">
+<h3 id="org6e03ba9"><span class="section-number-3">10.1</span> Markov Process</h3>
+<div class="outline-text-3" id="text-10-1">
+</div><div id="outline-container-org062524d" class="outline-4">
+<h4 id="org062524d"><span class="section-number-4">10.1.1</span> Whats so cool about them?</h4>
+<div class="outline-text-4" id="text-10-1-1">
+<p>
+As opposed to bernoulli and poisson process, a markov process allows
+some dependency between past and future. This dependency can be
+represented by a notion of a 'state', which changes based on some
+probability distribution.
+</p>
+</div>
+</div>
+<div id="outline-container-org8a2af4e" class="outline-4">
+<h4 id="org8a2af4e"><span class="section-number-4">10.1.2</span> Discrete time finite state markov chain</h4>
+<div class="outline-text-4" id="text-10-1-2">
+<p>
+<code>=</code> Markov Chain <b>From Wikipedia</b> 
+It is a random process that undergoes transitions from one state to
+another on a state space. It must possess a property that is usually
+characterized as "memorylessness": the probability distribution of the
+next state depends only on the current state and not on the sequence
+of events that preceded it. This specific kind of "memorylessness" is
+called the Markov property. Markov chains have many applications as
+statistical models of real-world processes.
+<code>=</code>
+</p>
+
+<ul class="org-ul">
+<li>We'll stick to the discrete case to keep it simple.</li>
+</ul>
+
+<p>
+X<sub>n</sub>: State of the system after 'n' transitions. (or state at time 'n')
+</p>
+<ul class="org-ul">
+<li>The state belongs to a finite set. (Set of all possible states (this
+can be infinite, but lets not talk about that)).</li>
+<li>Initial state X<sub>0</sub> either given or random.</li>
+<li>Transition probabilities</li>
+</ul>
+
+<p>
+p<sub>ij</sub> = P(X<sub>1</sub> = j|X<sub>0</sub> = i) = P(X<sub>(n+1)</sub>=j|X<sub>n</sub> = i) The chain is time
+homogeneous. (transition probability is same irrespective of the time)
+</p>
+
+<p>
+&Sigma;<sub>j</sub> p<sub>(ij)</sub> = 1
+</p>
+
+<ul class="org-ul">
+<li>Markov Property/Assumption</li>
+</ul>
+<p>
+"given current state, the past doesn't matter"
+</p>
+
+<p>
+p<sub>(ij)</sub> = P(X<sub>(n+)</sub>=j|X<sub>n</sub>=i) = P(X<sub>(n+)</sub>=j|X<sub>n</sub>=i, X<sub>(n-1)</sub>&#x2026;X<sub>0</sub>)
+</p>
+
+<p>
+The markov property to hold in any modelling application, its
+important to choose the state carefully.
+</p>
+
+<ul class="org-ul">
+<li>Model specification: Identify states, transitions, and transition probabilities.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org18abafe" class="outline-4">
+<h4 id="org18abafe"><span class="section-number-4">10.1.3</span> n-step transition probabilities</h4>
+<div class="outline-text-4" id="text-10-1-3">
+<p>
+Given by r<sub>(ij)</sub>(n) probability of getting to state 'j' from state 'i' at time 'n'.
+</p>
+
+<p>
+r<sub>(ij)</sub>(0) = 1 if i = j, 0 otherwise.
+</p>
+
+<p>
+r<sub>(ij)</sub>(1) = p<sub>(ij)</sub> &forall; i, &forall; j.
+</p>
+
+<p>
+r<sub>(ij)</sub>(n) = P(X<sub>n</sub> = j | X<sub>0</sub> = i) = P(X<sub>(n + s)</sub> = j | X<sub>s</sub> = i) (because we have a time-invariant markov chain)
+</p>
+
+
+<p>
+Recursion step:
+</p>
+
+<p>
+r<sub>(ij)</sub>(n) = &Sigma;<sub>(k=1 to m)</sub>r<sub>(ik)</sub>(n-1).p<sub>(kj)</sub> (for all k's that have an arc to j)
+</p>
+
+<p>
+Alternatively:
+</p>
+
+<p>
+r<sub>(ij)</sub>(n) = &Sigma;<sub>(k=1 to m)</sub>p<sub>(ik)</sub>.r<sub>(kj)</sub>(n-1)
+</p>
+</div>
+</div>
+<div id="outline-container-orge5adcdc" class="outline-4">
+<h4 id="orge5adcdc"><span class="section-number-4">10.1.4</span> Random Initial State</h4>
+<div class="outline-text-4" id="text-10-1-4">
+<p>
+The probability of reaching a state j from a random initial state.
+P(X<sub>n</sub> = j) = &Sigma;<sub>(i = 1 to m)</sub>P(X<sub>0</sub> = i).r<sub>(ij)</sub>(n)
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org19db2c0" class="outline-3">
+<h3 id="org19db2c0"><span class="section-number-3">10.2</span> General Convergence</h3>
+<div class="outline-text-3" id="text-10-2">
+<ul class="org-ul">
+<li>For any r<sub>ij</sub>(n), as n -&gt; &infin; does the probability converge to a constant &pi;<sub>j</sub>?</li>
+</ul>
+<p>
+This is true in some cases and not true in some cases.
+</p>
+</div>
+</div>
+<div id="outline-container-org39e56ce" class="outline-3">
+<h3 id="org39e56ce"><span class="section-number-3">10.3</span> Transient and Recurrent States</h3>
+<div class="outline-text-3" id="text-10-3">
+<ul class="org-ul">
+<li>State i is recurrent if "starting from i, and from wherever you can go, there is a way</li>
+</ul>
+<p>
+of returning to i".
+</p>
+<ul class="org-ul">
+<li>If not recurrent, the state is called transient. State i is transient if "starting from i, there</li>
+</ul>
+<p>
+is atleast one way to go away from i and never return to i.
+</p>
+<ul class="org-ul">
+<li>The recurrent states in a markov chain can be grouped into classes.</li>
+</ul>
+<p>
+Within one class, all recurrent states have a way to communicate with each other.
+But recurrent states from multiple classes cannot communicate with one another.
+</p>
+</div>
+</div>
+<div id="outline-container-org5d25c20" class="outline-3">
+<h3 id="org5d25c20"><span class="section-number-3">10.4</span> Steady state behaviour</h3>
+<div class="outline-text-3" id="text-10-4">
+<ul class="org-ul">
+<li>In cases where we have multiple recurrent classes,</li>
+</ul>
+<p>
+the steady state behaviour will depend on where we started.
+</p>
+<ul class="org-ul">
+<li>In cases where we have only one recurrent class, that'll</li>
+</ul>
+<p>
+depend on certain other properties. (periodicity)
+</p>
+</div>
+</div>
+<div id="outline-container-orgc7e13d4" class="outline-3">
+<h3 id="orgc7e13d4"><span class="section-number-3">10.5</span> Periodic states in a recurrent class</h3>
+<div class="outline-text-3" id="text-10-5">
+<p>
+The states in a recurrent class are periodic if they can be grouped
+into d &gt; 1 groups such that all transitions from one group lead to the
+next group.
+</p>
+</div>
+</div>
+<div id="outline-container-orgfad0703" class="outline-3">
+<h3 id="orgfad0703"><span class="section-number-3">10.6</span> Steady State probabilities</h3>
+<div class="outline-text-3" id="text-10-6">
+<p>
+Two questions to be asked,
+</p>
+<ol class="org-ol">
+<li>Does it converge?</li>
+<li>Is it independent of the initial state?</li>
+</ol>
+<p>
+Does r<sub>ij</sub>(n) = P(X<sub>n</sub> = j|X<sub>0</sub>=i) converge to some &pi;<sub>j</sub>?
+</p>
+
+<p>
+If we have have 1 recurrent class, and the recurrent class is
+aperiodic, then yes. It does converge.
+</p>
+
+<p>
+Theorem:
+</p>
+<ul class="org-ul">
+<li>Recurrent states are all in a single class, and</li>
+<li>single recurrent class is not periodic.</li>
+</ul>
+
+<p>
+Then the markov chain does converge to a steady-state probability.
+</p>
+
+<p>
+The proof is a little complicated, but here is the intuitive idea:
+</p>
+
+<p>
+Think about 2 cases with different starting states. After some
+transitions, they reach some common state s<sub>i</sub>. Once they reach this
+state, due to the markov property, they cannot be distinguished from
+one another. Probabilistically speaking, they are identical.
+</p>
+
+<p>
+Assuming this theorem to be true,
+we have:
+</p>
+
+<p>
+as n -&gt; &infin;, r<sub>ij</sub>(n) = &Sigma;<sub>(k = 1 to m)</sub>r<sub>ik</sub>(n - 1).p<sub>kj</sub>.
+</p>
+
+<p>
+Since this converges, r<sub>ij</sub>(n) = &pi;<sub>j</sub> as n -&gt; &infin;
+Also, as n -&gt; &infin;, r<sub>ij</sub>(n-1) = &pi;<sub>k</sub>
+</p>
+
+<p>
+Thus, &pi;<sub>j</sub> = &Sigma;<sub>k</sub> &pi;<sub>k.p</sub><sub>kj</sub> for j = 1, &#x2026; m
+</p>
+
+<p>
+m equations, m unknowns. (this is singular, so has multiple solutions)
+We impose the additional condition that all of these are probabilities. (this forces a unique solution)
+</p>
+
+<p>
+&Sigma;<sub>(k=1 to m)</sub>&pi;<sub>j</sub> = 1
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: siddharth subramaniyam</p>
+<p class="date">Created: 2017-02-19 Sun 18:06</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

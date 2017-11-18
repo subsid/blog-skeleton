@@ -1,10 +1,9 @@
 import React from "react"
+import Bio from "../components/Bio"
 
 export default ({ data }) =>
   <div>
-    <p>
-      Hi!
-    </p>
+    <Bio />
   </div>
 
 export const query = graphql`

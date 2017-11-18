@@ -1,0 +1,1432 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2016-10-11 Tue 16:07 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mining of massive data sets course notes</title>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="siddharth subramaniyam" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<link rel="stylesheet" type="text/css" href="https://rawgit.com/subsid/notes/master/styles/readtheorg/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://rawgit.com/subsid/notes/master/styles/readtheorg/css/readtheorg.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/subsid/notes/master/styles/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/subsid/notes/master/styles/readtheorg/js/readtheorg.js"></script>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Mining of massive data sets course notes</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline7">1. Week 1 Map Reduce Paradigm</a>
+<ul>
+<li><a href="#orgheadline1">1.1. MapReduce Programming Model:</a></li>
+<li><a href="#orgheadline3">1.2. Scheduling and Data Flow</a>
+<ul>
+<li><a href="#orgheadline2">1.2.1. Number of Map And Reduce tasks required per job</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline6">1.3. Refinements</a>
+<ul>
+<li><a href="#orgheadline4">1.3.1. Combiners</a></li>
+<li><a href="#orgheadline5">1.3.2. Partition Function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline16">2. Week 1 Analysis of large graphs</a>
+<ul>
+<li><a href="#orgheadline15">2.1. Link Analysis and Page Rank</a>
+<ul>
+<li><a href="#orgheadline13">2.1.1. Mathematical Formulation for the Page Rank algorithm</a></li>
+<li><a href="#orgheadline14">2.1.2. How do we really compute page rank in web-scale graphs??</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline27">3. Week 2 Similar Sets LSH</a>
+<ul>
+<li><a href="#orgheadline26">3.1. Finding Similar Sets</a>
+<ul>
+<li><a href="#orgheadline17">3.1.1. Shingling</a></li>
+<li><a href="#orgheadline20">3.1.2. Minhashing</a></li>
+<li><a href="#orgheadline21">3.1.3. LSH</a></li>
+<li><a href="#orgheadline25">3.1.4. Applications of LSH</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline28">4. Week 2 K-Nearest neighbour learning</a></li>
+<li><a href="#orgheadline41">5. Week 2 Frequent Itemsets</a>
+<ul>
+<li><a href="#orgheadline40">5.1. Market-Basket Model:</a>
+<ul>
+<li><a href="#orgheadline29">5.1.1. Introduction and applications</a></li>
+<li><a href="#orgheadline30">5.1.2. Association rules</a></li>
+<li><a href="#orgheadline31">5.1.3. finding association rules</a></li>
+<li><a href="#orgheadline32">5.1.4. A-priori algorithm</a></li>
+<li><a href="#orgheadline36">5.1.5. Improvements to A-priori</a></li>
+<li><a href="#orgheadline39">5.1.6. All (or most) frequent itemsets in &lt;= 2 passes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline47">6. Week 3 Community Detection</a>
+<ul>
+<li><a href="#orgheadline43">6.1. Using Affiliation Graph Model and BIGCLAM</a>
+<ul>
+<li><a href="#orgheadline42">6.1.1. AGM to BIGCLAM</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline44">6.2. What makes a good cluster?</a></li>
+<li><a href="#orgheadline46">6.3. Spectral Graph Partitioning</a>
+<ul>
+<li><a href="#orgheadline45">6.3.1. Spectral Graph partitioning</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline61">7. Week 3 Streams</a>
+<ul>
+<li><a href="#orgheadline60">7.1. The Stream Model</a>
+<ul>
+<li><a href="#orgheadline48">7.1.1. Stream management system.</a></li>
+<li><a href="#orgheadline54">7.1.2. Sliding window</a></li>
+<li><a href="#orgheadline55">7.1.3. Bloom filters</a></li>
+<li><a href="#orgheadline56">7.1.4. Sampling streams</a></li>
+<li><a href="#orgheadline59">7.1.5. Counting distinct elements</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline73">8. Week 5 Clustering</a>
+<ul>
+<li><a href="#orgheadline65">8.1. Hierarchical clustering</a>
+<ul>
+<li><a href="#orgheadline62">8.1.1. Euclidean case</a></li>
+<li><a href="#orgheadline63">8.1.2. Non-Euclidean case</a></li>
+<li><a href="#orgheadline64">8.1.3. When to stop clustering?</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline66">8.2. K-Means algorithm</a></li>
+<li><a href="#orgheadline72">8.3. Bradley-Fayed-Reina (BFR) algorithm</a>
+<ul>
+<li><a href="#orgheadline67">8.3.1. Assumptions:</a></li>
+<li><a href="#orgheadline71">8.3.2. Algorithm</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline76">9. Week 7 LSH Improvements</a>
+<ul>
+<li><a href="#orgheadline75">9.1. LSH families of Hash functions</a>
+<ul>
+<li><a href="#orgheadline74">9.1.1. Random Hyperplane family for cosine distance</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#orgheadline77">10. Week 7 More about link analysis</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7"><span class="section-number-2">1</span> Week 1 Map Reduce Paradigm</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Whats so cool about this?
+MapReduce paradigm emerged to make cluster computing easier (from a programming perspective).
+The goal was to abstract out the various difficulties in cluster computing like:
+Handling node failures, complexities of distributed computing.
+</p>
+</div>
+
+<div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> MapReduce Programming Model:</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+Map -&gt; Group by Key -&gt; Reduce 
+</p>
+
+<p>
+Map Function: Takes the input and returns (key, val) pairs.
+Group by Key: Combine same keys
+Reduce: Do some transformation and return result for the (key, [v1 ,v2 &#x2026;]) group.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">1.2</span> Scheduling and Data Flow</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+MR system partitions the input data and stores them on multiple nodes.
+Schedules the programs execution, and inter-node communications.
+Files are redundantly chunked and stored on multiple nodes.
+</p>
+
+<p>
+There is a masternode that has all the file metadata and takes care of the coordination.
+Master is typically not replicated, so when it fails, the task is aborted.
+</p>
+
+<p>
+<b>The input and final output</b> are stored in the dfs.
+<b>intermediate results</b> are stored on the map/reduce worker nodes.
+</p>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-4">
+<h4 id="orgheadline2"><span class="section-number-4">1.2.1</span> Number of Map And Reduce tasks required per job</h4>
+<div class="outline-text-4" id="text-1-2-1">
+<p>
+M map tasks, R reduce tasks.
+Rule of thumb:
+ M much larger than the number of nodes in the cluster.
+ R is typically smaller than M.
+The output is spread across the number of reducer nodes, fewer the better.
+</p>
+
+<p>
+Multiple nodes do map and reduce tasks.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6"><span class="section-number-3">1.3</span> Refinements</h3>
+<div class="outline-text-3" id="text-1-3">
+</div><div id="outline-container-orgheadline4" class="outline-4">
+<h4 id="orgheadline4"><span class="section-number-4">1.3.1</span> Combiners</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+Between Mappers and Reducer.
+To save network time, the combiner pre-aggregates/transforms values with same key before sending to reducer.
+ex) In the wordcount example, if from the map task running on a single node, we get (foo, 1), (foo, 1).
+The combiner on that node, will combine them to (foo, 2). And only this value is sent to the reducer.
+</p>
+
+<p>
+Programmer provides the combinde function :: (K, V1) -&gt; V2
+<b>Note</b> Combiner trick works only if the reduce fn is commutative and associative.
+ex) sum fn can use the combiner trick,
+    but average fn cannot. (because average fn is not commutative and associative) We can instead make the combiner send the total sum and number of values. The reducer can use this 
+and compute the average.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline5" class="outline-4">
+<h4 id="orgheadline5"><span class="section-number-4">1.3.2</span> Partition Function</h4>
+<div class="outline-text-4" id="text-1-3-2">
+<p>
+This is provided by the map reduce system.
+However, sometimes its useful to override the default partition fn. (Check the hostname/url example in the slides)
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline16" class="outline-2">
+<h2 id="orgheadline16"><span class="section-number-2">2</span> Week 1 Analysis of large graphs</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-orgheadline15" class="outline-3">
+<h3 id="orgheadline15"><span class="section-number-3">2.1</span> Link Analysis and Page Rank</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+We'll Analyze the webgraph as an example
+Main idea:
+Compute important scores for nodes in a graph.
+These methods are called link analysis:
+</p>
+<ul class="org-ul">
+<li>page rank</li>
+<li>hubs and authorities (hits)</li>
+<li>topic-specific (personalized) pagerank</li>
+<li>web spam detection algorithms</li>
+</ul>
+</div>
+
+<div id="outline-container-orgheadline13" class="outline-4">
+<h4 id="orgheadline13"><span class="section-number-4">2.1.1</span> Mathematical Formulation for the Page Rank algorithm</h4>
+<div class="outline-text-4" id="text-2-1-1">
+</div><ol class="org-ol"><li><a id="orgheadline8"></a>Flow formulation<br  /><div class="outline-text-5" id="text-2-1-1-1">
+<p>
+     Basic Idea:
+Think of in-links as votes.
+The in-link from a important page has higher weight than one from a less important page.
+Recursive formulation!!
+</p>
+
+<p>
+If page 'j' has importance r<sub>j</sub> and and 'n' out-links, 
+</p>
+<ul class="org-ul">
+<li>weight of each out-link is r<sub>j</sub>/n</li>
+</ul>
+
+<p>
+The rank r<sub>j</sub> for page j is
+r<sub>j</sub> = &sum; r<sub>i</sub>/d<sub>i</sub> &forall; nodes i that point to j with rank r<sub>i</sub> and out-degree d<sub>i</sub>
+</p>
+
+<p>
+Add an addition constraint &sum; r<sub>j</sub> &forall; j in graph to be 1. (This enforces uniqueness)
+</p>
+
+<p>
+But this methods requires solving a bunch of equations. Guassian Elimination will work for small graphs, but not at the webscale!!
+</p>
+</div></li>
+
+<li><a id="orgheadline9"></a>Matrix formulation<br  /><div class="outline-text-5" id="text-2-1-1-2">
+<p>
+The above formulation can be rewritten as a eigen-vector formulation.
+</p>
+
+<p>
+If page i has d out-links
+Matrix M<sub>ji</sub> = 1/d<sub>i</sub> where d<sub>i</sub> is the out-degree of node i.
+</p>
+
+<p>
+The Matrix M is column stochastic as every column sums to one.
+i.e) column i represents all the out-links from i. 
+Thus the page rank formulation can be written as r = Mr.
+Rank vector r is the eigen vector of the web-matrix M.
+</p>
+
+<p>
+This can be efficiently computed using many methods. One such method is power-iteration.
+</p>
+
+<p>
+Power Iteration:
+</p>
+<ul class="org-ul">
+<li>Start with r<sub>0</sub> = [1/N, 1/N &#x2026;]<sup>T</sup></li>
+</ul>
+<p>
+As there are N webpages.
+</p>
+<ul class="org-ul">
+<li>r<sub>1</sub> = Mr<sub>0</sub></li>
+<li>Keep Iterating unitl (r<sub>1</sub> - r<sub>0</sub>) &lt; &epsilon;</li>
+<li>r<sub>1</sub> - r<sub>0</sub> is L1 norm, it can be any vector norm.</li>
+</ul>
+</div></li>
+
+<li><a id="orgheadline11"></a>Random Walk interpretation of Page Rank<br  /><div class="outline-text-5" id="text-2-1-1-3">
+<p>
+Another way to think about page rank is using the idea of a random surfer.
+If the random surfer is at a page 'i' at time t, what is the probability that he is in a page 'j'
+at time t+1.
+This is p<sub>i</sub>(t)*(1/d<sub>i</sub>)
+</p>
+
+<p>
+Let p(t) be a vector that is the probability distribution at time 't' &forall; nodes.
+p(t+1) = Mp(t)
+</p>
+
+<p>
+This is the same as the eigen value formulation above!!
+When p(t+1) = Mp(t) = p(t), this is a stationary distribution.
+Thus r is the stationary distribution for the random walk.
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="orgheadline10"></a><a href="https://www.youtube.com/watch?v=uvYTGEZQTEs&amp;list=PLANMHOrJaFxPMQCMYcYqwOCYlreFswAKP">Markov Processes</a><br  /><div class="outline-text-6" id="text-2-1-1-3-1">
+<p>
+Central idea from the theory:
+For graphs that satisfy certain conditions, the distribution will reach a stationary 
+distribution irrespective of the initially probability distribution at t=0.
+</p>
+
+<p>
+From the youtube videos linked above,
+regular markov chain are the ones that have a stationary distribution.
+regular markov chains are ones in which some power of the transition matrix has only
+positive entries.
+<b>absorbing states</b>
+states of a transition matrix, in which it impossible to exit a state after entering it.
+</p>
+</div></li></ol></li>
+
+
+<li><a id="orgheadline12"></a>Google formulation of Page Rank<br  /><div class="outline-text-5" id="text-2-1-1-4">
+<p>
+     we have our equation r<sub>j</sub><sup>(t+1)</sup> =  Mr<sub>j</sub><sup>t</sup>
+Does this converge to what we want? is it reasonable?
+It will converge if there are 
+</p>
+<ul class="org-ul">
+<li>no absorbing states (dead ends)</li>
+<li>no spider traps (small part of the graph which is not connected to anyother node,
+the surfer keeps jumping withing that part of the graph)</li>
+</ul>
+
+<p>
+These 2 issues can be addressed by random-teleportation. 
+</p>
+
+<p>
+Thus, in every iteration step:
+</p>
+<ul class="org-ul">
+<li>The surfer follows the links with p(&beta;) and teleports to any random node with probability (1 - &beta;).</li>
+</ul>
+
+<p>
+Why does this make our power iteration converge?
+</p>
+
+<p>
+From the markov chain theory, p<sub>(t+1)</sub> = &pi; * p<sub>t</sub>
+This will converge if &pi; is
+</p>
+<ul class="org-ul">
+<li>Stochastic</li>
+<li>Aperiodic</li>
+<li>Irreducible (probability of going from one state in the graph to any other state is non-zero)</li>
+</ul>
+
+<p>
+Adding random teleportation provides these conditions.
+</p>
+</div></li></ol>
+</div>
+
+<div id="outline-container-orgheadline14" class="outline-4">
+<h4 id="orgheadline14"><span class="section-number-4">2.1.2</span> How do we really compute page rank in web-scale graphs??</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+r<sub>(t+1)</sub> = Ar<sub>t</sub>
+</p>
+
+<p>
+This would work great if we can store A in main memory.
+Every entry in A will be non-negative, so this is going to takeup huuuuuuge amount of memory
+boe:
+</p>
+<ul class="org-ul">
+<li>1b webpages, 4 bytes per page (say)
+<ul class="org-ul">
+<li>r vectors will need 2 * 1b = 2billion entries.</li>
+<li>matrix M will need 10<sup>(9*2)</sup>, wow!</li>
+</ul></li>
+</ul>
+
+<p>
+Another way to formulate this:
+</p>
+<ul class="org-ul">
+<li>The matrix M is quite sparse.</li>
+<li>The random teleportation from a node j, adds (p(1-&beta;)/N) in column j for every node in the graph, and reduces probability to (&beta;)/N in column j of matrix M.</li>
+<li>i.e Tax each page (1-&beta;) of its score, and distribute it evenly among all nodes.</li>
+</ul>
+
+<p>
+r = A.r where A<sub>(ij)</sub> = &beta; M<sub>(ij)</sub> + (1-&beta;)/N
+</p>
+
+<p>
+r<sub>i</sub> = &sum;<sub>(j=1)</sub><sup>N</sup> A<sub>(ij)</sub>.r<sub>j</sub>
+</p>
+
+<p>
+A<sub>(ij)</sub> = &sum;<sub>(j=1)</sub><sup>N</sup> (&beta; M<sub>(ij)</sub>*r<sub>j</sub> + (1-&beta;)/N * r<sub>j</sub>)
+A<sub>(ij)</sub> = &beta; &sum;<sub>(j=1)</sub><sup>N</sup> M<sub>(ij)</sub>*r<sub>j</sub> + (1-&beta;)/N (as &sum;<sub>(j=)</sub><sup>N</sup> r<sub>j</sub> = 1)
+</p>
+
+<p>
+thus r = &beta; M .r + (constant)
+Thus, we can work with the sparse matrix M, and add a constant to every entry in each power iteration step.
+</p>
+
+<p>
+Awesomatic Algorithm:
+</p>
+<ul class="org-ul">
+<li>while &sum;<sub>(j)</sub>(r<sub>j</sub><sup>(t+1)</sup> - r<sub>j</sub><sup>(t)</sup> &gt; &epsilon;) 
+<ul class="org-ul">
+<li>initialize r<sub>j</sub><sup>0</sup> = 1/N, t = 1
+<ul class="org-ul">
+<li>&forall; j, r<sub>j</sub><sup>(t)</sup> = &sum;<sub>(i-&gt;j)</sub><sup>N</sup> &beta; * r<sub>i</sub><sup>(t-1)</sup>/d<sub>i</sub>
+<ul class="org-ul">
+<li>r<sub>j</sub><sup>(t)</sup> = 0 if in-degre of j is 0</li>
+</ul></li>
+<li>Re-insert the leaked page rank</li>
+<li>&forall; j: r<sub>j</sub><sup>(t)</sup> = (1-S)/N where S = &sum;<sub>(j=1)</sub><sup>N</sup> r<sub>j</sub></li>
+<li>t = t+1</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline27" class="outline-2">
+<h2 id="orgheadline27"><span class="section-number-2">3</span> Week 2 Similar Sets LSH</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-orgheadline26" class="outline-3">
+<h3 id="orgheadline26"><span class="section-number-3">3.1</span> Finding Similar Sets</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+We'll focus on document similar in web-scale as an example.
+</p>
+
+
+<p>
+   Its good to find similar sets, lot of cool applications like
+recommendations, plagiarism, entity resolution.
+3 essential techniques for similar documents:
+</p>
+<ol class="org-ol">
+<li>Shingling</li>
+<li>Minhashing</li>
+<li>Locality Sensitive Hashing (LSH)</li>
+</ol>
+</div>
+
+<div id="outline-container-orgheadline17" class="outline-4">
+<h4 id="orgheadline17"><span class="section-number-4">3.1.1</span> Shingling</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+k-shingle for a document is a set of k characters that appears in that document.
+</p>
+
+<p>
+Documents that are intuitively similar will have many shingles in common.
+Shingles can be hashed to reduce storage bytes.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline20" class="outline-4">
+<h4 id="orgheadline20"><span class="section-number-4">3.1.2</span> Minhashing</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+    This technique is used to uniquely represent each document by a vector.
+The idea:
+to start with, a <b>boolean matrix</b> is used to represent documents with various elements. (B)
+</p>
+
+<p>
+Ex) rows = all possible K shingles.
+    columns =  sets. (documents in our case)
+</p>
+<ul class="org-ul">
+<li>row e, col s has a 1 in it, only if element e belongs to set (document) s.</li>
+</ul>
+
+<p>
+Typically, this matrix is pretty sparse.
+</p>
+
+<p>
+consider a set of minhash functions H.
+Each fn:
+</p>
+<ul class="org-ul">
+<li>creates a random permutation of the rows, say r<sub>p</sub>.</li>
+<li>h(c) = the first number n<sub>p</sub> in r<sub>p</sub> for which  B(n<sub>p</sub>, c) = 1.</li>
+</ul>
+
+<p>
+The Signature of the set (H(s)) is a vector with of numbers obtained from the various hash functions in H.
+ex)
+H = {h1, h2, h3, h4}
+H(s) = [h1(c), h2(c), h3(c), h4(c)]
+</p>
+
+<p>
+This is done for all columns to obtain the signature matrix S from the boolean matrix and H.
+</p>
+
+<p>
+<b>Surprising property</b>
+given 2 columns, c1 and c2, p(h(c1) = h(c2)) = Sim(c1, c2)
+</p>
+</div>
+
+<ol class="org-ol"><li><a id="orgheadline18"></a>Similarity of signatures: <i>fraction of minhash fns for which h(c1) = h(c2)</i><br  /><div class="outline-text-5" id="text-3-1-2-1">
+<p>
+The expected value of Sos is the jaccard similarity of the 2 columns!!
+</p>
+</div></li>
+
+<li><a id="orgheadline19"></a>Permuting the rows<br  /><div class="outline-text-5" id="text-3-1-2-2">
+<p>
+Creating a permuted set of rows is expensive. For 1 billion rows, we'll need 1 billion entries
+to store one permutation. 
+Instead, here is a good approximation to permutation:
+</p>
+<ul class="org-ul">
+<li>Pick a set of normal hash fns. h1, h2, h3&#x2026;</li>
+<li>Keep a slot M(i, c) for ith permutation and column c.</li>
+<li>M(i, c) will have the smallest value of h<sub>i</sub>(r) for which row r has 1 in column c.</li>
+</ul>
+
+<p>
+h<sub>i</sub> corresponds to the ith permutation of the rows.
+</p>
+
+<p>
+Algorithm:
+</p>
+<ul class="org-ul">
+<li>for each row r:
+<ul class="org-ul">
+<li>for each hash fn h:
+<ul class="org-ul">
+<li>compute h(r)</li>
+</ul></li>
+
+<li>for each column c:
+
+<ul class="org-ul">
+<li>if B(r, c) is 1
+
+<ul class="org-ul">
+<li>for each hash fn h:
+
+<ul class="org-ul">
+<li>if h(r) &lt; M(i, c)
+
+<ul class="org-ul">
+<li>M(i, c) = h(r)</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</div></li></ol>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="outline-container-orgheadline21" class="outline-4">
+<h4 id="orgheadline21"><span class="section-number-4">3.1.3</span> LSH</h4>
+<div class="outline-text-4" id="text-3-1-3">
+<p>
+    Basic idea:
+Rather than comparing all pairs of elements (docs), compare only the ones that have a
+decent chance of being similar. (called <b>candidate pairs</b>)
+</p>
+
+<p>
+in our case,
+</p>
+<ul class="org-ul">
+<li>pick a similarity threshold t, compare only those pairs that have a similarity greater than t.</li>
+</ul>
+
+<p>
+How?
+hash each doc to multiple buckets. Compare only those documents that are in the same bucket.
+</p>
+
+<ul class="org-ul">
+<li>Divide matrix M (Signature matrix) into b bands with r rows each.</li>
+<li>apply a hash fn to each band.</li>
+<li>Candidate pairs are those which fall in the same bucket for atleast one of the b bands.</li>
+<li>tune b and r to catch most similar pairs, but few nonsimiliar pairs.
+Intuitively,</li>
+</ul>
+<p>
+larger b, smaller r is good if low similarity threshold
+small b, large r is good if high similarity threshold
+</p>
+
+<p>
+Look at the slides, to understand the math, but the relation is
+</p>
+
+<p>
+1 - (1 - s<sup>r</sup>)<sup>b</sup>
+t = (1/b)<sup>(1/r)</sup>
+</p>
+
+<p>
+This is a step function. We can tune b and r, based on the desired 't'. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline25" class="outline-4">
+<h4 id="orgheadline25"><span class="section-number-4">3.1.4</span> Applications of LSH</h4>
+<div class="outline-text-4" id="text-3-1-4">
+</div><ol class="org-ol"><li><a id="orgheadline22"></a>Entity Resolution<br  /><div class="outline-text-5" id="text-3-1-4-1">
+<p>
+misspellings, nicknames, change of address, phone numbers make entity resolution pretty interesting.
+Pretty cool application explained, in which jeff helped find similar records for 2 companies.
+</p>
+</div></li>
+
+<li><a id="orgheadline23"></a>Fingerprint matching<br  /><div class="outline-text-5" id="text-3-1-4-2">
+<p>
+     This again uses lsh, the nice trick in this one is the bucketing technique.
+1024 sets of randomly selected 3 grid squares are taken from 2 fingerprints and compared.
+If they match in any one of these sets, then they are compared. See the lectures as to why the 
+numbers workout.
+</p>
+</div></li>
+
+<li><a id="orgheadline24"></a>Duplicate news articles<br  /><div class="outline-text-5" id="text-3-1-4-3">
+<p>
+     This uses a nice shingling technique. Stop words are used to get shingles. Idea is
+similar articles will have common shingles, since ads dont have many stopwords. but
+articles do.
+</p>
+</div></li></ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline28" class="outline-2">
+<h2 id="orgheadline28"><span class="section-number-2">4</span> Week 2 K-Nearest neighbour learning</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Supervised learning technique. y = f(x). predict y, for given features vector x.
+Instance based learning: Keep whole training set. for a new query q, look at all x^' near q
+and use that to predict y<sub>q</sub> for q.
+Collaborative filtering is a good example of k-NN finder.
+</p>
+
+<p>
+Basic idea: <i><b>Look at the K nearest nieghbours of our query point, and just predict the
+avg output</b></i>
+</p>
+
+<p>
+Instead of looking at all points, to pick the nearest neighbors, just look at k-points 
+near the query fn. how do you look at only a few points to figure out the k? LSH!!!
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline41" class="outline-2">
+<h2 id="orgheadline41"><span class="section-number-2">5</span> Week 2 Frequent Itemsets</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Frequent Itemsets are items that appear together.
+</p>
+</div>
+<div id="outline-container-orgheadline40" class="outline-3">
+<h3 id="orgheadline40"><span class="section-number-3">5.1</span> Market-Basket Model:</h3>
+<div class="outline-text-3" id="text-5-1">
+</div><div id="outline-container-orgheadline29" class="outline-4">
+<h4 id="orgheadline29"><span class="section-number-4">5.1.1</span> Introduction and applications</h4>
+<div class="outline-text-4" id="text-5-1-1">
+<p>
+Baskets, Items: stuff that are in a basket.
+<i><b>support</b></i> number of baskets that contain the same set of items.
+<i><b>support threshold</b></i> threshold number over which items are considered
+ as <i><b>frequent itemsets</b></i>.
+</p>
+
+<p>
+Applications examples:
+baskets: sets of products, items: products
+b: sentences, i: documents (plagiarism)
+b: docs i: words (similar tweets/ other small docs)
+</p>
+
+<p>
+Note: For good performance, there should be few items in a basket. (usually <b>quadratic in items</b> work done per basket)
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline30" class="outline-4">
+<h4 id="orgheadline30"><span class="section-number-4">5.1.2</span> Association rules</h4>
+<div class="outline-text-4" id="text-5-1-2">
+<p>
+If a basket contains {i<sub>1</sub>, i<sub>2&#x2026;i</sub><sub>k</sub>} -&gt; j, it implies it likely contains j.
+The degree of truth in this rule is the <b>confidence</b> of this rule. 
+fraction of baskets that contain all of i<sub>1</sub>-i<sub>k</sub> and j vs those with i<sub>1</sub>-i<sub>k</sub> without j. i.e)  {i<sub>1</sub>, i<sub>2&#x2026;i</sub><sub>k</sub>, j}/{i<sub>1</sub>, i<sub>2</sub>, &#x2026;i<sub>k</sub>}
+</p>
+
+<p>
+<i><b>Support of an association rule is the support of the items on the left of arrow</b></i>
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline31" class="outline-4">
+<h4 id="orgheadline31"><span class="section-number-4">5.1.3</span> finding association rules</h4>
+<div class="outline-text-4" id="text-5-1-3">
+<p>
+question: <i><b>Find all association rules, with support &gt;= s and confidence &gt;= c.</b></i>
+</p>
+
+<ul class="org-ul">
+<li>find all frequent itemsets with support &gt;= cs</li>
+<li>find all frequent itemsets with support &gt;= s</li>
+<li>now, {i<sub>1</sub>, i<sub>2..i</sub><sub>k</sub>, i<sub>(k+1)</sub>}, pick all subsets of this list with k items.</li>
+<li>if the support of {i<sub>1</sub>, i<sub>2</sub> &#x2026; i<sub>k</sub>} is s1 ~ &gt;= s, then {i<sub>1</sub>, i<sub>2</sub> &#x2026; i<sub>k</sub>, i<sub>(k+1)</sub>} is</li>
+</ul>
+<p>
+a set with support s2 ~ cs. then the confidence of the association rule {i<sub>1</sub>, &#x2026;i<sub>k</sub>} -&gt; j
+is atleast c.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline32" class="outline-4">
+<h4 id="orgheadline32"><span class="section-number-4">5.1.4</span> A-priori algorithm</h4>
+<div class="outline-text-4" id="text-5-1-4">
+<p>
+2 pass algorithm for finding frequent itemsets.
+main idea: If item i does not appear in s baskets, then no pair including i can appear
+in s baskets.
+algorithm:
+2 pass algorithm
+</p>
+<ul class="org-ul">
+<li>in first pass, read all items and calculate count for each item. (i.e number of baskets in</li>
+</ul>
+<p>
+which the item appears)
+</p>
+<ul class="org-ul">
+<li>eliminate all items that have support &lt; s.</li>
+<li>in second pass, read all pairs of items and its count.</li>
+<li>eliminate items that have support &lt; s.</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline36" class="outline-4">
+<h4 id="orgheadline36"><span class="section-number-4">5.1.5</span> Improvements to A-priori</h4>
+<div class="outline-text-4" id="text-5-1-5">
+</div><ol class="org-ol"><li><a id="orgheadline33"></a>Part-Chen-Yu-Algorithm<br  /><div class="outline-text-5" id="text-5-1-5-1">
+<ul class="org-ul">
+<li>In the first pass of a-priori, hash each pair to a bucket and keep (bucket, count) pairs</li>
+</ul>
+<p>
+in memory.
+</p>
+<ul class="org-ul">
+<li>In pass two, also check if the pair hashes to a bucket with count &gt; support</li>
+</ul>
+</div></li>
+<li><a id="orgheadline34"></a>Multistage algorithm<br  /><div class="outline-text-5" id="text-5-1-5-2">
+<ul class="org-ul">
+<li>Add one more pass. create a middle pass that rehashes all the pairs (using diff hash fn)</li>
+</ul>
+<p>
+in the first pass whose bucket counts were &gt; s.
+</p>
+</div></li>
+<li><a id="orgheadline35"></a>Multihash<br  /><div class="outline-text-5" id="text-5-1-5-3">
+<ul class="org-ul">
+<li>like pcy, but use multiple hashes in stage 1.</li>
+</ul>
+</div></li></ol>
+</div>
+
+<div id="outline-container-orgheadline39" class="outline-4">
+<h4 id="orgheadline39"><span class="section-number-4">5.1.6</span> All (or most) frequent itemsets in &lt;= 2 passes</h4>
+<div class="outline-text-4" id="text-5-1-6">
+</div><ol class="org-ol"><li><a id="orgheadline37"></a>SON algorithm<br  /><div class="outline-text-5" id="text-5-1-6-1">
+<ul class="org-ul">
+<li>pick random subset of all baskets that fit in memory.</li>
+<li>use a scaled back support s.</li>
+<li>do this multiple times for multiple random subsets.</li>
+<li>candidate pairs for second pass are those that satisfy the support in any one of the random subsets.</li>
+</ul>
+</div></li>
+<li><a id="orgheadline38"></a>Toivonens algorithm<br  /><div class="outline-text-5" id="text-5-1-6-2">
+<ul class="org-ul">
+<li>pick random subset of all baskets that fit in memory.</li>
+<li>use a scaled back support s. Further, the scaled back threshold is reduced slightly.</li>
+<li>Add to the itemsets obtained, the <i><b>negative border</b></i> of these itemsets.</li>
+</ul>
+<p>
+<b>negative border</b>
+An itemset is in the negative border, if it is not deemed frequent in the sample,
+but all its subsets are.
+</p>
+
+<ul class="org-ul">
+<li>run pass 2 which finds the frequent itemsets from all the data.</li>
+<li>If an itemset is in the negative border, and it turns out to be frequent, then we must</li>
+</ul>
+<p>
+start over again with another sample.
+</p>
+</div></li></ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline47" class="outline-2">
+<h2 id="orgheadline47"><span class="section-number-2">6</span> Week 3 Community Detection</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Detect communities in a huge ass graph.
+</p>
+</div>
+<div id="outline-container-orgheadline43" class="outline-3">
+<h3 id="orgheadline43"><span class="section-number-3">6.1</span> Using Affiliation Graph Model and BIGCLAM</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+  Generative model for networkds
+c &isin; C, set of communities.
+v &isin; N, set of nodes.
+m &isin; M, memebership probabilities between n and c.
+AGM(V, C, M, {p<sub>c</sub>})
+for each pair of nodes &isin; c, p<sub>c</sub> is the probability that they are connected.
+P(u, v) = 1 - &pi;<sub>(c &isin; (M<sub>u</sub> &cap; M<sub>v</sub>))</sub>(1 - p<sub>c</sub>)
+for a pair of nodes u, v.
+This model helps us generate a network.
+</p>
+</div>
+<div id="outline-container-orgheadline42" class="outline-4">
+<h4 id="orgheadline42"><span class="section-number-4">6.1.1</span> AGM to BIGCLAM</h4>
+<div class="outline-text-4" id="text-6-1-1">
+<p>
+   Relax the agm model, each membership between node u and community a will have a strength F<sub>ua</sub>.
+   Each community A links nodes independently
+P<sub>A</sub>(u, v) = 1 - exp(-F<sub>ua.F</sub><sub>va</sub>)
+F = community membership strength matrix.
+We have to find this matrix. (check slides for details)
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline44" class="outline-3">
+<h3 id="orgheadline44"><span class="section-number-3">6.2</span> What makes a good cluster?</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+   Divide vertices into sets such that there are very few cross cluster connections
+and lot of within cluster connections.
+</p>
+<ul class="org-ul">
+<li>Use the idea of graph cuts to minimize this.</li>
+<li>Will fail on some degenerate cases. (see slides)</li>
+</ul>
+<p>
+   <b>Conductance</b>
+&phi;(A) = CUT(A)/Vol(A) 
+Vol(A) = &sum;<sub>(i &isin; A)</sub>d<sub>i</sub>. Lower the conductance, the better.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline46" class="outline-3">
+<h3 id="orgheadline46"><span class="section-number-3">6.3</span> Spectral Graph Partitioning</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+   Find clusters/communities in networks.
+partition graph into pieces such that they have low conductance.
+A: adjacency matrix of all nodes (n). (1 if connected, else 0)
+x: vector of all nodes. (think of it as label/value of all nodes) 
+what is A.x = y ??
+</p>
+
+<p>
+y<sub>i</sub> = A<sub>i.x</sub> = &sum;<sub>(j = 1 to n)</sub> A<sub>ij.x</sub><sub>j</sub> = &sum;<sub>(i, j &isin; E)</sub>x<sub>ij</sub>
+i.e y<sub>i</sub> sum of all neighbours of i.
+</p>
+
+<p>
+A.x = &lambda;.x
+Spetral Graph Theory:
+Analyze the "spectrum" of matrix representing G.
+spectrum: eigenvectors x<sub>i</sub> of a graph, ordered by the magnitude of their
+corresponding eigen values &lambda;<sub>i</sub>. &Lambda; = {&lambda;<sub>1</sub>, &lambda;<sub>2</sub> &#x2026; &lambda;<sub>n</sub>} &lambda;<sub>1</sub> &le; &lambda;<sub>2</sub> &#x2026;
+</p>
+
+<p>
+Graph Laplacian:
+A: adjacency matrix.
+D: degree matrix. it is a diagonal matrix of all degrees of nodes n.
+Graph Laplacian Matrix L = D - A
+n * n symmetrix matrix.
+</p>
+</div>
+<div id="outline-container-orgheadline45" class="outline-4">
+<h4 id="orgheadline45"><span class="section-number-4">6.3.1</span> Spectral Graph partitioning</h4>
+<div class="outline-text-4" id="text-6-3-1">
+<p>
+Fact:
+For symmetric matrix M, second smallest eigen value is
+&lambda;<sub>2</sub> = min<sub>x</sub> x<sup>t</sup>(M)x / x<sup>t.x</sup>
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline61" class="outline-2">
+<h2 id="orgheadline61"><span class="section-number-2">7</span> Week 3 Streams</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Stream management is differenet from data management (from databases) in many ways.
+The input rate cannot be controlled, dont have all the time to do some computation.
+</p>
+</div>
+<div id="outline-container-orgheadline60" class="outline-3">
+<h3 id="orgheadline60"><span class="section-number-3">7.1</span> The Stream Model</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+Two forms of quries:
+</p>
+<ul class="org-ul">
+<li><i>Standing queries</i></li>
+</ul>
+<p>
+queries asked all the time.
+ex) output each new max value ever seen by the stream.
+</p>
+
+<ul class="org-ul">
+<li><i>Adhoc queries</i>
+     One time queries.</li>
+</ul>
+<p>
+ex) what is the max value seen so far in the stream.
+</p>
+</div>
+<div id="outline-container-orgheadline48" class="outline-4">
+<h4 id="orgheadline48"><span class="section-number-4">7.1.1</span> Stream management system.</h4>
+<div class="outline-text-4" id="text-7-1-1">
+<p>
+Consists of
+Processor - (like esper) that allows for adhoc queries and standing queries.
+Archival storage - not a dbms system, just stores the stream values so that the stream can be
+reproduced in the future.
+Limited working storage - (like flash/memory) that stores essential parts of the input stream
+in a way that supports fast querying. 
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline54" class="outline-4">
+<h4 id="orgheadline54"><span class="section-number-4">7.1.2</span> Sliding window</h4>
+<div class="outline-text-4" id="text-7-1-2">
+<p>
+Useful model of stream processing in which queries are about stuff in a window.
+ex) averages. (avg of elements in the window)
+<i>Interesting case</i>: when the window cannot be stored in memory.
+</p>
+</div>
+<ol class="org-ol"><li><a id="orgheadline53"></a>Counting 1's (when N does not fit in memory)<br  /><div class="outline-text-5" id="text-7-1-2-1">
+<p>
+Count the number of 1s for any k &lt; N.
+</p>
+</div>
+<ol class="org-ol"><li><a id="orgheadline51"></a>Algorithm that doesn't quite work:<br  /><div class="outline-text-6" id="text-7-1-2-1-1">
+<ul class="org-ul">
+<li>Create blocks of 2, 4, 8, 16 &#x2026; upto log<sub>2</sub>(N) looking backwards.</li>
+<li>drop smaller blocks, if they begin at same point as a larger block,</li>
+</ul>
+<p>
+or a larger block begins to its right.
+</p>
+<ul class="org-ul">
+<li>Each block has the count of 1s in it.</li>
+</ul>
+</div>
+
+<ol class="org-ol"><li><a id="orgheadline49"></a>Whats good in this algorithm?<br  /><div class="outline-text-7" id="text-7-1-2-1-1-1">
+<ul class="org-ul">
+<li>O(log<sup>2</sup> N) bits.
+<ul class="org-ul">
+<li>stores only O(log N) counts of log<sub>2</sub>(N) bits each.</li>
+</ul></li>
+<li>Easy updates as new bits come in. (we only have to modify O(log N) blocks)</li>
+<li>Error in count no greater than number of 1's in the 'unknown area'.(some part of the last block)</li>
+</ul>
+</div></li>
+<li><a id="orgheadline50"></a>Whats not good?<br  /><div class="outline-text-7" id="text-7-1-2-1-1-2">
+<ul class="org-ul">
+<li>If all the ones are in the 'unknown area', error is unbounded.</li>
+</ul>
+</div></li></ol></li>
+
+<li><a id="orgheadline52"></a>DGIM method (rajeev motwani was one of them)<br  /><div class="outline-text-6" id="text-7-1-2-1-2">
+<p>
+      Whats different in this?
+instead of creating exponential blocks based on the number of bits,
+do it based on the number of 1s seen in that block. i.e) block with 2 1s, block with 4 1s, 8 1s, 16 1s etc
+<b>Bucket</b> it is a record that consists of:
+</p>
+<ul class="org-ul">
+<li>largest timestamp of the 1s in the bucket.</li>
+<li>number of ones between its beginning and end. (log log N) bits.</li>
+<li>constraint on buckets: number of 1s must be a power of 2, hence O(log log N) bits above. (i.e log N will be the number of ones, but instead of storing (log N) itself, we can store its log)</li>
+</ul>
+
+<p>
+Look at slides for algorithm.
+</p>
+</div></li></ol></li></ol>
+</div>
+
+<div id="outline-container-orgheadline55" class="outline-4">
+<h4 id="orgheadline55"><span class="section-number-4">7.1.3</span> Bloom filters</h4>
+<div class="outline-text-4" id="text-7-1-3">
+<ul class="org-ul">
+<li>filter streams only if the stream item is in someother list of items.</li>
+<li>array of bits, set of independent hash fns.</li>
+<li>when new input arrives in stream, pass it through the set of hash fns and set to 1 the</li>
+</ul>
+<p>
+array index returned by each of the hash fns. 
+</p>
+<ul class="org-ul">
+<li>thus, the input has been seen if all these bits contain a one. (when querying)</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline56" class="outline-4">
+<h4 id="orgheadline56"><span class="section-number-4">7.1.4</span> Sampling streams</h4>
+<div class="outline-text-4" id="text-7-1-4">
+<ul class="org-ul">
+<li>sample by value, not by position in stream.</li>
+</ul>
+<p>
+ex) hash stream values to bunch of buckets. pick a few for the sample. (all/none of a stream value
+is picked in the sample)
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline59" class="outline-4">
+<h4 id="orgheadline59"><span class="section-number-4">7.1.5</span> Counting distinct elements</h4>
+<div class="outline-text-4" id="text-7-1-5">
+<p>
+    count all distinct elements in a stream.
+    obvious algorithm: maintain set of elements in memory, and check for every new element
+if it has been seen before.
+</p>
+</div>
+<ol class="org-ol"><li><a id="orgheadline57"></a>flajolet-martin algorithm<br  /><div class="outline-text-5" id="text-7-1-5-1">
+<p>
+     This algorithm is used to estimate the distinct elements in a stream.
+     non-trivial idea:
+use a hash fn that hashes every stream element to atleast (log<sub>2</sub> N) bits.
+let r(a) = trailing 0s in h(a).
+R = maximum r(a) over all a &isin; N.
+estimate = 2<sup>R</sup>. 
+</p>
+</div></li>
+<li><a id="orgheadline58"></a>AMS method.<br  /><div class="outline-text-5" id="text-7-1-5-2">
+<p>
+Used for finding any moment, gives unbiased estimate.
+Based on multiple random variables.
+</p>
+</div></li></ol>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline73" class="outline-2">
+<h2 id="orgheadline73"><span class="section-number-2">8</span> Week 5 Clustering</h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-orgheadline65" class="outline-3">
+<h3 id="orgheadline65"><span class="section-number-3">8.1</span> Hierarchical clustering</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+   Repeatedly combine two nearest clusters.
+Start at each point as a cluster.
+Notion of near? 
+</p>
+</div>
+<div id="outline-container-orgheadline62" class="outline-4">
+<h4 id="orgheadline62"><span class="section-number-4">8.1.1</span> Euclidean case</h4>
+<div class="outline-text-4" id="text-8-1-1">
+<p>
+Centroid: avg of all points
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline63" class="outline-4">
+<h4 id="orgheadline63"><span class="section-number-4">8.1.2</span> Non-Euclidean case</h4>
+<div class="outline-text-4" id="text-8-1-2">
+<p>
+Clustroid
+One of the points in the cluster, that is "closest" to all other points.
+What is closest?
+</p>
+<ul class="org-ul">
+<li>smallest max distance to all points</li>
+<li>smallest avg distance</li>
+<li>smallest sum of squares distance</li>
+</ul>
+<p>
+Pick one based on application
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline64" class="outline-4">
+<h4 id="orgheadline64"><span class="section-number-4">8.1.3</span> When to stop clustering?</h4>
+<div class="outline-text-4" id="text-8-1-3">
+<p>
+Threshold on diameter of cluster. (cohesion)
+Density of cluster: no. of points/(some power of the radius)
+When density lowers, stop merging.
+</p>
+
+
+
+
+
+<p>
+Hierarchical clustering is pretty expensive. O(N<sup>3</sup>) operations. using priority queues,
+we can make it O(N<sup>2</sup> log N). not suitable for big datasets that do not fit in memory.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline66" class="outline-3">
+<h3 id="orgheadline66"><span class="section-number-3">8.2</span> K-Means algorithm</h3>
+<div class="outline-text-3" id="text-8-2">
+<ul class="org-ul">
+<li>Pick K points randomly as our cluster centers.</li>
+<li>For each new point, assign it to one of the k points that is nearest to it.</li>
+<li>re-calculate centeroid for this cluster.</li>
+<li>repeat until convergence.i.e points dont move much</li>
+</ul>
+
+<p>
+K-means takes a long time to converge.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline72" class="outline-3">
+<h3 id="orgheadline72"><span class="section-number-3">8.3</span> Bradley-Fayed-Reina (BFR) algorithm</h3>
+<div class="outline-text-3" id="text-8-3">
+<p>
+   Optimized for large datasets that dont fit in memory.
+Scan dataset once, to cluster points.
+Points are loaded in chunks into the memory, and summarized by some simple statitics.
+</p>
+</div>
+<div id="outline-container-orgheadline67" class="outline-4">
+<h4 id="orgheadline67"><span class="section-number-4">8.3.1</span> Assumptions:</h4>
+<div class="outline-text-4" id="text-8-3-1">
+<p>
+Points are normally distributed in euclidean space.
+</p>
+</div>
+</div>
+<div id="outline-container-orgheadline71" class="outline-4">
+<h4 id="orgheadline71"><span class="section-number-4">8.3.2</span> Algorithm</h4>
+<div class="outline-text-4" id="text-8-3-2">
+<p>
+    First, pick some set of K points (chosen by sampling the huge dataset, and then applying
+hierarchical clustering or something)
+Three sets
+</p>
+</div>
+<ol class="org-ol"><li><a id="orgheadline68"></a>Discard Set (DS)<br  /><div class="outline-text-5" id="text-8-3-2-1">
+<p>
+Points that are close to some centroid, can be used to summarize.
+</p>
+</div></li>
+<li><a id="orgheadline69"></a>Compression Set (CS)<br  /><div class="outline-text-5" id="text-8-3-2-2">
+<p>
+Set of Points that are close together, but not close to any cluster.
+</p>
+</div></li>
+<li><a id="orgheadline70"></a>Retained Set (RS)<br  /></li></ol>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline76" class="outline-2">
+<h2 id="orgheadline76"><span class="section-number-2">9</span> Week 7 LSH Improvements</h2>
+<div class="outline-text-2" id="text-9">
+</div><div id="outline-container-orgheadline75" class="outline-3">
+<h3 id="orgheadline75"><span class="section-number-3">9.1</span> LSH families of Hash functions</h3>
+<div class="outline-text-3" id="text-9-1">
+<p>
+What is a hash fn in context of LSH?
+a fn that takes 2 arguments and returns if they are similar or not.
+Ex) LSH family = minhash, family of hash fns that compute minhash values and say whether 2 cols are similar.
+</p>
+
+<p>
+A family H is said to be (d1, d2, p1, p2)-sensitive family if,
+d1 is small and d2 is large.
+</p>
+
+<p>
+for all d(x, y) &lt; d1, p(h(x) = h(y)) &gt; p1
+for all d(x, y) &gt; d2, p(h(x) = h(y)) &lt; p2
+</p>
+
+<p>
+S curve is such that, d2 - d1 is small, and p1 is large, p2 is small.
+Checkout the minhash example in the slides. (1/3, 2/3, 2/3, 1/3)-sensitive family.
+We can amplify the steepness of s curve by creating new lsh family by combining  multiple families. (AND, OR construction)
+combining AND, OR construction, we get 1-(1-p<sup>r</sup>)<sup>b</sup>. The correct values of r and b will increase p1 and decrease p2.
+</p>
+</div>
+<div id="outline-container-orgheadline74" class="outline-4">
+<h4 id="orgheadline74"><span class="section-number-4">9.1.1</span> Random Hyperplane family for cosine distance</h4>
+<div class="outline-text-4" id="text-9-1-1">
+<p>
+(d1, d2, 1-d1/180, 1-d2/180)-sensitive family
+</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="outline-container-orgheadline77" class="outline-2">
+<h2 id="orgheadline77"><span class="section-number-2">10</span> Week 7 More about link analysis</h2>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: siddharth subramaniyam</p>
+<p class="date">Created: 2016-10-11 Tue 16:07</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

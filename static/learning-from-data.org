@@ -1,0 +1,899 @@
+#+SETUPFILE: setup/theme-readtheorg.setup
+#+OPTIONS: toc:3
+#+TITLE: Learning from data course notes
+
+* 1 - The Learning Problem
+** The essence of machine learning
+- A pattern exists.
+- We cannot pin it down mathematically. (If we could, then why learn from data? :D)
+- We have enough data.
+** Simple Example
+We have a bunch of movies and many customers. We have some ratings
+given by these users for a subset of the movies.
+
+Can we recommend movies for a user? How?
+
+We can represent each user by a set of genres (/features/. Say comedy,
+action, romance etc). Ask the user how much he likes each of the
+genres. Similarly, represent movies by a bunch of genres and match
+each movie to each user.
+
+This works, but is not really learning. We have to go and ask each
+user how much he likes each genre. But if we have data (ratings given
+by a user for a movie), we can try learning these features using the
+data. This is 'learning from data'.
+** Components of learning (Lets take Supervised learning)
+Ex) A bank wants to know if it should approve credit for a customer.
+
+- Input x (Customer application)
+- Output y (good customer/ bad customer)
+- Target function f: X -> Y (ideal credit approval formula)
+
+In all learning problems, we do not know this target function
+(Remember, if we knew this, there is no need to learn from data)
+
+- Data: (x_{1}, y_1), (x_2, y_2) ... (x_N, y_N) (Data from past customers)
+- Hypothesis: g: X -> Y (an approximation of f, that we learn)
+
+(Check out the slides for the learning diagram)
+
+
+1) Target Function, f: \Chi \rarr \Upsilon
+2) Training Examples, (x_1, y_1), ... , (x_N, y_N)
+3) Learning Algorithm, \Alpha
+4) Error Measure E(h, f)
+5) Hypothesis Set, \Eta
+6) Learned hypothesis, g \approx f
+
+The hypothesis set can be infinite (Learn from the set of all possible
+functions) or finite (like linear functions, quadratic functions etc).
+*** What do we get to select in this learning process
+Well, we can change the learning algorithm and hypothesis set.
+Together, they define a /learning model/.
+** Simple Learning Model example, Peceptron
+- Can be used when data is linearly seperable and the output y is binary.
+- Given a data set (x_1, y_1), ... (x_N, y_N).
+
+Predict Sign(\Sigma^N_{i=0}(w_{i}.x_{i})) where x_0 = 1.
+
+How to find the weights w_{1}...w_{d}?
+*** Algorithm (Perceptron Learning Algorith, PLA)
+1) Initialize all weights to random numbers.
+2) Pick one of the points from (x_i, y_i) that has been misclassified. i.e Sign(w^{T}.x_n) \ne y_n
+3) Update w_(t+1) = w_t + y_{i}.x_i
+Intuitively this makes sense, we 'nudge' the weights in a direction
+such that y_i is classified correctly.
+4) Do this till all points are classified correctly.
+
+Other are other variations to this basic algorithm that will work with
+real-values outputs and non-linear data.
+** Basic Premise of learning
+/Use a bunch of observations to uncover an underlying process/
+
+Broad Permise \Rightarrow Many variations
+
+- Supervised learning
+Given a bunch of (input, correct output)... Find a hypothesis that
+works with new data.
+- Unsupervised learning
+Given a bunch of (input, ?), can we uncover some pattern? Create some
+kind of clusters of similar data.
+- Reinforcement learning
+Given (input, ?, grade for an output), can we improve our algorithm
+step by step.  Ex) Game playing, grade every move the algorithm makes,
+give penalty for bad moves and +ve score for good moves. Overtime, the
+algorithm gets better.
+* 2 - Is Learning Feasible
+That's interesting...  Well, the unknown target function can be any
+possible function. If we get 1000 data points, there can be multiple
+functions that satisfy these 1000 points and yet differ on the 1001Th
+point.
+** Related Experiment
+- Consider a bin filled with red and green marbles. The fraction of
+  green marbles in the bin is \mu.
+- Lets take a sample of 'N' marbles from this bin. The fraction of
+  green marbles in our sample is \nu.
+
+*** How close is \nu to \mu?
+Well, we can charaterize this using some inequality from probability.
+
+We'll use the inequality known as Hoeffding's inequality.
+
+P(|\mu - \nu| > \epsilon) \le 2.e^{-2.\epsilon^{2}.N}
+
+The statement "\nu = \mu" is P.A.C (Probably Approximately Correct)
+**** What does this mean?
+- Good thing, its a negative exponential with N. As N \uparrow the probability \downarrow. 
+- Bad thing, there is an \epsilon^2 in the exponent. If we need a tight bound,
+  we are going to pay the price.
+- Trade of: N, \epsilon, and the bound.
+** How does this relate to learning?
+- In our bin, the unknown was a number \mu, in learning the unknown is a function /f/.
+In both cases, we need to figure out an approximation to the unknown.
+- Think of each marble as a point x \in \Chi.
+- The color of marble is determined by our hypothesis function /h/.
+
+h(x) = f(x) \Rightarrow Marble is colored green.
+h(x) != f(x) \Rightarrow Marble is colored red.
+
+Thus, each bin is characterized by a hypothesis function /h/.
+*** So what does this mean?
+h is fixed. For a /given h/, \nu generalizes to \mu. (with the hoeffding's bound)
+
+Well, this is just verification, not learning.
+Given a particular h, we can take a sample of N points and see what our \nu is.
+*** Aside: Update the learning diagram to account for probability
+ The reason we are doing this bin analogy and related theory is so that
+ we can figure out if learning is possible or not.
+
+ In order to do that, we'll have to account for this /Probability/ in
+ our learning diagram. (points in this case)
+**** Updated learning diagram
+  1) Target Function, f: \Chi \rarr \Upsilon
+  2) Training Examples, (x_1, y_1), ... , (x_N, y_N)
+  2.5) /The training examples are drawn based on some probability distribution \Rho on \Chi./
+  3) Learning Algorithm, \Alpha
+  4) Hypothesis Set, \Eta
+  5) Learned hypothesis, g \approx f
+*** Notation change for Learning
+- \mu is 'out of sample' E_out(h).
+- \nu is 'in sample' E_in(h).
+
+Thus, the hoeffding inequality becomes,
+
+P(|E_in(h) - E_out(h)| > \epsilon) \le 2e^{-2.\epsilon^{2}.N}
+*** Account for multiple hypothesis
+We have multiple hypothesis functions, thus, we can have multiple
+bins, one for each /h/.
+
+The problem is hoeffding doesn't apply to multiple bins.  (Intuition,
+toss a coin 10 times, p(10 heads) = 0.1%, toss 1000 coins, 10 times
+each, p(atleast 1 coin getting 10 heads) \approx 63%).
+
+Thus, the chance that in atleast one of the bins, the E_in may not be a
+good approximation for E_out and we end up picking that. (like picking
+10 green marbles).
+*** Simple solution and summary
+Once we pick our final hypothesis /g/ (from /h/), we want to know
+
+P[|E_in(g) - E_out(g)| \gt \epsilon]. We want to show that this is pretty small.
+
+We can use the union bound for this. (Its a pretty loose bound). If we have 'M' hypothesis,
+
+P[|E_in(g) - E_out(g)| \gt \epsilon] \le P[|E_in(h_1) - E_out(h_1)| \gt \epsilon] or
+                          P[|E_in(g) - E_out(g)| \gt \epsilon] or ... or
+                          P[|E_in(h_M) - E_out(h_M)| \gt \epsilon] \le \Sigma^M_{m=1}2.e^{-2.\epsilon^{2}.N}
+
+Thus, *P[|E_in(g) - E_out(g)| \gt \epsilon] \le 2.M.e^{-2.\epsilon^{2}.N}*.
+
+Hmm... So using a lot of hypothesis can lead to bad things happening.
+
+But as we can see, when M is finite, we can learn. i.e E_in will track E_out.
+
+Thus, in  a probabilistic sense learning is feasible.
+* 3 - Linear Model 1
+** Questions
+- Improving regression model, is it possible to accommodate more data
+  in a supervised learning problem.
+** Real data set
+- Consider the supervised learning problem of identifying digits (for say postal code).
+*** Input Representation
+- A digit is a x_256 vector of pixel values (x_0, x_1 ... x_256). This is wayy too complex and
+hard to optimize. Our perceptron algorithm would struggle.
+- Instead we can 'extract some features' that are a good representation of the data.
+Ex) Symmetry, Intesity.
+Now we only have to find weights (w_0, w_1, w_2) which is easier than trying to find (w_0, ... w_256).
+** Linear Classification - Perceptron Learning Algorithm
+What does PLA do?
+- It reduces E_in. (And we hope that E_out tracks E_in, we got this bound last week)
+- In case of linearly seperable data, the PLA algorithm converges. But
+  for non-seperable data, it cannot converge. Hence we stop after a
+  fixed number of iterations.
+*** The 'pocket' Algorithm
+This is a modification of the perceptron learning algorithm, where we
+'remember' the weights for which E_in is the least, and use that as our
+final hypothesis /g/.
+** Linear Regression
+Regression - 'real valued output'. Thats all it means. The term comes
+from earlier work in statistics, there was so much work on it that
+people could not get rid of the term. All it means is the output is
+real valued.
+
+Ex) Credit line (dollar amount) In the classification example, we
+approved or denied credit based on past customers, using linear
+regression we can try and predict the actual credit line. How much
+credit should we give a person?
+
+Input x = list of features like {age, salary, years in residence, years in job, current debt ...}
+
+Linear regression output: 
+
+h(x) = \Sigma^{d}_{i=0} w_{i}.x_{i} = w^{T}.x = "real value"
+
+w = weight vector [w_0, w_1 ... w_d]
+x = 1 training example [x_0, x_1 ... x_d]
+
+This is called 'linear regression' because the form in terms of the input 'x' is linear.
+*** What is linear regression trying to find
+
+In our credit line example,
+
+We have our input training examples as (x_1, y_1), (x_2, y_2), ... (x_N, y_N)
+
+Each y_n is a 'real value', the approved credit amount for the input x_n.
+
+Linear regression tries to replicate this behavior.
+*** How to measure error
+How well does h(x) approximate f(x) (the target function)? 
+For every example x_i, the given output value is y_i and the predicted value is h(x_i).
+
+We can define many error measures (we'll get to this in unit 4).
+
+For now, we'll pick a convenient (we'll see why) error measure, /the squared error/.
+
+(h(x) - y)^2
+
+The average squared error for all our input points is:
+
+in-sample error, E_in(h) = 1/N * \Sigma^N_{n=1}.(h(x_n) - f(x_n))^2
+
+Our algorithm tries to minimize this error.  The approximation our
+'linear' model comes up with is a hyperplane (one-dimenstion short of
+the space we are working with).
+*** Expression for E_in
+Let's try to write this in vector form.
+
+TODO :: seems like small caps doesn't work with mathjax, need to fix the x to be smallcap(x).
+
+\begin{equation}
+\begin{split}
+E_{in}(w)	&= \frac{1}{N} \Sigma^N_{n=1}(w^{T}.x_n - y_n)^2 \\
+ &= \frac{1}{N} || X.w - y ||^2
+\end{split}
+\end{equation}
+
+where X:
+\begin{bmatrix} 
+\ldots & x_1^T & \ldots  \\
+\ldots & x_2^T & \ldots  \\
+\ldots & \vdots & \ldots  \\
+\ldots & x_N^T & \ldots  \\
+\end{bmatrix}
+
+w:
+\begin{bmatrix}
+w_1 \\
+w_2 \\
+\vdots \\
+w_d
+\end{bmatrix}
+
+y:
+
+\begin{bmatrix}
+y_1 \\
+y_2 \\
+\vdots \\
+y_N
+\end{bmatrix}
+*** Minimizing E_in
+We can use some matrix calculus and find the min of our E_in expression.
+\begin{equation}
+\begin{split}
+E_{in}(w) & = \frac{1}{N}||Xw - y||^2 \\
+\nabla.E_{in}(w) & = \frac{2}{N} X^T||Xw - y|| = 0
+\end{split}
+\end{equation}
+
+Solving for w, we get
+
+$$ X^{T}Xw = X^{T}.y $$
+$$ w = X^{\dagger}.y $$
+
+where $X^{\dagger} = (X^{T}.X)^{-1}.X^{T}$
+This is called the 'pseudo-inverse' of X.
+X being non-invertible does not have an inverse, but the pseudo-inverse is pretty interesting. 
+
+$X.X^{\dagger} = I$. So it is an inverse
+in some sense. ( $X.X^{\dagger}$ is not identity. Hence the
+pseudo).
+**** From a computational standpoint, its a nice quantity
+$$X^{\dagger} = (X^{T}.X)^{-1}.X^{T}$$
+
+X is (N * d+1)
+X^T is (d+1 * N)
+
+Thus X^{T}.X is (d+1 * d+1)
+
+Usually, our d is small and N is large. Luckily our inverse is a fairly 'small' matrix :)
+There are many packages that compute this quantity.
+
+The final matrix X^\dagger has dimensions  (d+1 *  N)
+
+X^{\dagger}.y has dimensions (d+1 * 1) as expected. (for the weights)
+*** The linear regression algorithm
+1) Construct X and y using the training examples.
+2) Compute pseudo-inverse $X^{\dagger} = (X^{T}.X)^{-1}.X^{T}.
+3) return $w = X^{\dagger}.y$.
+Done! boom! (one-step learning ;))
+
+Since its so straight forward, it can be used as a component in many other learning algorithms.
+*** Linear regression for classification
+
+Classification is just a special case of regression right? The output is 1 or -1, which is a real-value.
+Can we use linear regression for that?
+
+We can define our final output as sign(w^{T}.x). The assumption here is
+that w^{T}.x will be negative for examples with -1, and positive for
+examples with output +1.
+
+However, our regression algorithms doesn't quite work for
+classification as our error measure is 'squared error'.
+
+Our algorithm simultaneously tries to make all points close to + or -
+1, but the extreme points affect our error more, hence the linear boundary is not very good.
+
+Instead, what we can do is use linear regression for setting our
+initial set of weights for the 'pocket' algorithm! (instead of
+starting with 0s).
+** Nonlinear transformation
+In real life, data is not always linearly seperable.
+
+For example, consider a circular decision boundary, where inside circle, all points are +1 and outside -1.
+
+Can we come up with this kind of a 'circular' hypothesis function that seperates the data?
+Yes, but the problem is thats not linear.
+
+Can we do that with linear models?
+The answer is yes.
+*** Linear in what?
+Regression implements
+
+$$ y = \Sigma^{d}_{i=0}x_{i}.w_{i} $$
+
+For classification
+
+$$ y = sign(\Sigma^{d}_{i=0}x_{i}.w_{i})$$
+
+The algorithm works because of linearity in the 'weights' not x's. 
+w^{T}.x is linear in /w/.
+
+Thus, we can add 'features' that are non-linearly functions of x (like
+3.x_{d1}.x^2_{d2} etc) and apply our linear model algorithm.
+* 4 - Error and Noise
+** Non-Linear transormation continued
+Intuitive idea, Take a point in input space x and transform it using
+some non-linear function of x, find weights in this new space and use
+that to predict y.
+
+This trick can be used to create arbitrarilty complex dimensions and learn.
+*** Why does it work?
+Any non-linear dependency in one subspace can be treated as a linear
+dependency in a more complex space.
+
+Ex) A circular boundary (x_1^2 + x_2^2) varies linearly in a space that
+has x_1^2 and x_2^2 as dimensions.
+*** What transforms to what 
+We apply a transformation \phi that maps X -> Z
+
+Input point (x_1, x_2 ... x_d) -> (z_1 ... z_{\tilde{d}}) 
+All the input data in transformed (x_1 ... x_N) -> (z_1 ... z_N)
+Find weights \tilde{w} in Z space (dims = \tilde{d+1}) (w_0, w_1 ... w_{\tilde{d}}
+Output remains same (y_1, ... y_N) -> (y_1 ... y_N)
+
+Final hypothesis g(x) = sign(\tilde{w}^{T}.z) = sign(~{w}^{T}.\phi(x))
+** Error Measures
+What does "h \approx f" mean?
+
+This is what is quantified by an Error Measure.
+
+$$E(h, f)$$
+
+This is actually a functional that takes 2 functions and returns a
+function E. However, in most cases we can think of E being a pointwise
+error measure.
+
+Pointwise error e(h(x), f(x)). 
+examples:
+- squared error (h(x) - f(x))^2
+- binary error { 0 if h(x) = f(x) else 1}
+
+Overall error E(h, f) = average of pointwise errors = e(h(x), f(x))
+
+In-sample error, 
+
+$$ E_{in}(h) = \frac{1}{N} \Sigma^N_{(n=1)}e(h(x_n), f(x_n)) $$
+
+Simple average. Makes sense.
+
+Out-of sample error, is the expected value over all points in our input space.
+
+$$ E_{out}(h) = E_{x}[e(h(x), f(x))] $$
+
+** How to choose an error measure
+- Ideally, the error measure chosen should always be domain specific
+  and specified by the user.
+(See slides for the supermarket and CIA example, where the cost of a
+false accept/ false reject is very different).
+- In the absense of this knowledge, we pick error measures that are
+1) Plausible. 
+2) Fiendly (easy to work with), gives a closed form solution.
+ex) Squared error. (gave a closed form solution for the linear regression model)
+** Noisy targets
+In reality, we rarely get a clean target function. We'll mostly have
+to work with noisy targets.
+
+Ex) In the credit approval example, is it possible that 2 people, who
+have the same values for all the d dimensions, have different
+decisions?
+
+yup! Our features may not capture everything there possibly is for
+credit approval. Thus, 2 identical customers => 2 different behaviours.
+
+Hence, our target function /f/ is not a function. (A function can't map
+a point in domain to different points in the codomain)
+
+Instead of $y = f(x)$, We have a target distribution, $P(y|x)$
+
+Thus, $(x, y)$ is now generated by a joint distribution:
+
+$$ P(x).P(y|x) $$
+
+Noisy Target = deterministic target f(x) = E[y|x] plus noise y - f(x).
+
+** Components of Learning (including noisy targets)
+
+1) Unknown Target Distribution P(y|x).
+
+target function f(x) X -> Y plus noise y - f(x)
+E[y|x] plus y - f(x)
+
+1) Training Examples, (x_1, y_1), ... , (x_N, y_N)
+2) /The training examples are drawn based on some probability distribution \Rho on \Chi and the taget distribution P(y|x) on y/
+3) Learning Algorithm, \Alpha
+4) Error Measure E(h, f)
+5) Hypothesis Set, \Eta
+6) Learned hypothesis, g \approx f
+** Distinction between P(y|x) and P(x)
+- P(x) was introduced to accommodate the hoeffding's inequality.
+- P(y|x) gives the probability of a particular y given x.
+- Each training point is generated based on this. ('multiply' the two
+  to get the probability of a point (x, y))
+
+Differences between the two:
+- P(y|x) is what our algorithm tries to learn.
+- The input distribution P(x) quanties the relative importance of a
+  point x. (but we don't learn this)
+- Merging P(x) and P(y|x) as P(x, y) mixes two concepts.
+Our target distribution is only P(y|x).
+** Preamble to the theory
+*** What do we know so far?
+
+We proved that E_out(h) \approx E_in(h) based on some bound.
+All this means is that E_in is a good proxy for E_out.
+
+For us to learn, we have to find g \approx f, which means E_{out}(g) \approx 0.
+
+$E_out \approx E_in$ means good generalization.
+*** Full story of learning has 2 questions
+E_out(g) \approx 0 is achieved through:
+
+E_out(g) \approx E_in(g) AND E_{in}(g) \approx 0.
+
+1) Can we make sure that E_out(g) is close to E_{in}(g)?
+2) Can we make E_{in}(g) small enough to have learned?
+
+Good stuff!
+* 5 - Training vs Testing
+** What is the difference between training and testing?
+
+From our previous discussions, hoeffding inequality for $E_{in}, E_{out}$
+
+Testing:
+
+$$ P[ |E_{in} - E_{out}| \gt \epsilon ] \le 2.e^{-2.\epsilon^{2}.N} $$
+
+Training: 
+
+$$ P[ |E_{in} - E_{out}| \gt \epsilon ] \le 2.M.e^{-2.\epsilon^{2}.N} $$
+
+In case of testing, we have already fixed a hypothesis, and we see
+what are the chances that it will generalize to E_{out}.
+
+In training, we go through a bunch of hyposthesis, to figure out which
+is the best one, that minimizes E_{in}. This 'contaminates' our ability
+to generalize.
+
+The goal in the next 2 lectures, will be to replace this /M/ with a
+tighter bound. 
+** Where did M come from?
+Bad events B_1, B_2 ... B_{m} are given by
+
+$$ |E_{in}(m) - E_{out}(m)| > \epsilon $$
+
+i.e, for a given hypothesis, if $|E_{in}(m) - E_{out}(m)| \gt \epsilon$,
+then its a bad event. We wanted to know what's the probability that
+our final hypothesis is bad... Well, we know the final hypothesis will
+be bad, if any of our hypothesis is bad.
+
+Thus, we tried to find a bound on:
+
+$$ P[B_{1} or B_{2} or ... B_{M}] $$
+
+This is where we used the union bound and said that its less than the
+sum of probabilities of each of the hypothesis being bad.
+
+Now this bound predicts:
+
+$$ P[B_{1} or B_{2} or ... B_{M}] \le P[B_{1}] + P[B_{2}] + ... P[B_{M}] $$
+
+This is a very loose bound, and does not take into consideration the
+overlap of the bad events Bs'.
+** Can we improve M?
+Note: The full proof is available in the book. These notes just give
+an intuitive feel for the idea.
+
+Yup, as bad events are very overlapping.
+
+To see this, consider a hypothesis h_1. Let points {x_1, x_2, ... x_n}
+be our training points.
+
+Now, h_1 classifies each of these points as +1 or -1.
+Consider another hypothesis h_2, which also classifies these points as +1 and -1.
+
+Let's say h_1, h_2 show the same classification for all of our
+training points, but vary slightly outside of E_in.
+
+This means, |E_{in}(h_1) - E_{out}(h_1)| (say 1)
+\approx |E_{in}(h_2) - E_{out}(h_2)| (say 2).
+
+*** Why do we care about this? 
+That's because if P[1 > \epsilon], P[2 > \epsilon] is also pretty
+high.
+*** Dichotomies (mini-hypothesis)
+
+A hypothesis $h: X -> {+1, -1}$.
+A dichotomy $h: x_{1}, x_{2} ... x_{N} -> {+1, -1}$
+
+Thus, a dichotomy is defined only on points in the input space.
+
+Number of hypothesis |H| can be infinite, but number of dichotomies can be atmost 2^{N}.
+
+Dichotomy is a candidate for replacing /M/.
+
+*** Growth Funciton
+Growth function $m_H(N)$ is defined as the most number of dichotomies on any 'N' points.
+
+What does that mean? Pick any set of 'N' points from the input space,
+such that maximum number of dichotomies can be realized.
+
+$$ m_H(N) = max_{x_{1}, x_{2} ... x_{N}}|H(x_{1} ... x_{N}|. $$
+
+Also $m_H(N) \le 2^N$
+
+For example, lets take the perceptron model in 2-D space.
+
+- Given N = 3, we can arrange 3 points in a way such that all possible
+  2^3 = 8 dichotomies can be realized.
+
+Thus, $m_H(3) = 2^3$ (Maximum possible dichotomies)
+
+- Given N = 4, no matter how we arrange 4 points, we cannot get all
+  possible dichotomies of 2^4 = 16. We'll get something less than
+  2^4. (Actual value is 14)
+*** key terms: Shattering and Breakpoint
+We call 'N' points as being /shattered/ by a hypothesis set, if we can
+realize all possible 2^N possibilities.
+
+Definition: If no dataset of size 'k' can be /shattered/ by a
+hypothesis set /H/, then k is a /breakpoint/ for /H/.
+
+Ex) The breakpoint for 2-D perceptron is 4. $m_H(k) \lt 2^{m}$
+
+No break point => $m_H(N) = 2^{N}$
+
+Any break point => $m_H(N) \lt 2^{N}$
+*** What can we do with this stuff?
+We had,
+
+$$ P[ |E_{in} - E_{out}| \gt \epsilon ]  \le 2.M.e^{-2.\epsilon^{2}.N} $$
+
+Here is what we can try to do, if we can replace /M/ with m_H(N) and
+prove that m_H(N) is polynomial, then we can get a finite bound on
+P[B_{1} or B_{2} ... B_{N}], that is finite even for an infinite hypothesis
+sets.
+* 6 - Theory of generalization
+** 2 things to prove
+- Prove that $m_H(N)$ is polynomial.
+- Proof that $m_H(N)$ can replace M.
+** Bounding $m_H(N)$
+The goal is to show $m_H(N)$ \le a polynomial.
+
+Checkout lectures/book for the entire proof, but here is the basic idea.
+*** Key quantity
+$B(N, k)$: Maximum number of dichotomies on N points, with a break
+point k. 
+*Note*: This does not depend on the hypothesis set or input
+space, it is purely combinatorial.
+
+Given, N points and a break point k, can we come up with a polynomial
+bound for $m_H(N, k)$.
+*** Recursive bound
+The proof is based on a recursive argument. (see lectures for details)
+
+Divide all possible dichotomies, into 2 types, \alpha and 2.\beta.
+
+\alpha:
+
+Dichotomies that differ in N-1 points, (excluding the last point)
+
+2.\beta
+Dichotomies that differ in the N^{th} point.
+i.e all {x_1, x_2 ... x_{N-1}} come twice, once with Nth point as +1 and once with Nth point as -1.
+
+$$B(N, k) \le \alpha + 2.\beta$$
+
+Consider \alpha + \beta. Every element in this set is different.  If we can find all possible
+patterns on any k columns here, that means we can find all possible
+patterns on $B(N, k)$ (which is not possible)
+
+$$ \alpha + \beta \le B(N-1, k) $$ 
+
+Consider \beta,
+
+$$ \beta \le B(N-1, k-1) $$ 
+
+If we had all possible patterns for any k-1 guys in the N-1 points,
+that means we have all possible patterns for k guys on N points. (by
+construction) This is not true because of our definition of B(N, k).
+
+$$B(N, k) \le B(N-1, k) + B(N-1, k-1)$$
+
+Solving for this, we get
+
+$$B(N, k) \le \Sigma^{k-1}_{0} {N \choose i}$$
+*** B(N, k) is a polynomial!
+For a given H, the break point k is fixed.
+
+m_H(N) \le B(N, k)
+
+B(N, k) is polynomial in N. The maximum power in B(N, k) is N^{k-1}, hence its a polynomial.
+*** How can m_H(N) replace M
+This is a slightly involved proof, given in the text book.
+
+See slides for a pictorial proof. Here is the basic idea...
+3 points
+1. How does m_H(N) relate to overlaps?
+2. What to do about E_out
+3. Putting it together
+
+1. The basic idea is that, a dichotomy captures overlaps. Since a
+   dichotomy changes only when any one of the points in our sample is
+   classified differently, it captures the overlap between all
+   hypothesis that classify all points in the input space the same
+   way!
+2. This is what Vapnik-Chervonenki did,
+For a given hypothesis h, we compute E_{in}(h) and E_{out}(h).
+How do we get rid of E_{out}?
+Pick another sample E_{in'}(h)
+
+Does E_{in}(h) track E_{in'}(h)? Well yes, a little more loosely, but
+yes. The advantage is that, doing so allows us to stay within the
+realm of dichotomies.
+
+3. Putting this stuff together, we get the v.c inequality.
+*** The Vapnik-Chervonenkis Inequality
+
+$$ P[|E_{in}(g) - E_{out}(g) | \gt \epsilon] \le 4.m_{H}(2N).e^{-\frac{1}{8}.\epsilon^{2}.N} $$
+* 7 - The VC-Dimension
+Most useful quantity from all of the theory we discussed. Something to
+remember throughout your career ;)
+** What is this?
+The VC-dimension is defined for a hypothesis set /H/, denoted by d_{VC}(H)
+
+/It's the maximum number of points that can be shattered by a given hypothesis
+set./ Formally, its the largest value of N for which $m_H(N) = 2^{N}$.
+
+$N \le d_VC(H) \Rightarrow H can shatter N points$ 
+$k \ge d_VC(H) => k is a break point for H$
+
+In terms of a breakpoint k, the growth function
+$$ m_{H}(N) \le \Sigma^{k - 1}_{i = 0}{N \choose i} $$
+
+In terms of vc-dimension,
+$$ m_{H}(N) \le \Sigma^{d_{VC}(H)}_{i = 0}{N \choose i} $$
+** VC-dimension and learning
+$d_{VC} is finite$ => g \in H will generalize$
+
+(refer to the learning diagram)
+- independent of the learning algorithm
+- independent of the input distribution
+- independent of the target function
+** VC-dimension of the perceptron
+$d_{VC} = d+1 for a 'd' dimensional space$ (refer to slides for proof)
+** Interpretting the vc dimension (using the perceptron example)
+*** Degrees of freedom
+Parameters of a model give us degrees of freedom in order to create multiple hypothesis. i.e we can vary
+these parameters, to get new outputs from the model.
+
+Number of parameters $\Rightarrow$ analog degrees of freedom
+
+d_VC{H} equivalent 'binary' degrees of freedom.
+
+d_{VC} tells us how 'expressive' a model is. Inside a model (like
+perceptron or neural networks), there can be multiple parameters
+(analog df) that vary and but the output does not change. We care only
+about the variation seen in the output. Thus, if I have a model that
+has a d_{VC} of 20, and someone else has a model of d_{VC} of 30, it means
+they have more degrees of freedom.
+
+For the perceptron hypothesis set, we noticed that the vc-dimension is 'd+1'.
+What does this mean?
+
+Well, the number of parameters in the perceptron model is d+1 (namely
+w_{0}, w_{1}, ... w_{d}). In this case, we have v_{DC} = number of parameters.
+
+If we have a model that has redundant parameters, the v_{DC} will be
+smaller than the number of parameters. (See slides for example)
+vc-dimension is a quantity that gives us the /effective/ degrees of
+freedom.
+*** Number of data points needed
+How does value of v_{DC} affect the number of examples needed?
+
+The VC Inequality,
+
+$$ P[|E_{in} - E_{out}| > \epsilon] \le \underbrace{4.m_{H}(2N).e^{-\frac{1}{8}.\epsilon^{2}.N}}_{\delta} $$
+
+If we want certain \epsilon and \delta, how does N depend on d_{VC}?
+
+Lets look at N^{d}.e^{-N}. (See slides for details) This curve starts
+with the powerful polynomial but is eventually killed by the negative
+exponential.
+
+Looking the curves,
+
+$$ N \propto v_{DC} $$
+
+/A practical observation here is that the actual quantity that we are
+trying to bound, follows the same monotonicity as the bound./
+i.e, bigger d_{VC}, the more the examples we need.
+
+This initially didn't make too much sense to me, but the professor
+explains it very nicely with an example.
+
+Consider 2 people A, B who have 2 models, with 2 vc dimensions, and
+each measure their performance.  A's performance is bounded by a_1,
+and B's performance is bounded by b_2 where $a_1 > b_2$. These are the
+bounds. The actual performance, of A, B need not follow the same
+monotonicity as the bounds. i.e the performance p_A can be < p_B.  The
+practical observation says this is not the case. The performance also
+follows the same monotonicity.
+
+Rule of thumb for getting 'reasonable' generalization:
+
+$$ N \ge 10.v_{DC} $$
+** Rearranging things
+The VC Inequality,
+
+$$ P[|E_{in} - E_{out}| > \epsilon] \le \underbrace{4.m_{H}(2N).e^{-\frac{1}{8}.\epsilon^{2}.N}}_{\delta} $$
+
+Getting \epsilon in terms of \delta:
+Given a reliability of \delta, what tolerance \epsilon can we guarentee?
+
+$$ \delta = 4m_H(2N).e^{-\frac{1}{8}\epsilon^2} $$
+$$ \epsilon = \underbrace{
+\sqrt{\frac{8}{N}\ln\frac{4m_{H}(2N)}{\delta}}
+}_{\Omega} $$
+
+Bigger the vc dimension, worse the guarantee on generalization. More
+the number of examples, better the \Omega.
+
+Thus, with probability > 1 - \delta, $|E_{in} - E_{out}| \le \Omega(N, H, \delta)
+
+Generalization bound,
+With probability \ge 1 - \delta,
+
+E_{out} - E_{in} \le \Omega (Invariably, E_{in} is smaller than E_{out})
+
+This quantity is known as the /generalization error/.
+
+Rearranging, we have
+With probability \ge 1 - \delta,
+
+$$ E_{out} \le \Omega + \E_{in} $$
+
+Interesting, we can see that E_{out} is bounded by 2 quantities we
+know. E_{in} and \Omega. 
+
+Furthermore, E_{in} can be minimized with a 'bigger' hypothesis set,
+but \Omega goes up! So its a tradeoff!! We'll derive regularization
+based on this quantity.
+* 8 - Bias-Variance Tradeoff
+Stand-alone theory. Different angle on generalization.
+** Approximation-generalization tradeoff
+
+Small E_{out}: good approximation of f.
+
+More complex H \Rightarrow better chance of approximating f.
+
+Less complex H \Rightarrow better chance of generalizing out of sample.
+** Quantifying this trade-off
+
+One approach was the vc-analysis,
+
+$$ E_{out} \le E_{in} + \Omega $$
+
+Bias-variance analyis is another way of decomposing E_{out} into
+
+1) How well H can approximate f. (This is overall! Not in-sample approximation as done in vc analysis)
+2) How well can we zoom in on a good h \in H
+
+Our analysis applies to real-valued targets and uses squared error.
+** Start with E_{out}
+See slides for the full derivation, but here is the basic idea.
+
+$$ E_{out}(g^{(D)}) = E_{x}[ (g^{(D)}(x) - f(x))^2 ] $$
+
+We'd like to get rid of the dependency on the dataset D,
+
+$$ E_D[E_{out}(g^{(D)}] = E_{D}[E_{x}[ (g^{(D)}(x) - f(x))^2 ]] $$
+
+switch the order of E's
+
+$E_{x}[\underbrace{E_{D}[(g^{(D)}(x) - f(x))^2]}_{inner-expectation}]$
+
+Now, let's focus on the inner-expectation.
+
+The averate hypothesis,
+
+To evaluate the inner-expectation, 
+
+we define an 'average' hypothesis
+
+$$ \bar{g}(x) = E_{D}[g^{D}(x)] $$
+
+Imagine you have many data sets D_{1}, D_{2} ... D_{k}, $\bar{g}(x)$ is
+just the average hypothesis we get considering all of these datasets.
+
+add and subract $\bar{g}(x)$ to inner-expectation, group and simplify, (see slides for details)
+
+E_{D}[((g^{(D)}(x) - \bar{g}(x)) + (\bar{g}(x) - f(x)))^2]
+
+we get, 
+
+$$ E_{D}[(g^{D}(x) - \bar{g}(x))^{2}] + (\bar{g}(x) - f(x))^2 $$
+** Bias and Variance
+
+$$ \underbrace{E_{D}[(g^{D}(x) - \bar{g}(x))^{2}]}_{var(x)} + \underbrace{(\bar{g}(x) - f(x))^2}_{bias(x)} $$
+
+Intuitive idea, 
+
+Bias: How far is the 'average' hypothesis of the set (which is the
+best hypothesis), from the target function.
+
+Variance: How far is the actual hypothesis we found, from this average hypothesis.
+
+Therefore,
+
+E_D[E_out(g^{D})] = E_{x}[bias(x) + var(x)]
+		  = bias + var
+
+What's the tradeoff?
+
+Well, if we have a very complicated hypothesis set, the variance is high. (hard to find the correct hypothesis)
+If we have a small hypothesis set, bias is high. (it may not have the actual target function)
+
+There is a very nice example in the slides for understanding bias and variance. (the sinusoid example!)
+** Lesson learned
+Match 'model complexity' to the data resources you have, not to the *target complexity*.
+** Learning curves (expected E_{out} and E_{in})
+Data set D of size N
+Expected out-of-sample error E_{D}[E_{out}(g^{(D)})]
+Expected in-sample error E_{D}[E_{in}(g^{(D)})]
+
+How do they vary with N?
+See slides for details.
+* 9 - Linear Model 2
+* 10 - Neural Networks
+** Questions
+- 1st layer is real valued (perceptron) rest are always binary?
