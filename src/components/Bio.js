@@ -23,24 +23,24 @@ class Bio extends React.Component {
           }}
         >
           Hi there! My name is Siddharth. Currently, I'm a masters cs student
-          at Texas A&M University, College Station.  Before joining graduate
+          at Texas A&M (Whoop!) University, College Station. Before joining graduate
           school, I worked as a software engineer at &nbsp;
           <a href="https://govimana.com/">VIMANA</a>, a manufacuring data analytics
           company. Things I enjoy include building stuff, programming, table
-          tennis, cooking, hiking and fitness.
+          tennis, soccer, cooking, biking, hiking and fitness.
         </p>
         <p>
           You can reach me at
           <br/>
           <a title="Email" href="mailto:sidharth3930@gmail.com">
             sidharth3930[at]<span style={{display: 'none'}}>yup-</span>gmail.com
-          </a>&nbsp;|&nbsp;<a title="Twitter" href="http://twitter.com/_subsid">
+          </a>&nbsp;|&nbsp;<a title="Twitter" href="https://twitter.com/_subsid">
             Twitter
           </a>&nbsp;|&nbsp;
-          <a title="LinkedIn" href="http://twitter.com/_subsid">
+          <a title="LinkedIn" href="https://linkedin.com/in/subsid">
             LinkedIn
           </a>&nbsp;|&nbsp;
-          <a title="Github" href="http://github.com/subsid">
+          <a title="Github" href="https://github.com/subsid">
             Github
           </a>
         </p>

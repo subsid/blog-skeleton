@@ -1,7 +1,7 @@
 ---
 title: Physics of flocking
 date: "2017-09-22T17:30:00.000Z"
-path: "/flocking/"
+path: "/blog/flocking/"
 ---
 
 As a part my of [physics based modelling](http://courses.cs.tamu.edu/keyser/viza659/Syllabus.htm) course, I implemented a [flocking simulation](https://subsid.github.io/flocking/dist/) using [threejs](https://threejs.org/).
