@@ -1,5 +1,6 @@
 ---
 title: Sketch Tutor - Game based learning
+tags: [javascript, react, sketch recognition]
 date: "2017-12-15T18:30:00.000Z"
 path: "/blog/sketcht-tutor/"
 ---

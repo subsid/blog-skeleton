@@ -5,6 +5,7 @@ import get from 'lodash/get'
 
 import Bio from '../components/Bio'
 import { rhythm, scale } from '../utils/typography'
+import "katex/dist/katex.min.css"
 
 class BlogPostTemplate extends React.Component {
   render() {

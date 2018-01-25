@@ -1,5 +1,6 @@
 ---
 title: Physics of flocking
+tags: [javascript, threejs, graphics]
 date: "2017-09-22T17:30:00.000Z"
 path: "/blog/flocking/"
 ---
