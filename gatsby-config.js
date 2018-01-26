@@ -30,6 +30,7 @@ module.exports = {
           "gatsby-remark-prismjs",
           "gatsby-remark-copy-linked-files",
           "gatsby-remark-smartypants",
+          `gatsby-remark-katex`,
         ],
       },
     },
@@ -38,7 +39,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        //trackingId: `ADD YOUR TRACKING ID HERE`,
+        trackingId: `UA-112753095-1`,
       },
     },
     `gatsby-plugin-offline`,
