@@ -2,6 +2,8 @@ module.exports = {
   siteMetadata: {
     title: "Make Trouble",
     author: "Siddharth",
+    description: 'Code, data and more',
+    siteUrl: 'https://subsid.github.io/',
   },
   plugins: [
     {

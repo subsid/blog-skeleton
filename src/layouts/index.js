@@ -3,6 +3,8 @@ import Link from 'gatsby-link'
 import { Container } from 'react-responsive-grid'
 
 import { rhythm, scale } from '../utils/typography'
+import "prismjs/themes/prism.css";
+
 
 const ListLink = props =>
   <li style={{ display: `inline-block`, marginRight: `1rem` }}>

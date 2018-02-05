@@ -2,6 +2,7 @@
 title: First Post!
 date: "2017-07-01T22:12:03.284Z"
 path: "/blog/first-post/"
+draft: false
 ---
 
 I've wanted to start a blog for a while, but it never made it to the top of my queue. After coming back to school, finally got around to start one. Hopefully I can keep it going.

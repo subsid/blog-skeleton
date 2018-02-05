@@ -3,9 +3,10 @@ title: The great FFT (Part 1)
 tags: []
 date: "2018-01-10T17:30:00.000Z"
 path: "/blog/the-great-fft-part-1/"
+draft: false
 ---
 
-If you are in the field of software, you've probably wondered at some point: "What are the coolest algorithms ever discovered?". As a fun task, I decided to try and understand [SIAM's top 10 algorithms of the 20th century](http://www.uta.edu/faculty/rcli/TopTen/topten.pdf).
+If you are in the field of software, you've probably wondered at some point: `What are the coolest algorithms ever discovered?`. As a fun task, I decided to try and understand [SIAM's top 10 algorithms of the 20th century](http://www.uta.edu/faculty/rcli/TopTen/topten.pdf).
 
 [The Fast Fourier Transform (FFT)](https://en.wikipedia.org/wiki/Fast_Fourier_transform) algorithm is revolutionary. The applications of FFT touches nearly every area of engineering in some way. The [Cooley-Tukey](http://www.ams.org/journals/mcom/1965-19-090/S0025-5718-1965-0178586-1/S0025-5718-1965-0178586-1.pdf) paper rediscovered ([It was found in Gauss's notes for calculations in astronomy! 🤷](https://en.wikipedia.org/wiki/Fast_Fourier_transform#History)) and popularized FFT. It is one of the most widely cited papers in science and engineering!
 
@@ -217,4 +218,9 @@ Cool! We can now *Add*, *Evaluate* and *Multiply* polynomials in $O(n lg n)$ tim
 
 I hope this helps you understand what the FFT is all about.
 In the next post, we will discuss how its implemented, where the $e^{i\theta}$ and *fourier* related terms come in.
+
+### References
+- [TAMU Klappenecker Algorithms]().
+- [Jeff Erickson Algorithm notes](http://jeffe.cs.illinois.edu/teaching/algorithms/notes/02-fft.pdf)
+- [OCW Erik Demaine FFT](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-design-and-analysis-of-algorithms-spring-2015/lecture-videos/lecture-3-divide-conquer-fft/)
 

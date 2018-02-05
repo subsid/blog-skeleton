@@ -3,6 +3,7 @@ title: Sketch Tutor - Game based learning
 tags: [javascript, react, sketch recognition]
 date: "2017-12-15T18:30:00.000Z"
 path: "/blog/sketcht-tutor/"
+draft: false
 ---
 
 Sketch recognition is the automated recognition of hand drawn diagrams. In general, sketch recognition techniques can be classified into three types:
