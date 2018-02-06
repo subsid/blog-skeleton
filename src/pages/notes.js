@@ -1,7 +1,7 @@
 import React from "react"
 
 export default ({ data }) =>
-  <div>
+  <div style={{ flex: "1 0 auto" }}>
     <p>
       These are some course notes that I find useful. Written using <a href="https://orgmode.org">Org Mode</a> and exported using <a href="https://github.com/fniessen/org-html-themes">org html themes</a>.
     </p>

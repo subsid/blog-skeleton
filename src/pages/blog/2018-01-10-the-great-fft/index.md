@@ -220,7 +220,6 @@ I hope this helps you understand what the FFT is all about.
 In the next post, we will discuss how its implemented, where the $e^{i\theta}$ and *fourier* related terms come in.
 
 ### References
-- [TAMU Klappenecker Algorithms]().
 - [Jeff Erickson Algorithm notes](http://jeffe.cs.illinois.edu/teaching/algorithms/notes/02-fft.pdf)
+- [TAMU Klappenecker Algorithms](http://faculty.cs.tamu.edu/klappi/csce629-f17/csce411-set4c.pdf).
 - [OCW Erik Demaine FFT](https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-046j-design-and-analysis-of-algorithms-spring-2015/lecture-videos/lecture-3-divide-conquer-fft/)
-
