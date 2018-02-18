@@ -1,6 +1,6 @@
 ---
 title: The great FFT (Part 1)
-tags: []
+tags: [FFT, algorithms]
 date: "2018-01-10T17:30:00.000Z"
 path: "/blog/the-great-fft-part-1/"
 draft: false
