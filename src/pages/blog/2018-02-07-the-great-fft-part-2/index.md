@@ -15,5 +15,3 @@ In this part, we'll discuss an implementation of the FFT algorithm explained in 
 
 Thus, it is possible to *multiply*, *add* and *evaluate* polynomials in $O(nlg(n))$ time.
 
-
-
